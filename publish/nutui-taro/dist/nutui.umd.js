@@ -8834,8 +8834,7 @@ var __async = (__this, __arguments, generator) => {
         }
       };
       const _onInput = (event) => {
-        const input = event.target;
-        let value = input.value;
+        let { value } = event.detail;
         if (props.maxLength && value.length > Number(props.maxLength)) {
           value = value.slice(0, Number(props.maxLength));
         }
@@ -15594,17 +15593,17 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_6$9 = { key: 1 };
   const _hoisted_7$7 = {
     key: 0,
-    class: "nut-table__summary"
-  };
-  const _hoisted_8$4 = ["innerHTML"];
-  const _hoisted_9$4 = {
-    key: 1,
     class: "nut-table__nodata"
   };
-  const _hoisted_10$2 = {
+  const _hoisted_8$4 = {
     key: 0,
     class: "nut-table__nodata__text"
   };
+  const _hoisted_9$4 = {
+    key: 1,
+    class: "nut-table__summary"
+  };
+  const _hoisted_10$2 = ["innerHTML"];
   function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_DownArrow = vue.resolveComponent("DownArrow");
     const _component_RenderColumn = vue.resolveComponent("RenderColumn");
@@ -15657,21 +15656,21 @@ var __async = (__this, __arguments, generator) => {
         ])
       ], 2),
       vue.createTextVNode(),
-      _ctx.summary ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_7$7, [
-        vue.createElementVNode("span", {
-          class: "nut-table__summary__text",
-          innerHTML: _ctx.summary().value
-        }, null, 8, _hoisted_8$4)
-      ])) : vue.createCommentVNode("", true),
-      vue.createTextVNode(),
-      !_ctx.curData.length ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_9$4, [
+      !_ctx.curData.length ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_7$7, [
         vue.createElementVNode("div", {
           class: vue.normalizeClass(["nut-table__nodata", { "nut-table__nodata--border": _ctx.bordered }])
         }, [
           vue.renderSlot(_ctx.$slots, "nodata"),
           vue.createTextVNode(),
-          !_ctx.$slots.nodata ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_10$2, vue.toDisplayString(_ctx.translate("noData")), 1)) : vue.createCommentVNode("", true)
+          !_ctx.$slots.nodata ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8$4, vue.toDisplayString(_ctx.translate("noData")), 1)) : vue.createCommentVNode("", true)
         ], 2)
+      ])) : vue.createCommentVNode("", true),
+      vue.createTextVNode(),
+      _ctx.summary ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_9$4, [
+        vue.createElementVNode("span", {
+          class: "nut-table__summary__text",
+          innerHTML: _ctx.summary().value
+        }, null, 8, _hoisted_10$2)
       ])) : vue.createCommentVNode("", true)
     ]);
   }
@@ -16082,7 +16081,7 @@ var __async = (__this, __arguments, generator) => {
         default: 64
       },
       content: {
-        type: String,
+        type: [String, Array],
         default: ""
       },
       fontColor: {
@@ -16207,7 +16206,13 @@ var __async = (__this, __arguments, generator) => {
         const markSize = Number(fontSize) * ratio;
         ctx.font = `${fontStyle} normal ${fontWeight} ${markSize}px/${markHeight}px ${fontFamily}`;
         ctx.fillStyle = fontColor;
-        ctx.fillText(content, 0, 0);
+        if (Array.isArray(content)) {
+          content.map((item, index) => {
+            ctx.fillText(item, 0, (index - 1) * markSize);
+          });
+        } else {
+          ctx.fillText(content, 0, 0);
+        }
         ctx.restore();
         state.base64Url = canvas.toDataURL();
       };

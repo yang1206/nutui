@@ -2200,8 +2200,8 @@
             },
             {
               "name": "direction",
-              "default": "`'all'`",
-              "description": "拖拽元素的拖拽方向限制，**x**/**y**/**all**三选一",
+              "default": "`all`",
+              "description": "拖拽元素的拖拽方向限制，`x`、`y`、`all`",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -2224,7 +2224,7 @@
           "events": [],
           "attributes": [
             {
-              "name": "modelValue",
+              "name": "model-value",
               "default": "`0`",
               "description": "购买电子卡所需价钱",
               "value": {
@@ -7122,7 +7122,7 @@
             },
             {
               "name": "content",
-              "default": "-",
+              "default": "string[]",
               "description": "水印文字内容",
               "value": {
                 "type": "string",

@@ -2076,7 +2076,7 @@
             {
               "name": "direction",
               "default": "`all`",
-              "description": "拖拽元素的拖拽方向限制，**x**/**y**/**all** 三选一",
+              "description": "拖拽元素的拖拽方向限制，`x`、`y`、`all`",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -2090,7 +2090,7 @@
           "events": [],
           "attributes": [
             {
-              "name": "modelValue",
+              "name": "model-value",
               "default": "`0`",
               "description": "购买电子卡所需价钱",
               "value": {
@@ -5073,20 +5073,20 @@
               }
             },
             {
-              "name": "row",
-              "default": "`1`",
-              "description": "设置段落行数",
+              "name": "title",
+              "default": "`true`",
+              "description": "是否显示段落标题（第一行显示）",
               "value": {
-                "type": "string",
+                "type": "boolean",
                 "kind": "expression"
               }
             },
             {
-              "name": "title",
-              "default": "`true`",
-              "description": "是否显示段落标题",
+              "name": "row",
+              "default": "`1`",
+              "description": "设置段落行数（title 下方展示）",
               "value": {
-                "type": "boolean",
+                "type": "string",
                 "kind": "expression"
               }
             }
