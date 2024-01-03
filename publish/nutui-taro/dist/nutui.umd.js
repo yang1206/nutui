@@ -642,7 +642,7 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-cell__title"
   };
   const _hoisted_3$O = { class: "title" };
-  const _hoisted_4$I = { class: "nut-cell__title-desc" };
+  const _hoisted_4$H = { class: "nut-cell__title-desc" };
   function _sfc_render$1z(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Right = vue.resolveComponent("Right");
     return vue.openBlock(), vue.createElementBlock("view", {
@@ -661,7 +661,7 @@ var __async = (__this, __arguments, generator) => {
               vue.createElementVNode("view", _hoisted_3$O, vue.toDisplayString(_ctx.title), 1)
             ]),
             vue.createTextVNode(),
-            vue.createElementVNode("view", _hoisted_4$I, vue.toDisplayString(_ctx.subTitle), 1)
+            vue.createElementVNode("view", _hoisted_4$H, vue.toDisplayString(_ctx.subTitle), 1)
           ], 64)) : vue.renderSlot(_ctx.$slots, "title", { key: 1 }, () => [
             vue.createTextVNode(vue.toDisplayString(_ctx.title), 1)
           ])
@@ -703,14 +703,14 @@ var __async = (__this, __arguments, generator) => {
     key: 3,
     class: "nut-cell-group__desc"
   };
-  const _hoisted_4$H = { class: "nut-cell-group__wrap" };
+  const _hoisted_4$G = { class: "nut-cell-group__wrap" };
   function _sfc_render$1y(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$1h, [
       _ctx.$slots.title ? vue.renderSlot(_ctx.$slots, "title", { key: 0 }) : _ctx.title ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$$, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
       _ctx.$slots.desc ? vue.renderSlot(_ctx.$slots, "desc", { key: 2 }) : _ctx.desc ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$N, vue.toDisplayString(_ctx.desc), 1)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
-      vue.createElementVNode("view", _hoisted_4$H, [
+      vue.createElementVNode("view", _hoisted_4$G, [
         vue.renderSlot(_ctx.$slots, "default")
       ])
     ]);
@@ -1827,7 +1827,7 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-navbar__text"
   };
   const _hoisted_3$M = { class: "nut-navbar__title" };
-  const _hoisted_4$G = {
+  const _hoisted_4$F = {
     key: 0,
     class: "nut-navbar__text"
   };
@@ -1883,7 +1883,7 @@ var __async = (__this, __arguments, generator) => {
           class: "nut-navbar__right",
           onClick: _cache[4] || (_cache[4] = (...args) => _ctx.handleRight && _ctx.handleRight(...args))
         }, [
-          _ctx.desc ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$G, vue.toDisplayString(_ctx.desc), 1)) : vue.createCommentVNode("", true),
+          _ctx.desc ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$F, vue.toDisplayString(_ctx.desc), 1)) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
           vue.renderSlot(_ctx.$slots, "right")
         ])
@@ -1977,7 +1977,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$1c = { class: "nut-fixed-nav__list" };
   const _hoisted_2$Z = ["onClick"];
   const _hoisted_3$L = ["src"];
-  const _hoisted_4$F = { class: "span" };
+  const _hoisted_4$E = { class: "span" };
   const _hoisted_5$r = {
     key: 0,
     class: "b"
@@ -2009,7 +2009,7 @@ var __async = (__this, __arguments, generator) => {
                 src: item.icon
               }, null, 8, _hoisted_3$L),
               vue.createTextVNode(),
-              vue.createElementVNode("view", _hoisted_4$F, vue.toDisplayString(item.text), 1),
+              vue.createElementVNode("view", _hoisted_4$E, vue.toDisplayString(item.text), 1),
               vue.createTextVNode(),
               item.num ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$r, vue.toDisplayString(item.num), 1)) : vue.createCommentVNode("", true)
             ], 10, _hoisted_2$Z);
@@ -2195,7 +2195,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$1b = ["id"];
   const _hoisted_2$Y = ["onClick"];
   const _hoisted_3$K = { class: "nut-menu__title-text" };
-  const _hoisted_4$E = { class: "nut-menu__title-icon" };
+  const _hoisted_4$D = { class: "nut-menu__title-icon" };
   function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_RectUp = vue.resolveComponent("RectUp");
     const _component_RectDown = vue.resolveComponent("RectDown");
@@ -2219,7 +2219,7 @@ var __async = (__this, __arguments, generator) => {
             }, [
               vue.createElementVNode("view", _hoisted_3$K, vue.toDisplayString(item.renderTitle()), 1),
               vue.createTextVNode(),
-              vue.createElementVNode("span", _hoisted_4$E, [
+              vue.createElementVNode("span", _hoisted_4$D, [
                 vue.renderSlot(_ctx.$slots, "icon", {}, () => [
                   _ctx.direction === "up" ? (vue.openBlock(), vue.createBlock(_component_RectUp, { key: 0 })) : (vue.openBlock(), vue.createBlock(_component_RectDown, { key: 1 }))
                 ])
@@ -2676,7 +2676,7 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-tabbar-item_icon-box_icon"
   };
   const _hoisted_3$I = { key: 1 };
-  const _hoisted_4$D = { key: 0 };
+  const _hoisted_4$C = { key: 0 };
   function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_badge = vue.resolveComponent("nut-badge");
     return vue.openBlock(), vue.createElementBlock("view", {
@@ -2704,7 +2704,7 @@ var __async = (__this, __arguments, generator) => {
               ])
             }, [
               vue.renderSlot(_ctx.$slots, "default", {}, () => [
-                _ctx.tabTitle ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$D, vue.toDisplayString(_ctx.tabTitle), 1)) : vue.createCommentVNode("", true)
+                _ctx.tabTitle ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$C, vue.toDisplayString(_ctx.tabTitle), 1)) : vue.createCommentVNode("", true)
               ])
             ], 2)
           ])
@@ -2885,7 +2885,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$16 = { class: "nut-elevator" };
   const _hoisted_2$U = { class: "nut-elevator__list__item__code" };
   const _hoisted_3$H = ["onClick"];
-  const _hoisted_4$C = ["innerHTML"];
+  const _hoisted_4$B = ["innerHTML"];
   const _hoisted_5$q = { class: "nut-elevator__list__fixed" };
   const _hoisted_6$k = { class: "nut-elevator__list__fixed-title" };
   const _hoisted_7$i = { class: "nut-elevator__bars__inner" };
@@ -2924,7 +2924,7 @@ var __async = (__this, __arguments, generator) => {
                   !_ctx.$slots.default ? (vue.openBlock(), vue.createElementBlock("span", {
                     key: 0,
                     innerHTML: subitem.name
-                  }, null, 8, _hoisted_4$C)) : vue.renderSlot(_ctx.$slots, "default", {
+                  }, null, 8, _hoisted_4$B)) : vue.renderSlot(_ctx.$slots, "default", {
                     key: 1,
                     item: subitem
                   })
@@ -3084,7 +3084,7 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-pagination-contain"
   };
   const _hoisted_3$G = ["onClick"];
-  const _hoisted_4$B = {
+  const _hoisted_4$A = {
     key: 1,
     class: "nut-pagination-contain"
   };
@@ -3114,7 +3114,7 @@ var __async = (__this, __arguments, generator) => {
         }), 128))
       ])) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
-      _ctx.mode == "simple" ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$B, [
+      _ctx.mode == "simple" ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$A, [
         vue.createElementVNode("view", _hoisted_5$p, vue.toDisplayString(_ctx.modelValue) + "/" + vue.toDisplayString(_ctx.countRef), 1)
       ])) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
@@ -3337,7 +3337,6 @@ var __async = (__this, __arguments, generator) => {
       direction: {
         type: String,
         default: "horizontal"
-        //vertical
       },
       size: {
         type: String,
@@ -3346,7 +3345,6 @@ var __async = (__this, __arguments, generator) => {
       type: {
         type: String,
         default: "line"
-        //card、line、smile
       },
       titleScroll: {
         type: Boolean,
@@ -3384,13 +3382,14 @@ var __async = (__this, __arguments, generator) => {
         type: Number,
         default: 0
       },
-      name: {
+      align: {
         type: String,
-        default: ""
+        default: "center"
       }
     },
     emits: ["update:modelValue", "click", "change"],
     setup(props, { emit, slots }) {
+      const refRandomId = Math.random().toString(36).slice(-8);
       const container = vue.ref(null);
       vue.provide("tabsOpiton", {
         activeKey: vue.computed(() => props.modelValue || "0"),
@@ -3460,26 +3459,25 @@ var __async = (__this, __arguments, generator) => {
       const titleRectRef = vue.ref([]);
       const canShowLabel = vue.ref(false);
       const scrollIntoView = () => {
-        if (!props.name)
-          return;
         requestAniFrame$1(() => {
           Promise.all([
-            getRect(`#nut-tabs__titles_${props.name}`),
-            getAllRect(`#nut-tabs__titles_${props.name} .nut-tabs__titles-item`)
+            getRect(`#nut-tabs__titles_${refRandomId}`),
+            getAllRect(`#nut-tabs__titles_${refRandomId} .nut-tabs__titles-item`)
           ]).then(([navRect, titleRects]) => {
+            var _a, _b, _c, _d;
             navRectRef.value = navRect;
             titleRectRef.value = titleRects;
             if (navRectRef.value) {
               if (props.direction === "vertical") {
-                const titlesTotalHeight = titleRects.reduce((prev, curr) => prev + curr.height, 0);
-                if (titlesTotalHeight > navRectRef.value.height) {
+                const titlesTotalHeight = titleRects.reduce((prev, curr) => prev + (curr == null ? void 0 : curr.height), 0);
+                if (titlesTotalHeight > ((_a = navRectRef.value) == null ? void 0 : _a.height)) {
                   canShowLabel.value = true;
                 } else {
                   canShowLabel.value = false;
                 }
               } else {
-                const titlesTotalWidth = titleRects.reduce((prev, curr) => prev + curr.width, 0);
-                if (titlesTotalWidth > navRectRef.value.width) {
+                const titlesTotalWidth = titleRects.reduce((prev, curr) => prev + (curr == null ? void 0 : curr.width), 0);
+                if (titlesTotalWidth > ((_b = navRectRef.value) == null ? void 0 : _b.width)) {
                   canShowLabel.value = true;
                 } else {
                   canShowLabel.value = false;
@@ -3490,12 +3488,12 @@ var __async = (__this, __arguments, generator) => {
             let to = 0;
             if (props.direction === "vertical") {
               const DEFAULT_PADDING = 11;
-              const top = titleRects.slice(0, currentIndex.value).reduce((prev, curr) => prev + curr.height + 0, DEFAULT_PADDING);
-              to = top - (navRectRef.value.height - titleRect.height) / 2;
+              const top = titleRects.slice(0, currentIndex.value).reduce((prev, curr) => prev + (curr == null ? void 0 : curr.height) + 0, DEFAULT_PADDING);
+              to = top - (((_c = navRectRef.value) == null ? void 0 : _c.height) - (titleRect == null ? void 0 : titleRect.height)) / 2;
             } else {
               const DEFAULT_PADDING = 31;
-              const left = titleRects.slice(0, currentIndex.value).reduce((prev, curr) => prev + curr.width + 20, DEFAULT_PADDING);
-              to = left - (navRectRef.value.width - titleRect.width) / 2;
+              const left = titleRects.slice(0, currentIndex.value).reduce((prev, curr) => prev + (curr == null ? void 0 : curr.width) + 20, DEFAULT_PADDING);
+              to = left - (((_d = navRectRef.value) == null ? void 0 : _d.width) - (titleRect == null ? void 0 : titleRect.width)) / 2;
             }
             vue.nextTick(() => {
               scrollWithAnimation.value = true;
@@ -3615,7 +3613,6 @@ var __async = (__this, __arguments, generator) => {
         }
         return { marginLeft: px, marginRight: px };
       });
-      const refRandomId = Math.random().toString(36).slice(-8);
       return __spreadValues(__spreadValues({
         titles,
         tabsContentRef,
@@ -3634,13 +3631,12 @@ var __async = (__this, __arguments, generator) => {
       }, tabMethods), touchMethods);
     }
   });
-  const _hoisted_1$14 = { class: "nut-tabs__list" };
-  const _hoisted_2$S = ["onClick"];
-  const _hoisted_3$F = {
+  const _hoisted_1$14 = ["onClick"];
+  const _hoisted_2$S = {
     key: 0,
     class: "nut-tabs__titles-placeholder"
   };
-  const _hoisted_4$A = ["id"];
+  const _hoisted_3$F = ["id"];
   function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_JoySmile = vue.resolveComponent("JoySmile");
     const _component_nut_scroll_view = vue.resolveComponent("nut-scroll-view");
@@ -3649,7 +3645,7 @@ var __async = (__this, __arguments, generator) => {
       class: vue.normalizeClass(["nut-tabs", [_ctx.direction]])
     }, [
       vue.createVNode(_component_nut_scroll_view, {
-        id: `nut-tabs__titles_${_ctx.name}`,
+        id: `nut-tabs__titles_${_ctx.refRandomId}`,
         "scroll-x": _ctx.getScrollX,
         "scroll-y": _ctx.getScrollY,
         "scroll-with-animation": _ctx.scrollWithAnimation,
@@ -3660,12 +3656,18 @@ var __async = (__this, __arguments, generator) => {
         style: vue.normalizeStyle(_ctx.tabsNavStyle)
       }, {
         default: vue.withCtx(() => [
-          vue.createElementVNode("view", _hoisted_1$14, [
+          vue.createElementVNode("view", {
+            class: vue.normalizeClass(["nut-tabs__list", { "nut-tabs__titles-left": _ctx.align === "left" }])
+          }, [
             _ctx.$slots.titles ? vue.renderSlot(_ctx.$slots, "titles", { key: 0 }) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.titles, (item, index) => {
                 return vue.openBlock(), vue.createElementBlock("view", {
                   key: item.paneKey,
-                  class: vue.normalizeClass(["nut-tabs__titles-item taro", { active: item.paneKey == _ctx.modelValue, disabled: item.disabled }]),
+                  class: vue.normalizeClass(["nut-tabs__titles-item taro", {
+                    "nut-tabs__titles-item-left": _ctx.align === "left",
+                    active: item.paneKey == _ctx.modelValue,
+                    disabled: item.disabled
+                  }]),
                   style: vue.normalizeStyle(_ctx.titleStyle),
                   onClick: ($event) => _ctx.tabChange(item, index)
                 }, [
@@ -3686,12 +3688,12 @@ var __async = (__this, __arguments, generator) => {
                   vue.createElementVNode("view", {
                     class: vue.normalizeClass(["nut-tabs__titles-item__text", { ellipsis: _ctx.ellipsis }])
                   }, vue.toDisplayString(item.title), 3)
-                ], 14, _hoisted_2$S);
+                ], 14, _hoisted_1$14);
               }), 128)),
               vue.createTextVNode(),
-              _ctx.canShowLabel ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$F)) : vue.createCommentVNode("", true)
+              _ctx.canShowLabel && _ctx.titleScroll ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$S)) : vue.createCommentVNode("", true)
             ], 64))
-          ])
+          ], 2)
         ]),
         _: 3
       }, 8, ["id", "scroll-x", "scroll-y", "scroll-with-animation", "scroll-left", "scroll-top", "class", "style"]),
@@ -3707,7 +3709,7 @@ var __async = (__this, __arguments, generator) => {
         onTouchcancel: _cache[3] || (_cache[3] = (...args) => _ctx.onTouchEnd && _ctx.onTouchEnd(...args))
       }, [
         vue.renderSlot(_ctx.$slots, "default")
-      ], 44, _hoisted_4$A)
+      ], 44, _hoisted_3$F)
     ], 2);
   }
   const Tabs = /* @__PURE__ */ _export_sfc(_sfc_main$1m, [["render", _sfc_render$1h]]);
@@ -12973,6 +12975,10 @@ var __async = (__this, __arguments, generator) => {
       isStopPropagation: {
         type: Boolean,
         default: true
+      },
+      paginationUnselectedColor: {
+        type: String,
+        default: "#ddd"
       }
     },
     emits: ["change"],
@@ -13335,7 +13341,7 @@ var __async = (__this, __arguments, generator) => {
           return vue.openBlock(), vue.createElementBlock("i", {
             key: index,
             style: vue.normalizeStyle({
-              backgroundColor: _ctx.activePagination === index ? _ctx.paginationColor : "#ddd"
+              backgroundColor: _ctx.activePagination === index ? _ctx.paginationColor : _ctx.paginationUnselectedColor
             }),
             class: vue.normalizeClass({ active: _ctx.activePagination === index })
           }, null, 6);
@@ -15295,9 +15301,6 @@ var __async = (__this, __arguments, generator) => {
   const { create: create$u } = createComponent("collapse-item");
   const _sfc_main$u = create$u({
     props: {
-      collapseRef: {
-        type: Object
-      },
       title: {
         type: String,
         default: ""
@@ -15798,7 +15801,6 @@ var __async = (__this, __arguments, generator) => {
     },
     emits: ["click", "change"],
     setup(props, { emit }) {
-      const root = vue.ref(null);
       const rootContain = vue.ref(null);
       const symbolContain = vue.ref(null);
       let contantCopy = vue.ref(props.content);
@@ -15807,6 +15809,7 @@ var __async = (__this, __arguments, generator) => {
       let originHeight = 0;
       const ellipsis = vue.reactive({});
       const refRandomId = Math.random().toString(36).slice(-8);
+      const rootId = vue.ref("root" + refRandomId);
       let widthRef = vue.ref("auto");
       const state = vue.reactive({
         exceeded: false,
@@ -15842,9 +15845,8 @@ var __async = (__this, __arguments, generator) => {
         );
       };
       const getReference = () => __async(this, null, function* () {
-        let element = vue.unref(root);
         const query = Taro.createSelectorQuery();
-        query.select(`#${element.id}`) && query.select(`#${element.id}`).fields(
+        query.select(`#${rootId.value}`) && query.select(`#${rootId.value}`).fields(
           {
             computedStyle: ["width", "height", "lineHeight", "paddingTop", "paddingBottom", "fontSize"]
           },
@@ -15975,7 +15977,7 @@ var __async = (__this, __arguments, generator) => {
         emit("click");
       };
       return __spreadProps(__spreadValues({}, vue.toRefs(state)), {
-        root,
+        rootId,
         rootContain,
         symbolContain,
         ellipsis,
@@ -16003,8 +16005,7 @@ var __async = (__this, __arguments, generator) => {
   function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, [
       vue.createElementVNode("view", {
-        id: "root" + _ctx.refRandomId,
-        ref: "root",
+        id: _ctx.rootId,
         class: "nut-ellipsis ell",
         onClick: _cache[2] || (_cache[2] = (...args) => _ctx.handleClick && _ctx.handleClick(...args))
       }, [
@@ -16044,8 +16045,7 @@ var __async = (__this, __arguments, generator) => {
         ref: "symbolContain",
         class: "nut-ellipsis__copy",
         style: { "display": "inline" }
-      }, vue.toDisplayString(_ctx.symbolText), 9, _hoisted_6$8),
-      vue.createTextVNode()
+      }, vue.toDisplayString(_ctx.symbolText), 9, _hoisted_6$8)
     ]);
   }
   const Ellipsis = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$r]]);
@@ -20399,7 +20399,7 @@ var __async = (__this, __arguments, generator) => {
       }
     });
   }
-  const version = "4.2.4";
+  const version = "4.2.6";
   const nutui_taro_vue_build = { install, version, Locale };
   exports2.ActionSheet = ActionSheet;
   exports2.Address = Address;

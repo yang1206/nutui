@@ -38,14 +38,14 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-import { c as createComponent } from "../component-TCzwHGVq.js";
 import { ref, onMounted, reactive, provide, computed, watch, onActivated, nextTick, resolveComponent, openBlock, createElementBlock, normalizeClass, createBlock, withCtx, createElementVNode, normalizeStyle, renderSlot, Fragment, renderList, createCommentVNode, createVNode, toDisplayString } from "vue";
+import NutSticky from "../sticky/Sticky.js";
+import { JoySmile } from "@nutui/icons-vue";
+import { c as createComponent } from "../component-TCzwHGVq.js";
 import { T as TypeOfFun } from "../util-4Jkyw4BJ.js";
 import { p as pxCheck } from "../pxCheck-OnXlN1NC.js";
 import { u as useRect } from "../index-rf29bejW.js";
 import { r as requestAniFrame } from "../raf-MQjoO-Ag.js";
-import NutSticky from "../sticky/Sticky.js";
-import { JoySmile } from "@nutui/icons-vue";
 import { u as useTouch } from "../index-084nl_oE.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
 import "../index-xDfQLRen.js";
@@ -178,7 +178,6 @@ const _sfc_main = create({
     direction: {
       type: String,
       default: "horizontal"
-      //vertical
     },
     size: {
       type: String,
@@ -187,7 +186,6 @@ const _sfc_main = create({
     type: {
       type: String,
       default: "line"
-      //card、line、smile
     },
     titleScroll: {
       type: Boolean,
@@ -224,6 +222,10 @@ const _sfc_main = create({
     top: {
       type: Number,
       default: 0
+    },
+    align: {
+      type: String,
+      default: "center"
     }
   },
   emits: ["update:modelValue", "click", "change"],
@@ -468,13 +470,22 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       default: withCtx(() => [
         createElementVNode("view", {
           ref: "navRef",
-          class: normalizeClass(["nut-tabs__titles", { [_ctx.type]: _ctx.type, scrollable: _ctx.titleScroll, [_ctx.size]: _ctx.size }]),
+          class: normalizeClass(["nut-tabs__titles", {
+            "nut-tabs__titles-left": _ctx.align === "left",
+            [_ctx.type]: _ctx.type,
+            scrollable: _ctx.titleScroll,
+            [_ctx.size]: _ctx.size
+          }]),
           style: normalizeStyle(_ctx.tabsNavStyle)
         }, [
           _ctx.$slots.titles ? renderSlot(_ctx.$slots, "titles", { key: 0 }) : (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(_ctx.titles, (item, index) => {
             return openBlock(), createElementBlock("view", {
               key: item.paneKey,
-              class: normalizeClass(["nut-tabs__titles-item", { active: item.paneKey == _ctx.modelValue, disabled: item.disabled }]),
+              class: normalizeClass(["nut-tabs__titles-item", {
+                "nut-tabs__titles-item-left": _ctx.align === "left",
+                active: item.paneKey == _ctx.modelValue,
+                disabled: item.disabled
+              }]),
               style: normalizeStyle(_ctx.titleStyle),
               onClick: ($event) => _ctx.tabChange(item, index)
             }, [
@@ -501,7 +512,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["top", "container", "onScroll"])) : (openBlock(), createElementBlock("view", {
       key: 1,
       ref: "navRef",
-      class: normalizeClass(["nut-tabs__titles", { [_ctx.type]: _ctx.type, scrollable: _ctx.titleScroll, [_ctx.size]: _ctx.size }]),
+      class: normalizeClass(["nut-tabs__titles", { "nut-tabs__titles-left": _ctx.align === "left", [_ctx.type]: _ctx.type, scrollable: _ctx.titleScroll, [_ctx.size]: _ctx.size }]),
       style: normalizeStyle(_ctx.tabsNavStyle)
     }, [
       _ctx.$slots.titles ? renderSlot(_ctx.$slots, "titles", { key: 0 }) : (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(_ctx.titles, (item, index) => {
@@ -509,7 +520,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           key: item.paneKey,
           ref_for: true,
           ref: (e) => _ctx.setTabItemRef(e, index),
-          class: normalizeClass(["nut-tabs__titles-item", { active: item.paneKey == _ctx.modelValue, disabled: item.disabled }]),
+          class: normalizeClass(["nut-tabs__titles-item", {
+            "nut-tabs__titles-item-left": _ctx.align === "left",
+            active: item.paneKey == _ctx.modelValue,
+            disabled: item.disabled
+          }]),
           style: normalizeStyle(_ctx.titleStyle),
           onClick: ($event) => _ctx.tabChange(item, index)
         }, [

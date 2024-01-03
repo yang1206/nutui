@@ -1,4 +1,5 @@
-import { VNode, Ref, CSSProperties } from 'vue';
+import { VNode, Ref, CSSProperties, PropType } from 'vue';
+import type { TabsDirection, TabsSize, TabsType, TabsAlign } from './types';
 export declare class Title {
     title: string;
     titleSlot?: VNode[];
@@ -6,7 +7,6 @@ export declare class Title {
     disabled: boolean;
     constructor();
 }
-export type TabsSize = 'large' | 'normal' | 'small';
 
 declare type Install<T> = T & {
   install(app: import('vue').App): void;
@@ -21,15 +21,15 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: string;
     };
     direction: {
-        type: StringConstructor;
+        type: PropType<TabsDirection>;
         default: string;
     };
     size: {
-        type: import("vue").PropType<TabsSize>;
+        type: PropType<TabsSize>;
         default: string;
     };
     type: {
-        type: StringConstructor;
+        type: PropType<TabsType>;
         default: string;
     };
     titleScroll: {
@@ -68,8 +68,8 @@ declare const _default: Install< import("vue").DefineComponent<{
         type: NumberConstructor;
         default: number;
     };
-    name: {
-        type: StringConstructor;
+    align: {
+        type: PropType<TabsAlign>;
         default: string;
     };
 }, {
@@ -117,7 +117,7 @@ declare const _default: Install< import("vue").DefineComponent<{
     scrollWithAnimation: Ref<boolean>;
     canShowLabel: Ref<boolean>;
     refRandomId: string;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("click" | "change" | "update:modelValue")[], "click" | "change" | "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "click" | "update:modelValue")[], "change" | "click" | "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: (NumberConstructor | StringConstructor)[];
         default: number;
@@ -127,15 +127,15 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: string;
     };
     direction: {
-        type: StringConstructor;
+        type: PropType<TabsDirection>;
         default: string;
     };
     size: {
-        type: import("vue").PropType<TabsSize>;
+        type: PropType<TabsSize>;
         default: string;
     };
     type: {
-        type: StringConstructor;
+        type: PropType<TabsType>;
         default: string;
     };
     titleScroll: {
@@ -174,30 +174,30 @@ declare const _default: Install< import("vue").DefineComponent<{
         type: NumberConstructor;
         default: number;
     };
-    name: {
-        type: StringConstructor;
+    align: {
+        type: PropType<TabsAlign>;
         default: string;
     };
 }>> & {
-    onClick?: ((...args: any[]) => any) | undefined;
     onChange?: ((...args: any[]) => any) | undefined;
+    onClick?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
-    name: string;
-    type: string;
+    size: TabsSize;
+    type: TabsType;
     color: string;
     top: number;
     ellipsis: boolean;
-    size: TabsSize;
     sticky: boolean;
     modelValue: string | number;
     background: string;
-    direction: string;
+    direction: TabsDirection;
     titleScroll: boolean;
     swipeable: boolean;
     autoHeight: boolean;
     animatedTime: string | number;
     titleGutter: string | number;
+    align: TabsAlign;
 }, {}>>;
 export default _default;
 
