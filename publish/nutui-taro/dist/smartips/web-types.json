@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
   "name": "NutUI",
-  "version": "4.2.6",
+  "version": "4.3.0",
   "contributions": {
     "html": {
       "tags": [
@@ -452,6 +452,15 @@
               "name": "cancel-confirm",
               "default": "确认",
               "description": "确认按钮的文字",
+              "value": {
+                "type": "string",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "shape",
+              "default": "square",
+              "description": "头像的形状,可选值为：`square` `round`",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -921,6 +930,67 @@
               "description": "一个用来判断该日期是否被禁用的函数，接受一个`年-月-日`作为参数。 应该返回一个 Boolean 值。",
               "value": {
                 "type": "function",
+                "kind": "expression"
+              }
+            }
+          ]
+        },
+        {
+          "name": "nut-calendar-card",
+          "slots": [],
+          "events": [],
+          "attributes": [
+            {
+              "name": "type",
+              "default": "`single`",
+              "description": "类型，单个日期 `single`，多个日期 `multiple`，日期范围 `range`，周选择 `week`",
+              "value": {
+                "type": "`string`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "v-model",
+              "default": "`-`",
+              "description": "当前选中值，单个日期 Date 格式，多个日期/范围选择 Date[] 格式",
+              "value": {
+                "type": "`date | date[]`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "startDate",
+              "default": "`-`",
+              "description": "限制范围开始日期",
+              "value": {
+                "type": "`date`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "endDate",
+              "default": "`-`",
+              "description": "限制范围结束日期",
+              "value": {
+                "type": "`date`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "firstDayOfWeek",
+              "default": "`1`",
+              "description": "设置周起始日，0 为周日，1 为周一",
+              "value": {
+                "type": "`0-6`",
+                "kind": "expression"
+              }
+            },
+            {
+              "name": "disableDay",
+              "default": "`-`",
+              "description": "设置不可选日期",
+              "value": {
+                "type": "`(day: calendarcardday) => boolean`",
                 "kind": "expression"
               }
             }
@@ -3375,7 +3445,7 @@
             {
               "name": "direction",
               "default": "`across`",
-              "description": "滚动的方向，可选 `across`、`vertical `",
+              "description": "滚动的方向，可选 `across`、`vertical`",
               "value": {
                 "type": "string",
                 "kind": "expression"
@@ -3437,7 +3507,7 @@
             },
             {
               "name": "scrollable",
-              "default": "`true`",
+              "default": "-",
               "description": "是否可以滚动",
               "value": {
                 "type": "boolean",
@@ -3456,7 +3526,7 @@
             {
               "name": "wrapable",
               "default": "`false`",
-              "description": "是否开启文本换行,`scrollable` 会设置为 `false`",
+              "description": "是否开启文本换行，`scrollable` 会设置为 `false`",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -3858,15 +3928,6 @@
               }
             },
             {
-              "name": "three-dimensional",
-              "default": "`false`",
-              "description": "是否开启 3D 效果",
-              "value": {
-                "type": "boolean",
-                "kind": "expression"
-              }
-            },
-            {
               "name": "swipe-duration",
               "default": "`1000`",
               "description": "惯性滚动时长",
@@ -4216,7 +4277,7 @@
             {
               "name": "safe-area-inset-bottom",
               "default": "`false`",
-              "description": "是否开启 iphone 系列全面屏底部安全区适配,仅当 `position` 为 `bottom` 时有效",
+              "description": "是否开启全面屏底部安全区适配,仅当 `position` 为 `bottom` 时有效",
               "value": {
                 "type": "boolean",
                 "kind": "expression"
@@ -6286,7 +6347,7 @@
             },
             {
               "name": "location",
-              "default": "`'bottom'`",
+              "default": "`bottom`",
               "description": "弹出层位置,同 Popopver 的[location 属性](https://nutui.jd.com/#/zh-CN/component/popover)",
               "value": {
                 "type": "string",
@@ -6295,7 +6356,7 @@
             },
             {
               "name": "next-step-Txt",
-              "default": "`'下一步'`",
+              "default": "`下一步`",
               "description": "下一步按钮文案",
               "value": {
                 "type": "string",
@@ -6304,7 +6365,7 @@
             },
             {
               "name": "prev-step-Txt",
-              "default": "`'上一步'`",
+              "default": "`上一步`",
               "description": "上一步按钮文案",
               "value": {
                 "type": "string",
@@ -6331,7 +6392,7 @@
             },
             {
               "name": "bg-color",
-              "default": "''",
+              "default": "-",
               "description": "自定义背景色",
               "value": {
                 "type": "boolean",
@@ -6352,7 +6413,7 @@
               "default": "''",
               "description": "镂空遮罩层宽度",
               "value": {
-                "type": "number |string",
+                "type": "number | string",
                 "kind": "expression"
               }
             },
@@ -6361,7 +6422,7 @@
               "default": "''",
               "description": "镂空遮罩层高度",
               "value": {
-                "type": "number |string",
+                "type": "number | string",
                 "kind": "expression"
               }
             },

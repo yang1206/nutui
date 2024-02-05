@@ -38,14 +38,15 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-import { reactive, ref, computed, onMounted, watch, toRefs, resolveComponent, openBlock, createElementBlock, Fragment, createElementVNode, renderSlot, createTextVNode, withModifiers, toDisplayString, withDirectives, normalizeStyle, normalizeClass, createVNode, withCtx, vShow } from "vue";
-import NutButton from "../button/Button.js";
+import { reactive, ref, computed, onMounted, watch, toRefs, resolveComponent, openBlock, createElementBlock, Fragment, createElementVNode, normalizeClass, renderSlot, createTextVNode, withModifiers, toDisplayString, withDirectives, normalizeStyle, createVNode, withCtx, vShow } from "vue";
+import { Button as _sfc_main$1 } from "../button/Button.js";
 import { c as createComponent } from "../component-TCzwHGVq.js";
-import { a as preventDefault, c as clamp } from "../util-WZB3Ltgx.js";
+import { a as preventDefault, c as clamp } from "../util-Bt8WDYya.js";
 import { IconFont } from "@nutui/icons-vue-taro";
 import { u as useTouch } from "../index-084nl_oE.js";
 import Taro, { useReady } from "@tarojs/taro";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
+import "../with-install-p59gYYU_.js";
 const compareVersion = (v1Old, v2Old) => {
   let v1 = v1Old.split(".");
   let v2 = v2Old.split(".");
@@ -93,7 +94,7 @@ function easySetFillStyle(systemInfo, canvasContext, color) {
 const { create } = createComponent("avatar-cropper");
 const _sfc_main = create({
   components: {
-    NutButton,
+    NutButton: _sfc_main$1,
     IconFont
   },
   props: {
@@ -121,6 +122,10 @@ const _sfc_main = create({
       type: String,
       default: "确定"
     },
+    shape: {
+      type: String,
+      default: "square"
+    },
     sizeType: {
       type: Array,
       default: () => ["original", "compressed"]
@@ -146,14 +151,12 @@ const _sfc_main = create({
       cropperWidth: 0,
       cropperHeight: 0
     });
-    const canvasAll = reactive({
+    const canvasAll = {
       canvasId: `canvas-${Date.now()}`,
       cropperCanvas: null,
       cropperCanvasContext: null
-    });
+    };
     const drawImage = ref({
-      src: "",
-      // 规定要使用的图像
       x: 0,
       // 在画布上x的坐标位置
       y: 0,
@@ -163,18 +166,19 @@ const _sfc_main = create({
       height: 0
       // 要使用的图像的高度
     });
+    let canvasImage = null;
     const touch = useTouch();
     const systemInfo = Taro.getSystemInfoSync();
-    const showAlipayCanvas2D = computed(() => {
-      return Taro.getEnv() === "ALIPAY" && parseInt(Taro.SDKVersion.replace(/\./g, "")) >= 270;
+    const showCanvas2D = computed(() => {
+      return Taro.getEnv() === "ALIPAY" && parseInt(Taro.SDKVersion.replace(/\./g, "")) >= 270 || systemInfo.SDKVersion && parseInt(systemInfo.SDKVersion.replace(/\./g, "")) >= 290 && Taro.getEnv() === "WEAPP";
     });
-    const showPixelRatio = Taro.getEnv() === "WEB" || showAlipayCanvas2D.value;
+    const showPixelRatio = Taro.getEnv() === "WEB" || showCanvas2D.value;
     const pixelRatio = showPixelRatio ? systemInfo.pixelRatio : 1;
     state.displayWidth = systemInfo.windowWidth * pixelRatio;
     state.displayHeight = systemInfo.windowHeight * pixelRatio;
     state.cropperWidth = state.cropperHeight = state.displayWidth - props.space * pixelRatio * 2;
     useReady(() => {
-      if (showAlipayCanvas2D.value) {
+      if (showCanvas2D.value) {
         const { canvasId } = canvasAll;
         Taro.createSelectorQuery().select(`#${canvasId}`).node(({ node: canvas }) => {
           canvas.width = state.displayWidth;
@@ -240,7 +244,7 @@ const _sfc_main = create({
     };
     const dataURLToCanvasImage = (canvas, dataURL) => {
       return new Promise((resolve) => {
-        const img = new canvas.createImage();
+        const img = canvas.createImage();
         img.onload = () => resolve(img);
         img.src = dataURL;
       });
@@ -248,17 +252,13 @@ const _sfc_main = create({
     const canvas2dDraw = (ctx) => {
       if (!ctx)
         return;
-      const { src, width, height, x, y } = drawImage.value;
-      const { moveX, moveY, scale, angle, displayWidth, displayHeight, cropperWidth } = state;
+      const { width, height, x, y } = drawImage.value;
+      const { moveX, moveY, scale, angle, displayWidth, displayHeight } = state;
       ctx.clearRect(0, 0, displayWidth, displayHeight);
-      ctx.fillStyle = "#666";
-      ctx.fillRect(0, 0, displayWidth, displayHeight);
-      ctx.fillStyle = "#000";
-      ctx.fillRect(props.space * pixelRatio, (displayHeight - cropperWidth) / 2, cropperWidth, cropperWidth);
       ctx.translate(displayWidth / 2 + moveX, displayHeight / 2 + moveY);
       ctx.rotate(Math.PI / 180 * angle);
       ctx.scale(scale, scale);
-      ctx.drawImage(src, x, y, width, height);
+      ctx.drawImage(canvasImage, x, y, width, height);
     };
     const webDraw = () => {
       const { displayWidth, displayHeight } = state;
@@ -272,7 +272,7 @@ const _sfc_main = create({
       const ctx = canvas.getContext("2d");
       canvas2dDraw(ctx);
     };
-    const alipayDraw = () => {
+    const canvas2dContextDraw = () => {
       const { cropperCanvas } = canvasAll;
       let ctx = cropperCanvas.getContext("2d");
       ctx && ctx.resetTransform();
@@ -283,11 +283,11 @@ const _sfc_main = create({
         webDraw();
         return;
       }
-      if (showAlipayCanvas2D.value) {
-        alipayDraw();
+      if (showCanvas2D.value) {
+        canvas2dContextDraw();
         return;
       }
-      const { src, width, height, x, y } = drawImage.value;
+      const { width, height, x, y } = drawImage.value;
       const { moveX, moveY, scale, angle, displayWidth, displayHeight, cropperWidth } = state;
       const { cropperCanvasContext } = canvasAll;
       let ctx = cropperCanvasContext;
@@ -305,19 +305,19 @@ const _sfc_main = create({
       ctx.translate(displayWidth / 2 + moveX, displayHeight / 2 + moveY);
       ctx.rotate(Math.PI / 180 * angle);
       ctx.scale(scale, scale);
-      ctx.drawImage(src, x, y, width, height);
+      ctx.drawImage(canvasImage, x, y, width, height);
       ctx.draw();
     };
     const setDrawImg = (image) => __async(this, null, function* () {
       const { displayWidth, cropperWidth } = state;
       let drawImg = __spreadValues({}, drawImage.value);
       const { width: imgWidth, height: imgHeight } = image;
-      drawImg.src = image.path;
+      canvasImage = image.path;
       if (Taro.getEnv() === "WEB") {
-        drawImg.src = yield dataURLToImage(image.path);
+        canvasImage = yield dataURLToImage(image.path);
       }
-      if (showAlipayCanvas2D.value) {
-        drawImg.src = yield dataURLToCanvasImage(canvasAll.cropperCanvas, image.path);
+      if (showCanvas2D.value) {
+        canvasImage = yield dataURLToCanvasImage(canvasAll.cropperCanvas, image.path);
       }
       const isPortrait = imgHeight > imgWidth;
       const rate = isPortrait ? imgWidth / imgHeight : imgHeight / imgWidth;
@@ -469,15 +469,16 @@ const _sfc_main = create({
       emit("confirm", imageDataURL);
       cancel(false);
     };
-    const confirmALIPAY = () => {
+    const confirmCanvas2D = () => {
       const { cropperWidth, displayHeight } = state;
       const { cropperCanvas } = canvasAll;
+      const pixelRatio2 = Taro.getEnv() === "ALIPAY" ? 1 : systemInfo.pixelRatio;
       Taro.canvasToTempFilePath({
         canvas: cropperCanvas,
         x: props.space,
-        y: (displayHeight - cropperWidth) / 2,
-        width: cropperWidth,
-        height: cropperWidth,
+        y: (displayHeight - cropperWidth) / pixelRatio2 / 2,
+        width: cropperWidth / pixelRatio2,
+        height: cropperWidth / pixelRatio2,
         destWidth: cropperWidth,
         destHeight: cropperWidth,
         success: (res) => __async(this, null, function* () {
@@ -493,8 +494,8 @@ const _sfc_main = create({
         confirmWEB();
         return;
       }
-      if (showAlipayCanvas2D.value) {
-        confirmALIPAY();
+      if (showCanvas2D.value) {
+        confirmCanvas2D();
         return;
       }
       const { cropperWidth, displayHeight } = state;
@@ -552,7 +553,7 @@ const _sfc_main = create({
       confirm
     });
     return __spreadProps(__spreadValues(__spreadValues({}, toRefs(state)), toRefs(canvasAll)), {
-      showAlipayCanvas2D,
+      showCanvas2D,
       highlightStyle,
       canvasStyle,
       cutCanvasStyle,
@@ -567,10 +568,9 @@ const _sfc_main = create({
     });
   }
 });
-const _hoisted_1 = { class: "nut-avatar-cropper taro" };
-const _hoisted_2 = { class: "nut-cropper-popup" };
-const _hoisted_3 = ["id", "canvas-id", "type"];
-const _hoisted_4 = {
+const _hoisted_1 = { class: "nut-cropper-popup" };
+const _hoisted_2 = ["id", "canvas-id", "type"];
+const _hoisted_3 = {
   key: 1,
   class: "flex-sb"
 };
@@ -578,23 +578,25 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_nut_button = resolveComponent("nut-button");
   const _component_IconFont = resolveComponent("IconFont");
   return openBlock(), createElementBlock(Fragment, null, [
-    createElementVNode("view", _hoisted_1, [
+    createElementVNode("view", {
+      class: normalizeClass(["nut-avatar-cropper taro", { round: _ctx.shape === "round" }])
+    }, [
       renderSlot(_ctx.$slots, "default"),
       createTextVNode(),
       createElementVNode("view", {
         class: "nut-avatar-cropper__edit-text",
         onClick: _cache[0] || (_cache[0] = withModifiers((...args) => _ctx.chooseImage && _ctx.chooseImage(...args), ["stop"]))
       }, toDisplayString(_ctx.editText), 1)
-    ]),
+    ], 2),
     createTextVNode(),
-    withDirectives(createElementVNode("view", _hoisted_2, [
+    withDirectives(createElementVNode("view", _hoisted_1, [
       createElementVNode("canvas", {
         id: _ctx.canvasId,
         "canvas-id": _ctx.canvasId,
-        type: _ctx.showAlipayCanvas2D ? "2d" : void 0,
+        type: _ctx.showCanvas2D ? "2d" : void 0,
         style: normalizeStyle(_ctx.canvasStyle),
         class: "nut-cropper-popup__canvas"
-      }, null, 12, _hoisted_3),
+      }, null, 12, _hoisted_2),
       createTextVNode(),
       createElementVNode("view", {
         class: "nut-cropper-popup__highlight",
@@ -604,15 +606,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         onTouchcancel: _cache[4] || (_cache[4] = (...args) => _ctx.onTouchEnd && _ctx.onTouchEnd(...args))
       }, [
         createElementVNode("view", {
-          class: "highlight",
+          class: normalizeClass(["highlight", { highlight__round: _ctx.shape === "round" }]),
           style: normalizeStyle(_ctx.highlightStyle)
-        }, null, 4)
+        }, null, 6)
       ], 32),
       createTextVNode(),
       createElementVNode("view", {
         class: normalizeClass(["nut-cropper-popup__toolbar", [_ctx.toolbarPosition]])
       }, [
-        _ctx.$slots.toolbar ? renderSlot(_ctx.$slots, "toolbar", { key: 0 }) : (openBlock(), createElementBlock("view", _hoisted_4, [
+        _ctx.$slots.toolbar ? renderSlot(_ctx.$slots, "toolbar", { key: 0 }) : (openBlock(), createElementBlock("view", _hoisted_3, [
           createElementVNode("view", {
             class: "nut-cropper-popup__toolbar-item",
             onClick: _cache[5] || (_cache[5] = ($event) => _ctx.cancel())

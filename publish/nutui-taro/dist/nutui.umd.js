@@ -91,6 +91,14 @@ var __async = (__this, __arguments, generator) => {
         monthTitle: (year, month) => `${year}年${month}月`,
         today: "今天"
       });
+      __publicField(this, "calendarcard", {
+        weekdays: ["日", "一", "二", "三", "四", "五", "六"],
+        end: "结束",
+        start: "开始",
+        title: "日期选择",
+        monthTitle: (year, month) => `${year}年${month}月`,
+        today: "今天"
+      });
       __publicField(this, "shortpassword", {
         title: "请输入密码",
         desc: "您使用了虚拟资产，请进行验证",
@@ -195,6 +203,14 @@ var __async = (__this, __arguments, generator) => {
         next: "Next"
       });
       __publicField(this, "calendaritem", {
+        weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        end: "End",
+        start: "Start",
+        title: "Calendar",
+        monthTitle: (year, month) => `${year}/${month}`,
+        today: "Today"
+      });
+      __publicField(this, "calendarcard", {
         weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         end: "End",
         start: "Start",
@@ -344,7 +360,6 @@ var __async = (__this, __arguments, generator) => {
         return "unknow";
     }
   };
-  const isArray = Array.isArray;
   const isDate$1 = (val) => val instanceof Date;
   const isFunction = (val) => typeof val === "function";
   const isObject = (val) => val !== null && typeof val === "object";
@@ -440,6 +455,143 @@ var __async = (__this, __arguments, generator) => {
     }
   }
   __publicField(Locale, "currentLang", vue.ref("zh-CN"));
+  const _hoisted_1$1k = ["type", "formType"];
+  const _hoisted_2$12 = { class: "nut-button__wrap" };
+  const _sfc_main$1L = /* @__PURE__ */ vue.defineComponent(__spreadProps(__spreadValues({}, {
+    name: "NutButton"
+  }), {
+    __name: "button.taro",
+    props: {
+      color: { default: "" },
+      shape: { default: "round" },
+      plain: { type: Boolean, default: false },
+      loading: { type: Boolean, default: false },
+      disabled: { type: Boolean, default: false },
+      type: { default: "default" },
+      size: { default: "normal" },
+      block: { type: Boolean, default: false },
+      formType: { default: "button" }
+    },
+    emits: ["click"],
+    setup(__props, { emit: __emit }) {
+      const props = __props;
+      const emit = __emit;
+      const handleClick = (event) => {
+        if (!props.loading && !props.disabled) {
+          emit("click", event);
+        }
+      };
+      const classes = vue.computed(() => {
+        const prefixCls = "nut-button";
+        return {
+          [prefixCls]: true,
+          [`${prefixCls}--${props.type}`]: props.type,
+          [`${prefixCls}--${props.size}`]: props.size,
+          [`${prefixCls}--${props.shape}`]: props.shape,
+          [`${prefixCls}--plain`]: props.plain,
+          [`${prefixCls}--block`]: props.block,
+          [`${prefixCls}--disabled`]: props.disabled,
+          [`${prefixCls}--loading`]: props.loading
+        };
+      });
+      const getStyle = vue.computed(() => {
+        let style = {};
+        if (props.color) {
+          style = {
+            color: props.plain ? props.color : "#fff",
+            background: props.plain ? "#fff" : `border-box ${props.color}`
+          };
+          if (props.color.includes("gradient")) {
+            style.borderColor = "transparent";
+          } else {
+            style.borderColor = props.color;
+          }
+        }
+        return style;
+      });
+      return (_ctx, _cache) => {
+        return vue.openBlock(), vue.createElementBlock("button", {
+          class: vue.normalizeClass(classes.value),
+          style: vue.normalizeStyle(getStyle.value),
+          type: vue.unref(Taro).getEnv() === vue.unref(Taro).ENV_TYPE.WEB ? _ctx.formType : void 0,
+          formType: _ctx.formType === "button" ? void 0 : _ctx.formType,
+          onClick: handleClick
+        }, [
+          vue.createElementVNode("view", _hoisted_2$12, [
+            _ctx.loading ? (vue.openBlock(), vue.createBlock(vue.unref(iconsVueTaro.Loading), {
+              key: 0,
+              class: "nut-icon-loading"
+            })) : vue.createCommentVNode("", true),
+            vue.createTextVNode(),
+            _ctx.$slots.icon && !_ctx.loading ? vue.renderSlot(_ctx.$slots, "icon", { key: 1 }) : vue.createCommentVNode("", true),
+            vue.createTextVNode(),
+            _ctx.$slots.default ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 2,
+              class: vue.normalizeClass({ "nut-button__text": _ctx.$slots.icon || _ctx.loading })
+            }, [
+              vue.renderSlot(_ctx.$slots, "default")
+            ], 2)) : vue.createCommentVNode("", true)
+          ])
+        ], 14, _hoisted_1$1k);
+      };
+    }
+  }));
+  const useChildren = (key) => {
+    const publicChildren = vue.reactive([]);
+    const internalChildren = vue.reactive([]);
+    const linkChildren = (value) => {
+      const link = (child) => {
+        if (child.proxy) {
+          internalChildren.push(child);
+          publicChildren.push(child.proxy);
+        }
+      };
+      const unlink = (child) => {
+        if (child.proxy) {
+          let internalIndex = internalChildren.indexOf(child);
+          if (internalIndex > -1) {
+            internalChildren.splice(internalIndex, 1);
+          }
+          let publicIndex = publicChildren.indexOf(child.proxy);
+          if (internalIndex > -1) {
+            publicChildren.splice(publicIndex, 1);
+          }
+        }
+      };
+      vue.provide(key, __spreadValues({
+        unlink,
+        link,
+        children: publicChildren,
+        internalChildren
+      }, value));
+    };
+    return {
+      children: publicChildren,
+      linkChildren
+    };
+  };
+  const useParent = (key) => {
+    const parent = vue.inject(key, null);
+    if (parent) {
+      const instance = vue.getCurrentInstance();
+      const { link, unlink } = parent;
+      link(instance);
+      vue.onUnmounted(() => {
+        unlink(instance);
+      });
+    }
+    return { parent };
+  };
+  const withInstall = (comp) => {
+    const _comp = comp;
+    _comp.install = (vue2) => {
+      if (_comp.name) {
+        vue2.component(_comp.name, _comp);
+      }
+    };
+    return _comp;
+  };
+  withInstall(_sfc_main$1L);
   const camelize = (s) => s.replace(/-./g, (x) => x[1].toUpperCase());
   function createComponent(name) {
     const componentName2 = "nut-" + name;
@@ -459,147 +611,29 @@ var __async = (__this, __arguments, generator) => {
       return vue.h(icon, props);
     return "";
   };
-  const { componentName: componentName$p, create: create$1J } = createComponent("button");
-  const _sfc_main$1K = create$1J({
-    components: { Loading: iconsVueTaro.Loading },
-    props: {
-      color: String,
-      shape: {
-        type: String,
-        default: "round"
-      },
-      plain: {
-        type: Boolean,
-        default: false
-      },
-      loading: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      },
-      type: {
-        type: String,
-        default: "default"
-      },
-      formType: {
-        type: String,
-        default: "button"
-      },
-      size: {
-        type: String,
-        default: "normal"
-      },
-      block: {
-        type: Boolean,
-        default: false
-      }
-    },
-    emits: ["click"],
-    setup(props, { emit }) {
-      const { type, size, shape, disabled, loading, color, plain, block } = vue.toRefs(props);
-      const handleClick = (event) => {
-        if (!loading.value && !disabled.value) {
-          emit("click", event);
-        }
-      };
-      const classes = vue.computed(() => {
-        const prefixCls = componentName$p;
-        return {
-          [prefixCls]: true,
-          [`${prefixCls}--${type.value}`]: type.value,
-          [`${prefixCls}--${size.value}`]: size.value,
-          [`${prefixCls}--${shape.value}`]: shape.value,
-          [`${prefixCls}--plain`]: plain.value,
-          [`${prefixCls}--block`]: block.value,
-          [`${prefixCls}--disabled`]: disabled.value,
-          [`${prefixCls}--loading`]: loading.value
-        };
-      });
-      const getStyle = vue.computed(() => {
-        var _a;
-        const style = {};
-        if (color == null ? void 0 : color.value) {
-          if (plain.value) {
-            style.color = color.value;
-            style.background = "#fff";
-            if (!((_a = color.value) == null ? void 0 : _a.includes("gradient"))) {
-              style.borderColor = color.value;
-            }
-          } else {
-            style.color = "#fff";
-            style.background = color.value;
-          }
-        }
-        return style;
-      });
-      return {
-        handleClick,
-        classes,
-        getStyle,
-        Taro
-      };
-    }
-  });
-  const _export_sfc = (sfc, props) => {
-    const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props) {
-      target[key] = val;
-    }
-    return target;
-  };
-  const _hoisted_1$1j = ["type", "formType"];
-  const _hoisted_2$11 = { class: "nut-button__wrap" };
-  function _sfc_render$1A(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_Loading = vue.resolveComponent("Loading");
-    return vue.openBlock(), vue.createElementBlock("button", {
-      class: vue.normalizeClass(_ctx.classes),
-      style: vue.normalizeStyle(_ctx.getStyle),
-      type: _ctx.Taro.getEnv() === _ctx.Taro.ENV_TYPE.WEB ? _ctx.formType : void 0,
-      formType: _ctx.formType === "button" ? void 0 : _ctx.formType,
-      onClick: _cache[0] || (_cache[0] = (...args) => _ctx.handleClick && _ctx.handleClick(...args))
-    }, [
-      vue.createElementVNode("view", _hoisted_2$11, [
-        _ctx.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, {
-          key: 0,
-          class: "nut-icon-loading"
-        })) : vue.createCommentVNode("", true),
-        vue.createTextVNode(),
-        _ctx.$slots.icon && !_ctx.loading ? vue.renderSlot(_ctx.$slots, "icon", { key: 1 }) : vue.createCommentVNode("", true),
-        vue.createTextVNode(),
-        _ctx.$slots.default ? (vue.openBlock(), vue.createElementBlock("view", {
-          key: 2,
-          class: vue.normalizeClass({ "nut-button__text": _ctx.$slots.icon || _ctx.loading })
-        }, [
-          vue.renderSlot(_ctx.$slots, "default")
-        ], 2)) : vue.createCommentVNode("", true)
-      ])
-    ], 14, _hoisted_1$1j);
-  }
-  const Button = /* @__PURE__ */ _export_sfc(_sfc_main$1K, [["render", _sfc_render$1A]]);
   const pxCheck = (value) => {
     if (value !== void 0) {
       return isNaN(Number(value)) ? String(value) : `${value}px`;
     }
   };
-  const { componentName: componentName$o, create: create$1I } = createComponent("cell");
-  const _sfc_main$1J = create$1I({
+  const { componentName: componentName$o, create: create$1H } = createComponent("cell");
+  const _sfc_main$1K = create$1H({
     components: { Right: iconsVueTaro.Right },
     props: {
       title: { type: String, default: "" },
       subTitle: { type: String, default: "" },
       desc: { type: String, default: "" },
-      descTextAlign: { type: String, default: "right" },
+      descTextAlign: {
+        type: String,
+        default: "right"
+      },
       isLink: { type: Boolean, default: false },
-      to: { type: String, default: "" },
-      replace: { type: Boolean, default: false },
       roundRadius: { type: [String, Number], default: "" },
-      url: { type: String, default: "" },
       center: { type: Boolean, default: false },
-      size: { type: String, default: "" }
-      // large
+      size: {
+        type: String,
+        default: "normal"
+      }
     },
     emits: ["click"],
     setup(props, { emit }) {
@@ -607,9 +641,9 @@ var __async = (__this, __arguments, generator) => {
         const prefixCls = componentName$o;
         return {
           [prefixCls]: true,
-          [`${prefixCls}--clickable`]: props.isLink || props.to,
+          [`${prefixCls}--clickable`]: props.isLink,
           [`${prefixCls}--center`]: props.center,
-          [`${prefixCls}--large`]: props.size == "large"
+          [`${prefixCls}--large`]: props.size === "large"
         };
       });
       const baseStyle = vue.computed(() => {
@@ -633,17 +667,24 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$1i = {
+  const _export_sfc = (sfc, props) => {
+    const target = sfc.__vccOpts || sfc;
+    for (const [key, val] of props) {
+      target[key] = val;
+    }
+    return target;
+  };
+  const _hoisted_1$1j = {
     key: 0,
     class: "nut-cell__icon"
   };
-  const _hoisted_2$10 = {
+  const _hoisted_2$11 = {
     key: 1,
     class: "nut-cell__title"
   };
-  const _hoisted_3$O = { class: "title" };
+  const _hoisted_3$P = { class: "title" };
   const _hoisted_4$H = { class: "nut-cell__title-desc" };
-  function _sfc_render$1z(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1y(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Right = vue.resolveComponent("Right");
     return vue.openBlock(), vue.createElementBlock("view", {
       class: vue.normalizeClass(_ctx.classes),
@@ -651,14 +692,14 @@ var __async = (__this, __arguments, generator) => {
       onClick: _cache[0] || (_cache[0] = (...args) => _ctx.handleClick && _ctx.handleClick(...args))
     }, [
       vue.renderSlot(_ctx.$slots, "default", {}, () => [
-        _ctx.$slots.icon ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$1i, [
+        _ctx.$slots.icon ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$1j, [
           vue.renderSlot(_ctx.$slots, "icon")
         ])) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
-        _ctx.title || _ctx.subTitle || _ctx.$slots.title ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$10, [
+        _ctx.title || _ctx.subTitle || _ctx.$slots.title ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$11, [
           _ctx.subTitle ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
             vue.renderSlot(_ctx.$slots, "title", {}, () => [
-              vue.createElementVNode("view", _hoisted_3$O, vue.toDisplayString(_ctx.title), 1)
+              vue.createElementVNode("view", _hoisted_3$P, vue.toDisplayString(_ctx.title), 1)
             ]),
             vue.createTextVNode(),
             vue.createElementVNode("view", _hoisted_4$H, vue.toDisplayString(_ctx.subTitle), 1)
@@ -678,7 +719,7 @@ var __async = (__this, __arguments, generator) => {
         ], 6)) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
         vue.renderSlot(_ctx.$slots, "link", {}, () => [
-          _ctx.isLink || _ctx.to ? (vue.openBlock(), vue.createBlock(_component_Right, {
+          _ctx.isLink ? (vue.openBlock(), vue.createBlock(_component_Right, {
             key: 0,
             class: "nut-cell__link"
           })) : vue.createCommentVNode("", true)
@@ -686,38 +727,38 @@ var __async = (__this, __arguments, generator) => {
       ])
     ], 6);
   }
-  const Cell = /* @__PURE__ */ _export_sfc(_sfc_main$1J, [["render", _sfc_render$1z]]);
-  const { create: create$1H } = createComponent("cell-group");
-  const _sfc_main$1I = create$1H({
+  const Cell = /* @__PURE__ */ _export_sfc(_sfc_main$1K, [["render", _sfc_render$1y]]);
+  const { create: create$1G } = createComponent("cell-group");
+  const _sfc_main$1J = create$1G({
     props: {
       title: { type: String, default: "" },
       desc: { type: String, default: "" }
     }
   });
-  const _hoisted_1$1h = { class: "nut-cell-group" };
-  const _hoisted_2$$ = {
+  const _hoisted_1$1i = { class: "nut-cell-group" };
+  const _hoisted_2$10 = {
     key: 1,
     class: "nut-cell-group__title"
   };
-  const _hoisted_3$N = {
+  const _hoisted_3$O = {
     key: 3,
     class: "nut-cell-group__desc"
   };
   const _hoisted_4$G = { class: "nut-cell-group__wrap" };
-  function _sfc_render$1y(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$1h, [
-      _ctx.$slots.title ? vue.renderSlot(_ctx.$slots, "title", { key: 0 }) : _ctx.title ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$$, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
+  function _sfc_render$1x(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$1i, [
+      _ctx.$slots.title ? vue.renderSlot(_ctx.$slots, "title", { key: 0 }) : _ctx.title ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$10, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
-      _ctx.$slots.desc ? vue.renderSlot(_ctx.$slots, "desc", { key: 2 }) : _ctx.desc ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$N, vue.toDisplayString(_ctx.desc), 1)) : vue.createCommentVNode("", true),
+      _ctx.$slots.desc ? vue.renderSlot(_ctx.$slots, "desc", { key: 2 }) : _ctx.desc ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$O, vue.toDisplayString(_ctx.desc), 1)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
       vue.createElementVNode("view", _hoisted_4$G, [
         vue.renderSlot(_ctx.$slots, "default")
       ])
     ]);
   }
-  const CellGroup = /* @__PURE__ */ _export_sfc(_sfc_main$1I, [["render", _sfc_render$1y]]);
-  const { componentName: componentName$n, create: create$1G } = createComponent("overlay");
-  const _sfc_main$1H = create$1G({
+  const CellGroup = /* @__PURE__ */ _export_sfc(_sfc_main$1J, [["render", _sfc_render$1x]]);
+  const { componentName: componentName$n, create: create$1F } = createComponent("overlay");
+  const _sfc_main$1I = create$1F({
     props: {
       visible: {
         type: Boolean,
@@ -771,8 +812,8 @@ var __async = (__this, __arguments, generator) => {
       return { classes, style, onClick };
     }
   });
-  const _hoisted_1$1g = ["catch-move"];
-  function _sfc_render$1x(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_1$1h = ["catch-move"];
+  function _sfc_render$1w(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createBlock(vue.Transition, { name: "overlay-fade" }, {
       default: vue.withCtx(() => [
         vue.withDirectives(vue.createElementVNode("view", {
@@ -782,14 +823,14 @@ var __async = (__this, __arguments, generator) => {
           onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onClick && _ctx.onClick(...args))
         }, [
           vue.renderSlot(_ctx.$slots, "default")
-        ], 14, _hoisted_1$1g), [
+        ], 14, _hoisted_1$1h), [
           [vue.vShow, _ctx.visible]
         ])
       ]),
       _: 3
     });
   }
-  const Overlay = /* @__PURE__ */ _export_sfc(_sfc_main$1H, [["render", _sfc_render$1x]]);
+  const Overlay = /* @__PURE__ */ _export_sfc(_sfc_main$1I, [["render", _sfc_render$1w]]);
   const popupProps = {
     visible: {
       type: Boolean,
@@ -835,10 +876,6 @@ var __async = (__this, __arguments, generator) => {
       type: String,
       default: "top-right"
     },
-    closeIcon: {
-      type: String,
-      default: "close"
-    },
     destroyOnClose: {
       type: Boolean,
       default: true
@@ -872,10 +909,10 @@ var __async = (__this, __arguments, generator) => {
       default: () => ({})
     }
   };
-  const { componentName: componentName$m, create: create$1F } = createComponent("popup");
+  const { componentName: componentName$m, create: create$1E } = createComponent("popup");
   const initIndex = 2e3;
   let _zIndex = initIndex;
-  const _sfc_main$1G = create$1F({
+  const _sfc_main$1H = create$1E({
     components: {
       NutOverlay: Overlay,
       Close: iconsVueTaro.Close
@@ -968,7 +1005,7 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  function _sfc_render$1w(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1v(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_overlay = vue.resolveComponent("nut-overlay");
     const _component_Close = vue.resolveComponent("Close");
     return vue.openBlock(), vue.createElementBlock("view", null, [
@@ -1013,7 +1050,7 @@ var __async = (__this, __arguments, generator) => {
       }, 8, ["name", "onAfterEnter", "onAfterLeave"])
     ]);
   }
-  const Popup = /* @__PURE__ */ _export_sfc(_sfc_main$1G, [["render", _sfc_render$1w]]);
+  const Popup = /* @__PURE__ */ _export_sfc(_sfc_main$1H, [["render", _sfc_render$1v]]);
   const component$2 = (tag) => {
     return {
       props: {
@@ -1071,13 +1108,13 @@ var __async = (__this, __arguments, generator) => {
       }
     };
   };
-  const { create: create$1E } = createComponent("config-provider");
-  const _sfc_main$1F = create$1E(component$2("view"));
-  const { create: create$1D } = createComponent("layout");
-  const _sfc_main$1E = create$1D({});
+  const { create: create$1D } = createComponent("config-provider");
+  const _sfc_main$1G = create$1D(component$2("view"));
+  const { create: create$1C } = createComponent("layout");
+  const _sfc_main$1F = create$1C({});
   const LAYOUT_KEY = Symbol("nut-layout");
-  const { create: create$1C } = createComponent("col");
-  const _sfc_main$1D = create$1C({
+  const { create: create$1B } = createComponent("col");
+  const _sfc_main$1E = create$1B({
     props: {
       span: {
         type: [String, Number],
@@ -1112,7 +1149,7 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  function _sfc_render$1v(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: vue.normalizeClass(_ctx.classes),
       style: vue.normalizeStyle(_ctx.style)
@@ -1120,9 +1157,9 @@ var __async = (__this, __arguments, generator) => {
       vue.renderSlot(_ctx.$slots, "default")
     ], 6);
   }
-  const Col = /* @__PURE__ */ _export_sfc(_sfc_main$1D, [["render", _sfc_render$1v]]);
-  const { create: create$1B } = createComponent("row");
-  const _sfc_main$1C = create$1B({
+  const Col = /* @__PURE__ */ _export_sfc(_sfc_main$1E, [["render", _sfc_render$1u]]);
+  const { create: create$1A } = createComponent("row");
+  const _sfc_main$1D = create$1A({
     props: {
       type: {
         type: String,
@@ -1165,16 +1202,16 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: vue.normalizeClass(_ctx.classes)
     }, [
       vue.renderSlot(_ctx.$slots, "default")
     ], 2);
   }
-  const Row = /* @__PURE__ */ _export_sfc(_sfc_main$1C, [["render", _sfc_render$1u]]);
+  const Row = /* @__PURE__ */ _export_sfc(_sfc_main$1D, [["render", _sfc_render$1t]]);
   function isWindow(val) {
-    return val === window;
+    return typeof window !== "undefined" && val === window;
   }
   const useTaroRectById = (id) => {
     return new Promise((resolve, reject) => {
@@ -1236,8 +1273,8 @@ var __async = (__this, __arguments, generator) => {
       }
     });
   };
-  const { create: create$1A } = createComponent("sticky");
-  const _sfc_main$1B = create$1A({
+  const { create: create$1z } = createComponent("sticky");
+  const _sfc_main$1C = create$1z({
     props: {
       top: {
         type: [Number, String],
@@ -1303,8 +1340,8 @@ var __async = (__this, __arguments, generator) => {
       return { rootRef, rootStyle, stickyStyle, refRandomId };
     }
   });
-  const _hoisted_1$1f = ["id"];
-  function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
+  const _hoisted_1$1g = ["id"];
+  function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       id: "rootRef-" + _ctx.refRandomId,
       ref: "rootRef",
@@ -1317,36 +1354,28 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.renderSlot(_ctx.$slots, "default")
       ], 4)
-    ], 12, _hoisted_1$1f);
+    ], 12, _hoisted_1$1g);
   }
-  const Sticky = /* @__PURE__ */ _export_sfc(_sfc_main$1B, [["render", _sfc_render$1t]]);
-  const { create: create$1z } = createComponent("divider");
-  const _sfc_main$1A = create$1z({
+  const Sticky = /* @__PURE__ */ _export_sfc(_sfc_main$1C, [["render", _sfc_render$1s]]);
+  const _sfc_main$1B = /* @__PURE__ */ vue.defineComponent(__spreadProps(__spreadValues({}, {
+    name: "NutDivider"
+  }), {
+    __name: "divider.taro",
     props: {
-      contentPosition: {
-        type: String,
-        default: "center"
-      },
-      dashed: {
-        type: Boolean,
-        default: false
-      },
-      hairline: {
-        type: Boolean,
-        default: true
-      },
-      direction: {
-        type: String,
-        default: "horizontal"
-      }
+      contentPosition: { default: "center" },
+      dashed: { type: Boolean, default: false },
+      hairline: { type: Boolean, default: true },
+      direction: { default: "horizontal" }
     },
-    setup(props, context) {
+    setup(__props) {
+      const props = __props;
+      const slots = vue.useSlots();
       const classes = vue.computed(() => {
         const prefixCls = "nut-divider";
         if (props.direction === "horizontal") {
           return {
             [prefixCls]: true,
-            [`${prefixCls}-center`]: context.slots.default,
+            [`${prefixCls}-center`]: slots.default,
             [`${prefixCls}-left`]: props.contentPosition === "left",
             [`${prefixCls}-right`]: props.contentPosition === "right",
             [`${prefixCls}-dashed`]: props.dashed,
@@ -1359,17 +1388,16 @@ var __async = (__this, __arguments, generator) => {
           };
         }
       });
-      return { classes };
+      return (_ctx, _cache) => {
+        return vue.openBlock(), vue.createElementBlock("view", {
+          class: vue.normalizeClass(classes.value)
+        }, [
+          _ctx.direction === "horizontal" ? vue.renderSlot(_ctx.$slots, "default", { key: 0 }) : vue.createCommentVNode("", true)
+        ], 2);
+      };
     }
-  });
-  function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", {
-      class: vue.normalizeClass(_ctx.classes)
-    }, [
-      _ctx.direction === "horizontal" ? vue.renderSlot(_ctx.$slots, "default", { key: 0 }) : vue.createCommentVNode("", true)
-    ], 2);
-  }
-  const Divider = /* @__PURE__ */ _export_sfc(_sfc_main$1A, [["render", _sfc_render$1s]]);
+  }));
+  withInstall(_sfc_main$1B);
   function flattenVNodes(children, childName) {
     const result = [];
     const traverse = (children2) => {
@@ -1509,7 +1537,7 @@ var __async = (__this, __arguments, generator) => {
     }
   };
   const { create: create$1y } = createComponent("grid");
-  const _sfc_main$1z = create$1y(component$1);
+  const _sfc_main$1A = create$1y(component$1);
   function useInject(key) {
     const parent = vue.inject(key, null);
     if (parent) {
@@ -1529,7 +1557,7 @@ var __async = (__this, __arguments, generator) => {
     };
   }
   const { create: create$1x, componentName: componentName$k } = createComponent("grid-item");
-  const _sfc_main$1y = create$1x({
+  const _sfc_main$1z = create$1x({
     props: {
       text: {
         type: String
@@ -1598,7 +1626,7 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$1e = { class: "nut-grid-item__text" };
+  const _hoisted_1$1f = { class: "nut-grid-item__text" };
   function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: vue.normalizeClass(_ctx.rootClass),
@@ -1610,7 +1638,7 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.renderSlot(_ctx.$slots, "default"),
         vue.createTextVNode(),
-        vue.createElementVNode("view", _hoisted_1$1e, [
+        vue.createElementVNode("view", _hoisted_1$1f, [
           _ctx.text ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
             vue.createTextVNode(vue.toDisplayString(_ctx.text), 1)
           ], 64)) : vue.renderSlot(_ctx.$slots, "text", { key: 1 })
@@ -1618,9 +1646,9 @@ var __async = (__this, __arguments, generator) => {
       ], 2)
     ], 6);
   }
-  const GridItem = /* @__PURE__ */ _export_sfc(_sfc_main$1y, [["render", _sfc_render$1r]]);
+  const GridItem = /* @__PURE__ */ _export_sfc(_sfc_main$1z, [["render", _sfc_render$1r]]);
   const { create: create$1w, componentName: componentName$j } = createComponent("space");
-  const _sfc_main$1x = create$1w({
+  const _sfc_main$1y = create$1w({
     props: {
       align: String,
       direction: {
@@ -1708,7 +1736,7 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const { componentName: componentName$i, create: create$1v } = createComponent("navbar");
-  const _sfc_main$1w = create$1v({
+  const _sfc_main$1x = create$1v({
     components: { Left: iconsVueTaro.Left },
     props: {
       leftShow: { type: Boolean, default: false },
@@ -1821,12 +1849,12 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$1d = ["id"];
-  const _hoisted_2$_ = {
+  const _hoisted_1$1e = ["id"];
+  const _hoisted_2$$ = {
     key: 1,
     class: "nut-navbar__text"
   };
-  const _hoisted_3$M = { class: "nut-navbar__title" };
+  const _hoisted_3$N = { class: "nut-navbar__title" };
   const _hoisted_4$F = {
     key: 0,
     class: "nut-navbar__text"
@@ -1854,12 +1882,12 @@ var __async = (__this, __arguments, generator) => {
             })
           ]) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
-          _ctx.leftText ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$_, vue.toDisplayString(_ctx.leftText), 1)) : vue.createCommentVNode("", true),
+          _ctx.leftText ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$$, vue.toDisplayString(_ctx.leftText), 1)) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
           vue.renderSlot(_ctx.$slots, "left")
         ]),
         vue.createTextVNode(),
-        vue.createElementVNode("view", _hoisted_3$M, [
+        vue.createElementVNode("view", _hoisted_3$N, [
           _ctx.title ? (vue.openBlock(), vue.createElementBlock("view", {
             key: 0,
             class: "title",
@@ -1887,10 +1915,10 @@ var __async = (__this, __arguments, generator) => {
           vue.createTextVNode(),
           vue.renderSlot(_ctx.$slots, "right")
         ])
-      ], 14, _hoisted_1$1d)
+      ], 14, _hoisted_1$1e)
     ], 4);
   }
-  const Navbar = /* @__PURE__ */ _export_sfc(_sfc_main$1w, [["render", _sfc_render$1q]]);
+  const Navbar = /* @__PURE__ */ _export_sfc(_sfc_main$1x, [["render", _sfc_render$1q]]);
   const useLocale = (name = "") => {
     return (keyPath, ...args) => {
       name = name.toLocaleLowerCase();
@@ -1904,8 +1932,8 @@ var __async = (__this, __arguments, generator) => {
     };
   };
   const { create: create$1u } = createComponent("fixed-nav");
-  const cN$m = "NutFixedNav";
-  const _sfc_main$1v = create$1u({
+  const cN$n = "NutFixedNav";
+  const _sfc_main$1w = create$1u({
     components: {
       NutOverlay: Overlay,
       Left: iconsVueTaro.Left
@@ -1951,7 +1979,7 @@ var __async = (__this, __arguments, generator) => {
     },
     emits: ["update:visible", "selected"],
     setup(props, { emit }) {
-      const translate = useLocale(cN$m);
+      const translate = useLocale(cN$n);
       const classes = vue.computed(() => {
         const prefixCls = "nut-fixed-nav";
         return {
@@ -1974,9 +2002,9 @@ var __async = (__this, __arguments, generator) => {
       return { classes, updateValue, selected, translate, current };
     }
   });
-  const _hoisted_1$1c = { class: "nut-fixed-nav__list" };
-  const _hoisted_2$Z = ["onClick"];
-  const _hoisted_3$L = ["src"];
+  const _hoisted_1$1d = { class: "nut-fixed-nav__list" };
+  const _hoisted_2$_ = ["onClick"];
+  const _hoisted_3$M = ["src"];
   const _hoisted_4$E = { class: "span" };
   const _hoisted_5$r = {
     key: 0,
@@ -1998,7 +2026,7 @@ var __async = (__this, __arguments, generator) => {
       }, null, 8, ["visible"])) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
       vue.renderSlot(_ctx.$slots, "list", {}, () => [
-        vue.createElementVNode("view", _hoisted_1$1c, [
+        vue.createElementVNode("view", _hoisted_1$1d, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.navList, (item, index) => {
             return vue.openBlock(), vue.createElementBlock("view", {
               key: item.id || index,
@@ -2007,12 +2035,12 @@ var __async = (__this, __arguments, generator) => {
             }, [
               vue.createElementVNode("img", {
                 src: item.icon
-              }, null, 8, _hoisted_3$L),
+              }, null, 8, _hoisted_3$M),
               vue.createTextVNode(),
               vue.createElementVNode("view", _hoisted_4$E, vue.toDisplayString(item.text), 1),
               vue.createTextVNode(),
               item.num ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$r, vue.toDisplayString(item.num), 1)) : vue.createCommentVNode("", true)
-            ], 10, _hoisted_2$Z);
+            ], 10, _hoisted_2$_);
           }), 128))
         ])
       ]),
@@ -2029,56 +2057,10 @@ var __async = (__this, __arguments, generator) => {
       ])
     ], 6);
   }
-  const FixedNav = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["render", _sfc_render$1p]]);
-  const useChildren = (key) => {
-    const publicChildren = vue.reactive([]);
-    const internalChildren = vue.reactive([]);
-    const linkChildren = (value) => {
-      const link = (child) => {
-        if (child.proxy) {
-          internalChildren.push(child);
-          publicChildren.push(child.proxy);
-        }
-      };
-      const unlink = (child) => {
-        if (child.proxy) {
-          let internalIndex = internalChildren.indexOf(child);
-          if (internalIndex > -1) {
-            internalChildren.splice(internalIndex, 1);
-          }
-          let publicIndex = publicChildren.indexOf(child.proxy);
-          if (internalIndex > -1) {
-            publicChildren.splice(publicIndex, 1);
-          }
-        }
-      };
-      vue.provide(key, __spreadValues({
-        unlink,
-        link,
-        children: publicChildren,
-        internalChildren
-      }, value));
-    };
-    return {
-      children: publicChildren,
-      linkChildren
-    };
-  };
-  const useParent = (key) => {
-    const parent = vue.inject(key, null);
-    if (parent) {
-      const instance = vue.getCurrentInstance();
-      const { link, unlink } = parent;
-      link(instance);
-      vue.onUnmounted(() => {
-        unlink(instance);
-      });
-    }
-    return { parent };
-  };
+  const FixedNav = /* @__PURE__ */ _export_sfc(_sfc_main$1w, [["render", _sfc_render$1p]]);
   const MENU_KEY = Symbol("nut-menu");
   const { componentName: componentName$h, create: create$1t } = createComponent("menu");
-  const _sfc_main$1u = create$1t({
+  const _sfc_main$1v = create$1t({
     components: {
       RectUp: iconsVueTaro.RectUp,
       RectDown: iconsVueTaro.RectDown
@@ -2192,9 +2174,9 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$1b = ["id"];
-  const _hoisted_2$Y = ["onClick"];
-  const _hoisted_3$K = { class: "nut-menu__title-text" };
+  const _hoisted_1$1c = ["id"];
+  const _hoisted_2$Z = ["onClick"];
+  const _hoisted_3$L = { class: "nut-menu__title-text" };
   const _hoisted_4$D = { class: "nut-menu__title-icon" };
   function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_RectUp = vue.resolveComponent("RectUp");
@@ -2217,7 +2199,7 @@ var __async = (__this, __arguments, generator) => {
             vue.createElementVNode("view", {
               class: vue.normalizeClass(["nut-menu__title", _ctx.getClasses(item.state.showPopup)])
             }, [
-              vue.createElementVNode("view", _hoisted_3$K, vue.toDisplayString(item.renderTitle()), 1),
+              vue.createElementVNode("view", _hoisted_3$L, vue.toDisplayString(item.renderTitle()), 1),
               vue.createTextVNode(),
               vue.createElementVNode("span", _hoisted_4$D, [
                 vue.renderSlot(_ctx.$slots, "icon", {}, () => [
@@ -2225,15 +2207,15 @@ var __async = (__this, __arguments, generator) => {
                 ])
               ])
             ], 2)
-          ], 14, _hoisted_2$Y);
+          ], 14, _hoisted_2$Z);
         }), 128))
-      ], 10, _hoisted_1$1b),
+      ], 10, _hoisted_1$1c),
       vue.createTextVNode(),
       vue.renderSlot(_ctx.$slots, "default")
     ], 2);
   }
-  const Menu = /* @__PURE__ */ _export_sfc(_sfc_main$1u, [["render", _sfc_render$1o]]);
-  const _sfc_main$1t = /* @__PURE__ */ vue.defineComponent({
+  const Menu = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["render", _sfc_render$1o]]);
+  const _sfc_main$1u = /* @__PURE__ */ vue.defineComponent({
     __name: "index.taro",
     setup(__props) {
       return (_ctx, _cache) => {
@@ -2246,7 +2228,7 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const { create: create$1s } = createComponent("menu-item");
-  const _sfc_main$1s = create$1s({
+  const _sfc_main$1t = create$1s({
     props: {
       title: String,
       options: {
@@ -2268,7 +2250,7 @@ var __async = (__this, __arguments, generator) => {
     components: {
       Check: iconsVueTaro.Check,
       NutPopup: Popup,
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     emits: ["update:modelValue", "change"],
     setup(props, { emit }) {
@@ -2331,9 +2313,9 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$1a = ["catch-move"];
-  const _hoisted_2$X = { class: "nut-menu-item__content" };
-  const _hoisted_3$J = ["onClick"];
+  const _hoisted_1$1b = ["catch-move"];
+  const _hoisted_2$Y = { class: "nut-menu-item__content" };
+  const _hoisted_3$K = ["onClick"];
   function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Check = vue.resolveComponent("Check");
     const _component_nut_scroll_view = vue.resolveComponent("nut-scroll-view");
@@ -2347,7 +2329,7 @@ var __async = (__this, __arguments, generator) => {
         style: vue.normalizeStyle(_ctx.placeholderElementStyle),
         "catch-move": _ctx.parent.props.lockScroll,
         onClick: _cache[0] || (_cache[0] = (...args) => _ctx.handleClickOutside && _ctx.handleClickOutside(...args))
-      }, null, 12, _hoisted_1$1a), [
+      }, null, 12, _hoisted_1$1b), [
         [vue.vShow, _ctx.state.showPopup]
       ]),
       vue.createTextVNode(),
@@ -2368,7 +2350,7 @@ var __async = (__this, __arguments, generator) => {
         default: vue.withCtx(() => [
           vue.createVNode(_component_nut_scroll_view, { "scroll-y": true }, {
             default: vue.withCtx(() => [
-              vue.createElementVNode("view", _hoisted_2$X, [
+              vue.createElementVNode("view", _hoisted_2$Y, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.options, (option, index) => {
                   return vue.openBlock(), vue.createElementBlock("view", {
                     key: index,
@@ -2391,7 +2373,7 @@ var __async = (__this, __arguments, generator) => {
                       class: vue.normalizeClass([option.value === _ctx.modelValue ? _ctx.activeTitleClass : _ctx.inactiveTitleClass]),
                       style: vue.normalizeStyle({ color: option.value === _ctx.modelValue ? _ctx.parent.props.activeColor : "" })
                     }, vue.toDisplayString(option.text), 7)
-                  ], 14, _hoisted_3$J);
+                  ], 14, _hoisted_3$K);
                 }), 128)),
                 vue.createTextVNode(),
                 vue.renderSlot(_ctx.$slots, "default")
@@ -2406,10 +2388,10 @@ var __async = (__this, __arguments, generator) => {
       [vue.vShow, _ctx.state.showWrapper]
     ]);
   }
-  const MenuItem = /* @__PURE__ */ _export_sfc(_sfc_main$1s, [["render", _sfc_render$1n]]);
+  const MenuItem = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["render", _sfc_render$1n]]);
   const TABBAR_KEY = Symbol("nut-tabbar");
   const { create: create$1r } = createComponent("tabbar");
-  const _sfc_main$1r = create$1r({
+  const _sfc_main$1s = create$1r({
     props: {
       modelValue: {
         type: [Number, String],
@@ -2495,7 +2477,7 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$19 = ["id"];
+  const _hoisted_1$1a = ["id"];
   function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: vue.normalizeClass({ "nut-tabbar__placeholder": _ctx.bottom && _ctx.placeholder }),
@@ -2507,12 +2489,12 @@ var __async = (__this, __arguments, generator) => {
         class: vue.normalizeClass(["nut-tabbar", { "nut-tabbar-bottom": _ctx.bottom, "nut-tabbar-safebottom": _ctx.safeAreaInsetBottom }])
       }, [
         vue.renderSlot(_ctx.$slots, "default")
-      ], 10, _hoisted_1$19)
+      ], 10, _hoisted_1$1a)
     ], 6);
   }
-  const Tabbar = /* @__PURE__ */ _export_sfc(_sfc_main$1r, [["render", _sfc_render$1m]]);
+  const Tabbar = /* @__PURE__ */ _export_sfc(_sfc_main$1s, [["render", _sfc_render$1m]]);
   const { create: create$1q } = createComponent("badge");
-  const _sfc_main$1q = create$1q({
+  const _sfc_main$1r = create$1q({
     props: {
       value: {
         type: [String, Number]
@@ -2577,10 +2559,10 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$18 = { class: "nut-badge" };
-  const _hoisted_2$W = ["textContent"];
+  const _hoisted_1$19 = { class: "nut-badge" };
+  const _hoisted_2$X = ["textContent"];
   function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$18, [
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$19, [
       vue.withDirectives(vue.createElementVNode("view", {
         class: "nut-badge__icon",
         style: vue.normalizeStyle(_ctx.stl)
@@ -2596,14 +2578,14 @@ var __async = (__this, __arguments, generator) => {
         class: vue.normalizeClass(["nut-badge__content nut-badge__content--sup", { "nut-badge__content--dot": _ctx.dot, "nut-badge__content--bubble": !_ctx.dot && _ctx.bubble }]),
         style: vue.normalizeStyle(_ctx.stl),
         textContent: vue.toDisplayString(_ctx.content)
-      }, null, 14, _hoisted_2$W), [
+      }, null, 14, _hoisted_2$X), [
         [vue.vShow, !_ctx.hidden && (_ctx.content || _ctx.dot)]
       ])
     ]);
   }
-  const Badge = /* @__PURE__ */ _export_sfc(_sfc_main$1q, [["render", _sfc_render$1l]]);
+  const Badge = /* @__PURE__ */ _export_sfc(_sfc_main$1r, [["render", _sfc_render$1l]]);
   const { create: create$1p } = createComponent("tabbar-item");
-  const _sfc_main$1p = create$1p({
+  const _sfc_main$1q = create$1p({
     components: {
       NutBadge: Badge
     },
@@ -2670,12 +2652,12 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$17 = { class: "nut-tabbar-item_icon-box" };
-  const _hoisted_2$V = {
+  const _hoisted_1$18 = { class: "nut-tabbar-item_icon-box" };
+  const _hoisted_2$W = {
     key: 0,
     class: "nut-tabbar-item_icon-box_icon"
   };
-  const _hoisted_3$I = { key: 1 };
+  const _hoisted_3$J = { key: 1 };
   const _hoisted_4$C = { key: 0 };
   function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_badge = vue.resolveComponent("nut-badge");
@@ -2688,12 +2670,12 @@ var __async = (__this, __arguments, generator) => {
     }, [
       vue.createVNode(_component_nut_badge, vue.normalizeProps(vue.guardReactiveProps(_ctx.$attrs)), {
         default: vue.withCtx(() => [
-          vue.createElementVNode("view", _hoisted_1$17, [
-            _ctx.isHaveSlot("icon") ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$V, [
+          vue.createElementVNode("view", _hoisted_1$18, [
+            _ctx.isHaveSlot("icon") ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$W, [
               vue.renderSlot(_ctx.$slots, "icon", { active: _ctx.active })
             ])) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
-            _ctx.icon && !_ctx.isHaveSlot("icon") ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$I, [
+            _ctx.icon && !_ctx.isHaveSlot("icon") ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$J, [
               (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.renderIcon(_ctx.icon)), { class: "nut-popover-item-img" }))
             ])) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
@@ -2713,11 +2695,11 @@ var __async = (__this, __arguments, generator) => {
       }, 16)
     ], 6);
   }
-  const TabbarItem = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["render", _sfc_render$1k]]);
+  const TabbarItem = /* @__PURE__ */ _export_sfc(_sfc_main$1q, [["render", _sfc_render$1k]]);
   const { create: create$1o } = createComponent("elevator");
-  const _sfc_main$1o = create$1o({
+  const _sfc_main$1p = create$1o({
     components: {
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     props: {
       height: {
@@ -2768,7 +2750,7 @@ var __async = (__this, __arguments, generator) => {
         currentKey: "",
         scrollY: 0
       });
-      const clientHeight2 = vue.computed(() => {
+      const clientHeight = vue.computed(() => {
         return listview.value.clientHeight;
       });
       const fixedStyle = vue.computed(() => {
@@ -2869,7 +2851,7 @@ var __async = (__this, __arguments, generator) => {
         }
       );
       return __spreadProps(__spreadValues({}, vue.toRefs(state)), {
-        clientHeight: clientHeight2,
+        clientHeight,
         fixedStyle,
         setListGroup,
         listview,
@@ -2882,17 +2864,17 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1$16 = { class: "nut-elevator" };
-  const _hoisted_2$U = { class: "nut-elevator__list__item__code" };
-  const _hoisted_3$H = ["onClick"];
+  const _hoisted_1$17 = { class: "nut-elevator" };
+  const _hoisted_2$V = { class: "nut-elevator__list__item__code" };
+  const _hoisted_3$I = ["onClick"];
   const _hoisted_4$B = ["innerHTML"];
   const _hoisted_5$q = { class: "nut-elevator__list__fixed" };
   const _hoisted_6$k = { class: "nut-elevator__list__fixed-title" };
   const _hoisted_7$i = { class: "nut-elevator__bars__inner" };
-  const _hoisted_8$c = ["data-index", "onClick"];
+  const _hoisted_8$d = ["data-index", "onClick"];
   function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_scroll_view = vue.resolveComponent("nut-scroll-view");
-    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$16, [
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$17, [
       vue.createVNode(_component_nut_scroll_view, {
         ref: "listview",
         class: "nut-elevator__list nut-elevator__list--mini",
@@ -2911,7 +2893,7 @@ var __async = (__this, __arguments, generator) => {
               ref: _ctx.setListGroup,
               class: vue.normalizeClass(["nut-elevator__list__item", `elevator__item__${index}`])
             }, [
-              vue.createElementVNode("view", _hoisted_2$U, vue.toDisplayString(item[_ctx.acceptKey]), 1),
+              vue.createElementVNode("view", _hoisted_2$V, vue.toDisplayString(item[_ctx.acceptKey]), 1),
               vue.createTextVNode(),
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(item.list, (subitem) => {
                 return vue.openBlock(), vue.createElementBlock("view", {
@@ -2928,7 +2910,7 @@ var __async = (__this, __arguments, generator) => {
                     key: 1,
                     item: subitem
                   })
-                ], 10, _hoisted_3$H);
+                ], 10, _hoisted_3$I);
               }), 128))
             ], 2);
           }), 128))
@@ -2962,16 +2944,16 @@ var __async = (__this, __arguments, generator) => {
               class: vue.normalizeClass(["nut-elevator__bars__inner__item", { active: item[_ctx.acceptKey] === _ctx.indexList[_ctx.currentIndex][_ctx.acceptKey] }]),
               "data-index": index,
               onClick: ($event) => _ctx.handleClickIndex(item[_ctx.acceptKey])
-            }, vue.toDisplayString(item[_ctx.acceptKey]), 11, _hoisted_8$c);
+            }, vue.toDisplayString(item[_ctx.acceptKey]), 11, _hoisted_8$d);
           }), 128))
         ])
       ], 32)
     ]);
   }
-  const Elevator = /* @__PURE__ */ _export_sfc(_sfc_main$1o, [["render", _sfc_render$1j]]);
+  const Elevator = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["render", _sfc_render$1j]]);
   const { create: create$1n } = createComponent("pagination");
-  const cN$l = "NutPagination";
-  const _sfc_main$1n = create$1n({
+  const cN$m = "NutPagination";
+  const _sfc_main$1o = create$1n({
     props: {
       modelValue: {
         type: Number,
@@ -3013,7 +2995,7 @@ var __async = (__this, __arguments, generator) => {
     components: {},
     emits: ["change", "update:modelValue"],
     setup(props, { emit }) {
-      const translate = useLocale(cN$l);
+      const translate = useLocale(cN$m);
       const { modelValue, mode, showPageSize, forceEllipses } = vue.toRefs(props);
       const countRef = vue.computed(() => {
         const { pageCount, totalItems, itemsPerPage } = vue.toRefs(props);
@@ -3078,19 +3060,19 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$15 = { class: "nut-pagination" };
-  const _hoisted_2$T = {
+  const _hoisted_1$16 = { class: "nut-pagination" };
+  const _hoisted_2$U = {
     key: 0,
     class: "nut-pagination-contain"
   };
-  const _hoisted_3$G = ["onClick"];
+  const _hoisted_3$H = ["onClick"];
   const _hoisted_4$A = {
     key: 1,
     class: "nut-pagination-contain"
   };
   const _hoisted_5$p = { class: "nut-pagination-simple" };
   function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$15, [
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$16, [
       vue.createElementVNode("view", {
         class: vue.normalizeClass(["nut-pagination-prev", _ctx.mode == "multi" ? "" : "simple-border", _ctx.modelValue == 1 ? "disabled" : ""]),
         onClick: _cache[0] || (_cache[0] = ($event) => _ctx.select(_ctx.modelValue - 1, true))
@@ -3100,7 +3082,7 @@ var __async = (__this, __arguments, generator) => {
         ])
       ], 2),
       vue.createTextVNode(),
-      _ctx.mode == "multi" ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$T, [
+      _ctx.mode == "multi" ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$U, [
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.pages, (item, index) => {
           return vue.openBlock(), vue.createElementBlock("view", {
             key: index + "pagination",
@@ -3110,7 +3092,7 @@ var __async = (__this, __arguments, generator) => {
             vue.renderSlot(_ctx.$slots, "page", { item }, () => [
               vue.createTextVNode(vue.toDisplayString(item.text), 1)
             ])
-          ], 10, _hoisted_3$G);
+          ], 10, _hoisted_3$H);
         }), 128))
       ])) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
@@ -3128,7 +3110,7 @@ var __async = (__this, __arguments, generator) => {
       ], 2)
     ]);
   }
-  const Pagination = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["render", _sfc_render$1i]]);
+  const Pagination = /* @__PURE__ */ _export_sfc(_sfc_main$1o, [["render", _sfc_render$1i]]);
   const _window = window;
   function requestAniFrame() {
     if (typeof _window !== "undefined") {
@@ -3320,10 +3302,10 @@ var __async = (__this, __arguments, generator) => {
     }
   }
   const { create: create$1m } = createComponent("tabs");
-  const _sfc_main$1m = create$1m({
+  const _sfc_main$1n = create$1m({
     components: {
       JoySmile: iconsVueTaro.JoySmile,
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     props: {
       modelValue: {
@@ -3492,8 +3474,8 @@ var __async = (__this, __arguments, generator) => {
               to = top - (((_c = navRectRef.value) == null ? void 0 : _c.height) - (titleRect == null ? void 0 : titleRect.height)) / 2;
             } else {
               const DEFAULT_PADDING = 31;
-              const left = titleRects.slice(0, currentIndex.value).reduce((prev, curr) => prev + (curr == null ? void 0 : curr.width) + 20, DEFAULT_PADDING);
-              to = left - (((_d = navRectRef.value) == null ? void 0 : _d.width) - (titleRect == null ? void 0 : titleRect.width)) / 2;
+              const left2 = titleRects.slice(0, currentIndex.value).reduce((prev, curr) => prev + (curr == null ? void 0 : curr.width) + 20, DEFAULT_PADDING);
+              to = left2 - (((_d = navRectRef.value) == null ? void 0 : _d.width) - (titleRect == null ? void 0 : titleRect.width)) / 2;
             }
             vue.nextTick(() => {
               scrollWithAnimation.value = true;
@@ -3631,12 +3613,12 @@ var __async = (__this, __arguments, generator) => {
       }, tabMethods), touchMethods);
     }
   });
-  const _hoisted_1$14 = ["onClick"];
-  const _hoisted_2$S = {
+  const _hoisted_1$15 = ["onClick"];
+  const _hoisted_2$T = {
     key: 0,
     class: "nut-tabs__titles-placeholder"
   };
-  const _hoisted_3$F = ["id"];
+  const _hoisted_3$G = ["id"];
   function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_JoySmile = vue.resolveComponent("JoySmile");
     const _component_nut_scroll_view = vue.resolveComponent("nut-scroll-view");
@@ -3688,10 +3670,10 @@ var __async = (__this, __arguments, generator) => {
                   vue.createElementVNode("view", {
                     class: vue.normalizeClass(["nut-tabs__titles-item__text", { ellipsis: _ctx.ellipsis }])
                   }, vue.toDisplayString(item.title), 3)
-                ], 14, _hoisted_1$14);
+                ], 14, _hoisted_1$15);
               }), 128)),
               vue.createTextVNode(),
-              _ctx.canShowLabel && _ctx.titleScroll ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$S)) : vue.createCommentVNode("", true)
+              _ctx.canShowLabel && _ctx.titleScroll ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$T)) : vue.createCommentVNode("", true)
             ], 64))
           ], 2)
         ]),
@@ -3709,12 +3691,12 @@ var __async = (__this, __arguments, generator) => {
         onTouchcancel: _cache[3] || (_cache[3] = (...args) => _ctx.onTouchEnd && _ctx.onTouchEnd(...args))
       }, [
         vue.renderSlot(_ctx.$slots, "default")
-      ], 44, _hoisted_3$F)
+      ], 44, _hoisted_3$G)
     ], 2);
   }
-  const Tabs = /* @__PURE__ */ _export_sfc(_sfc_main$1m, [["render", _sfc_render$1h]]);
+  const Tabs = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["render", _sfc_render$1h]]);
   const { create: create$1l } = createComponent("tab-pane");
-  const _sfc_main$1l = create$1l({
+  const _sfc_main$1m = create$1l({
     props: {
       title: {
         type: [String, Number],
@@ -3750,9 +3732,9 @@ var __async = (__this, __arguments, generator) => {
       vue.renderSlot(_ctx.$slots, "default")
     ], 6);
   }
-  const TabPane = /* @__PURE__ */ _export_sfc(_sfc_main$1l, [["render", _sfc_render$1g]]);
+  const TabPane = /* @__PURE__ */ _export_sfc(_sfc_main$1m, [["render", _sfc_render$1g]]);
   const { create: create$1k } = createComponent("indicator");
-  const _sfc_main$1k = create$1k({
+  const _sfc_main$1l = create$1k({
     props: {
       size: {
         type: Number,
@@ -3787,11 +3769,11 @@ var __async = (__this, __arguments, generator) => {
       return { classes, padZero };
     }
   });
-  const _hoisted_1$13 = {
+  const _hoisted_1$14 = {
     key: 0,
     class: "nut-indicator--number"
   };
-  const _hoisted_2$R = {
+  const _hoisted_2$S = {
     key: 1,
     class: "nut-indicator--dot"
   };
@@ -3801,14 +3783,14 @@ var __async = (__this, __arguments, generator) => {
     }, [
       (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.size, (item) => {
         return vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: item }, [
-          item === _ctx.current ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$13, vue.toDisplayString(_ctx.fillZero && _ctx.padZero(item) || item), 1)) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$R))
+          item === _ctx.current ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$14, vue.toDisplayString(_ctx.fillZero && _ctx.padZero(item) || item), 1)) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$S))
         ], 64);
       }), 128))
     ], 2);
   }
-  const Indicator = /* @__PURE__ */ _export_sfc(_sfc_main$1k, [["render", _sfc_render$1f]]);
+  const Indicator = /* @__PURE__ */ _export_sfc(_sfc_main$1l, [["render", _sfc_render$1f]]);
   const { create: create$1j } = createComponent("side-navbar");
-  const _sfc_main$1j = create$1j({
+  const _sfc_main$1k = create$1j({
     props: {
       offset: {
         type: [String, Number],
@@ -3850,65 +3832,44 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1$12 = { class: "nut-side-navbar" };
-  const _hoisted_2$Q = { class: "nut-side-navbar__content" };
-  const _hoisted_3$E = {
+  const _hoisted_1$13 = { class: "nut-side-navbar" };
+  const _hoisted_2$R = { class: "nut-side-navbar__content" };
+  const _hoisted_3$F = {
     ref: "list",
     class: "nut-side-navbar__content__list"
   };
   function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$12, [
-      vue.createElementVNode("view", _hoisted_2$Q, [
-        vue.createElementVNode("view", _hoisted_3$E, [
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$13, [
+      vue.createElementVNode("view", _hoisted_2$R, [
+        vue.createElementVNode("view", _hoisted_3$F, [
           vue.renderSlot(_ctx.$slots, "default")
         ], 512)
       ])
     ]);
   }
-  const SideNavbar = /* @__PURE__ */ _export_sfc(_sfc_main$1j, [["render", _sfc_render$1e]]);
+  const SideNavbar = /* @__PURE__ */ _export_sfc(_sfc_main$1k, [["render", _sfc_render$1e]]);
   const { create: create$1i } = createComponent("side-navbar-item");
-  const _sfc_main$1i = create$1i({
+  const _sfc_main$1j = create$1i({
     props: {
       title: {
-        type: String,
-        default: ""
-      },
-      ikey: {
         type: String,
         default: ""
       }
-    },
-    emits: ["click"],
-    setup: (props, { emit }) => {
-      const handleClick = () => {
-        emit("click");
-      };
-      return {
-        handleClick
-      };
     }
   });
-  const _hoisted_1$11 = ["ikey"];
-  const _hoisted_2$P = { class: "nut-side-navbar-item__title" };
+  const _hoisted_1$12 = { class: "nut-side-navbar-item" };
+  const _hoisted_2$Q = { class: "nut-side-navbar-item__title" };
   function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", {
-      class: "nut-side-navbar-item",
-      ikey: _ctx.ikey,
-      onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => _ctx.handleClick && _ctx.handleClick(...args), ["stop"]))
-    }, [
-      vue.createElementVNode("span", _hoisted_2$P, vue.toDisplayString(_ctx.title), 1)
-    ], 8, _hoisted_1$11);
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$12, [
+      vue.createElementVNode("span", _hoisted_2$Q, vue.toDisplayString(_ctx.title), 1)
+    ]);
   }
-  const SideNavbarItem = /* @__PURE__ */ _export_sfc(_sfc_main$1i, [["render", _sfc_render$1d]]);
+  const SideNavbarItem = /* @__PURE__ */ _export_sfc(_sfc_main$1j, [["render", _sfc_render$1d]]);
   const { create: create$1h } = createComponent("sub-side-navbar");
-  const _sfc_main$1h = create$1h({
+  const _sfc_main$1i = create$1h({
     props: {
       title: {
         type: String,
-        default: ""
-      },
-      ikey: {
-        type: [String, Number],
         default: ""
       },
       open: {
@@ -3940,29 +3901,26 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1$10 = ["ikey"];
-  const _hoisted_2$O = { class: "nut-sub-side-navbar__title__text" };
-  const _hoisted_3$D = { class: "nut-sub-side-navbar__title__icon" };
+  const _hoisted_1$11 = { class: "nut-sub-side-navbar" };
+  const _hoisted_2$P = { class: "nut-sub-side-navbar__title__text" };
+  const _hoisted_3$E = { class: "nut-sub-side-navbar__title__icon" };
   function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ArrowDown2 = vue.resolveComponent("ArrowDown2");
     const _component_ArrowUp2 = vue.resolveComponent("ArrowUp2");
-    return vue.openBlock(), vue.createElementBlock("view", {
-      class: "nut-sub-side-navbar",
-      ikey: _ctx.ikey
-    }, [
+    return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$11, [
       vue.createElementVNode("view", {
         class: "nut-sub-side-navbar__title",
         onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => _ctx.handleClick && _ctx.handleClick(...args), ["stop"]))
       }, [
-        vue.createElementVNode("span", _hoisted_2$O, vue.toDisplayString(_ctx.title), 1),
+        vue.createElementVNode("span", _hoisted_2$P, vue.toDisplayString(_ctx.title), 1),
         vue.createTextVNode(),
-        vue.createElementVNode("span", _hoisted_3$D, [
+        vue.createElementVNode("span", _hoisted_3$E, [
           !_ctx.direction ? (vue.openBlock(), vue.createBlock(_component_ArrowDown2, {
             key: 0,
-            size: "12px"
+            size: "10"
           })) : (vue.openBlock(), vue.createBlock(_component_ArrowUp2, {
             key: 1,
-            size: "12px"
+            size: "10"
           }))
         ])
       ]),
@@ -3975,11 +3933,11 @@ var __async = (__this, __arguments, generator) => {
       ], 6), [
         [vue.vShow, !_ctx.direction]
       ])
-    ], 8, _hoisted_1$10);
+    ]);
   }
-  const SubSideNavbar = /* @__PURE__ */ _export_sfc(_sfc_main$1h, [["render", _sfc_render$1c]]);
+  const SubSideNavbar = /* @__PURE__ */ _export_sfc(_sfc_main$1i, [["render", _sfc_render$1c]]);
   const { componentName: componentName$g, create: create$1g } = createComponent("range");
-  const _sfc_main$1g = create$1g({
+  const _sfc_main$1h = create$1g({
     props: {
       range: {
         type: Boolean,
@@ -4106,9 +4064,9 @@ var __async = (__this, __arguments, generator) => {
         let lowerBound = Number(min);
         let upperBound = Number(max);
         if (props.range) {
-          const [left, right] = modelValue;
-          lowerBound = left;
-          upperBound = right;
+          const [left2, right2] = modelValue;
+          lowerBound = left2;
+          upperBound = right2;
         } else {
           upperBound = modelValue;
         }
@@ -4135,9 +4093,9 @@ var __async = (__this, __arguments, generator) => {
         let lowerBound = Number(min);
         let upperBound = Number(max);
         if (props.range) {
-          const [left, right] = modelValue;
-          lowerBound = left;
-          upperBound = right;
+          const [left2, right2] = modelValue;
+          lowerBound = left2;
+          upperBound = right2;
         }
         let isActive = mark <= upperBound && mark >= lowerBound;
         let style = {
@@ -4195,12 +4153,12 @@ var __async = (__this, __arguments, generator) => {
             }
             const value = Number(min) + delta / total * scope.value;
             if (isRange(modelValue)) {
-              const [left, right] = modelValue;
-              const middle = (left + right) / 2;
+              const [left2, right2] = modelValue;
+              const middle = (left2 + right2) / 2;
               if (value <= middle) {
-                updateValue([value, right], true);
+                updateValue([value, right2], true);
               } else {
-                updateValue([left, value], true);
+                updateValue([left2, value], true);
               }
             } else {
               updateValue(value, true);
@@ -4306,12 +4264,12 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1$$ = {
+  const _hoisted_1$10 = {
     key: 0,
     class: "nut-range-min"
   };
-  const _hoisted_2$N = ["id"];
-  const _hoisted_3$C = { class: "nut-range-mark" };
+  const _hoisted_2$O = ["id"];
+  const _hoisted_3$D = { class: "nut-range-mark" };
   const _hoisted_4$z = ["tabindex", "aria-valuemin", "aria-valuenow", "aria-valuemax", "onTouchstart"];
   const _hoisted_5$o = {
     key: 0,
@@ -4322,7 +4280,7 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "number"
   };
-  const _hoisted_8$b = {
+  const _hoisted_8$c = {
     key: 1,
     class: "nut-range-max"
   };
@@ -4330,7 +4288,7 @@ var __async = (__this, __arguments, generator) => {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: vue.normalizeClass(_ctx.containerClasses)
     }, [
-      !_ctx.hiddenRange ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$$, vue.toDisplayString(+_ctx.min), 1)) : vue.createCommentVNode("", true),
+      !_ctx.hiddenRange ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$10, vue.toDisplayString(+_ctx.min), 1)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
       vue.createElementVNode("view", {
         id: "root-" + _ctx.refRandomId,
@@ -4339,7 +4297,7 @@ var __async = (__this, __arguments, generator) => {
         class: vue.normalizeClass(_ctx.classes),
         onClick: _cache[9] || (_cache[9] = vue.withModifiers((...args) => _ctx.onClick && _ctx.onClick(...args), ["stop"]))
       }, [
-        vue.createElementVNode("view", _hoisted_3$C, [
+        vue.createElementVNode("view", _hoisted_3$D, [
           _ctx.marksList.length > 0 ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 0 }, vue.renderList(_ctx.marksList, (marks) => {
             return vue.openBlock(), vue.createElementBlock("span", {
               key: marks,
@@ -4419,15 +4377,15 @@ var __async = (__this, __arguments, generator) => {
             ], 4))
           ], 40, _hoisted_6$j))
         ], 4)
-      ], 14, _hoisted_2$N),
+      ], 14, _hoisted_2$O),
       vue.createTextVNode(),
-      !_ctx.hiddenRange ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_8$b, vue.toDisplayString(+_ctx.max), 1)) : vue.createCommentVNode("", true)
+      !_ctx.hiddenRange ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_8$c, vue.toDisplayString(+_ctx.max), 1)) : vue.createCommentVNode("", true)
     ], 2);
   }
-  const Range = /* @__PURE__ */ _export_sfc(_sfc_main$1g, [["render", _sfc_render$1b]]);
+  const Range = /* @__PURE__ */ _export_sfc(_sfc_main$1h, [["render", _sfc_render$1b]]);
   const { create: create$1f } = createComponent("searchbar");
-  const cN$k = "NutSearchbar";
-  const _sfc_main$1f = create$1f({
+  const cN$l = "NutSearchbar";
+  const _sfc_main$1g = create$1f({
     props: {
       modelValue: {
         type: [String, Number],
@@ -4510,7 +4468,7 @@ var __async = (__this, __arguments, generator) => {
       "clickRightIcon"
     ],
     setup(props, { emit }) {
-      const translate = useLocale(cN$k);
+      const translate = useLocale(cN$l);
       const state = vue.reactive({
         active: false
       });
@@ -4602,15 +4560,15 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1$_ = {
+  const _hoisted_1$$ = {
     key: 0,
     class: "nut-searchbar__search-icon nut-searchbar__left-search-icon"
   };
-  const _hoisted_2$M = {
+  const _hoisted_2$N = {
     key: 0,
     class: "nut-searchbar__search-icon nut-searchbar__iptleft-search-icon"
   };
-  const _hoisted_3$B = ["type", "maxlength", "placeholder", "value", "confirm-type", "disabled", "readonly", "cursor-spacing"];
+  const _hoisted_3$C = ["type", "maxlength", "placeholder", "value", "confirm-type", "disabled", "readonly", "cursor-spacing"];
   const _hoisted_4$y = {
     key: 1,
     class: "nut-searchbar__search-icon nut-searchbar__iptright-search-icon"
@@ -4624,7 +4582,7 @@ var __async = (__this, __arguments, generator) => {
       class: vue.normalizeClass(["nut-searchbar", { "safe-area-inset-bottom": _ctx.safeAreaInsetBottom }]),
       style: vue.normalizeStyle(_ctx.searchbarStyle)
     }, [
-      _ctx.$slots.leftout ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$_, [
+      _ctx.$slots.leftout ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$$, [
         vue.renderSlot(_ctx.$slots, "leftout")
       ])) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
@@ -4632,7 +4590,7 @@ var __async = (__this, __arguments, generator) => {
         class: vue.normalizeClass([`nut-searchbar__search-input`, _ctx.shape]),
         style: vue.normalizeStyle(__spreadValues(__spreadValues({}, _ctx.inputSearchbarStyle), _ctx.focusCss))
       }, [
-        _ctx.$slots.leftin ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$M, [
+        _ctx.$slots.leftin ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$N, [
           vue.renderSlot(_ctx.$slots, "leftin")
         ])) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
@@ -4662,7 +4620,7 @@ var __async = (__this, __arguments, generator) => {
               onFocus: _cache[2] || (_cache[2] = (...args) => _ctx.valueFocus && _ctx.valueFocus(...args)),
               onBlur: _cache[3] || (_cache[3] = (...args) => _ctx.valueBlur && _ctx.valueBlur(...args)),
               onConfirm: _cache[4] || (_cache[4] = (...args) => _ctx.handleSubmit && _ctx.handleSubmit(...args))
-            }, null, 46, _hoisted_3$B)
+            }, null, 46, _hoisted_3$C)
           ], 32)
         ], 2),
         vue.createTextVNode(),
@@ -4690,7 +4648,7 @@ var __async = (__this, __arguments, generator) => {
       ])) : vue.createCommentVNode("", true)
     ], 6);
   }
-  const Searchbar = /* @__PURE__ */ _export_sfc(_sfc_main$1f, [["render", _sfc_render$1a]]);
+  const Searchbar = /* @__PURE__ */ _export_sfc(_sfc_main$1g, [["render", _sfc_render$1a]]);
   const formatTree = (tree, parent, config) => tree.map((node) => {
     const { value: valueKey = "value", text: textKey = "text", children: childrenKey = "children" } = config;
     const _a = node, { [valueKey]: value, [textKey]: text, [childrenKey]: children } = _a, others = __objRest(_a, [__restKey(valueKey), __restKey(textKey), __restKey(childrenKey)]);
@@ -4811,13 +4769,13 @@ var __async = (__this, __arguments, generator) => {
     }
   }
   const { create: create$1e } = createComponent("cascader-item");
-  const _sfc_main$1e = create$1e({
+  const _sfc_main$1f = create$1e({
     components: {
       Loading: iconsVueTaro.Loading,
       Checklist: iconsVueTaro.Checklist,
       NutTabs: Tabs,
       NutTabPane: TabPane,
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     props: {
       visible: Boolean,
@@ -5049,12 +5007,12 @@ var __async = (__this, __arguments, generator) => {
       return __spreadValues({ panes, initLoading, tabsCursor }, methods);
     }
   });
-  const _hoisted_1$Z = {
+  const _hoisted_1$_ = {
     role: "menu",
     class: "nut-cascader-pane"
   };
-  const _hoisted_2$L = ["aria-checked", "aria-disabled", "onClick"];
-  const _hoisted_3$A = { class: "nut-cascader-item__title" };
+  const _hoisted_2$M = ["aria-checked", "aria-disabled", "onClick"];
+  const _hoisted_3$B = { class: "nut-cascader-item__title" };
   const _hoisted_4$x = /* @__PURE__ */ vue.createElementVNode("view", { class: "nut-cascader-pane" }, null, -1);
   function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Loading = vue.resolveComponent("Loading");
@@ -5076,7 +5034,7 @@ var __async = (__this, __arguments, generator) => {
             title: _ctx.formatTabTitle(pane)
           }, {
             default: vue.withCtx(() => [
-              vue.createElementVNode("view", _hoisted_1$Z, [
+              vue.createElementVNode("view", _hoisted_1$_, [
                 vue.createVNode(_component_nut_scroll_view, {
                   "scroll-y": true,
                   style: { "height": "100%" }
@@ -5091,7 +5049,7 @@ var __async = (__this, __arguments, generator) => {
                         role: "menuitemradio",
                         onClick: ($event) => _ctx.handleNode(node, false)
                       }, [
-                        vue.createElementVNode("view", _hoisted_3$A, vue.toDisplayString(node.text), 1),
+                        vue.createElementVNode("view", _hoisted_3$B, vue.toDisplayString(node.text), 1),
                         vue.createTextVNode(),
                         node.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, {
                           key: 0,
@@ -5102,7 +5060,7 @@ var __async = (__this, __arguments, generator) => {
                           class: "nut-cascader-item__icon-check",
                           name: "checklist"
                         }))
-                      ], 10, _hoisted_2$L);
+                      ], 10, _hoisted_2$M);
                     }), 128))
                   ]),
                   _: 2
@@ -5124,9 +5082,9 @@ var __async = (__this, __arguments, generator) => {
       _: 1
     }, 8, ["modelValue", "onClick"]);
   }
-  const NutCascaderItem = /* @__PURE__ */ _export_sfc(_sfc_main$1e, [["render", _sfc_render$19]]);
+  const NutCascaderItem = /* @__PURE__ */ _export_sfc(_sfc_main$1f, [["render", _sfc_render$19]]);
   const { create: create$1d } = createComponent("cascader");
-  const _sfc_main$1d = create$1d({
+  const _sfc_main$1e = create$1d({
     components: {
       NutCascaderItem,
       NutPopup: Popup
@@ -5195,7 +5153,7 @@ var __async = (__this, __arguments, generator) => {
       };
     }
   });
-  const _hoisted_1$Y = ["innerHTML"];
+  const _hoisted_1$Z = ["innerHTML"];
   function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_cascader_item = vue.resolveComponent("nut-cascader-item");
     const _component_nut_popup = vue.resolveComponent("nut-popup");
@@ -5207,7 +5165,6 @@ var __async = (__this, __arguments, generator) => {
       "pop-class": "nut-cascader__popup",
       round: "",
       closeable: _ctx.closeable,
-      "close-icon": _ctx.closeIcon,
       "destroy-on-close": false,
       "close-icon-position": _ctx.closeIconPosition,
       "lock-scroll": _ctx.lockScroll,
@@ -5219,7 +5176,7 @@ var __async = (__this, __arguments, generator) => {
           key: 0,
           class: "nut-cascader__bar",
           innerHTML: _ctx.title
-        }, null, 8, _hoisted_1$Y)) : vue.createCommentVNode("", true),
+        }, null, 8, _hoisted_1$Z)) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
         vue.createVNode(_component_nut_cascader_item, {
           "model-value": _ctx.innerValue,
@@ -5236,7 +5193,7 @@ var __async = (__this, __arguments, generator) => {
         }, null, 8, ["model-value", "options", "lazy", "lazy-load", "value-key", "text-key", "children-key", "convert-config", "visible", "onChange", "onPathChange"])
       ]),
       _: 1
-    }, 8, ["visible", "closeable", "close-icon", "close-icon-position", "lock-scroll", "catch-move", "z-index"])) : (vue.openBlock(), vue.createBlock(_component_nut_cascader_item, {
+    }, 8, ["visible", "closeable", "close-icon-position", "lock-scroll", "catch-move", "z-index"])) : (vue.openBlock(), vue.createBlock(_component_nut_cascader_item, {
       key: 1,
       "model-value": _ctx.innerValue,
       options: _ctx.options,
@@ -5251,7 +5208,7 @@ var __async = (__this, __arguments, generator) => {
       onPathChange: _ctx.onPathChange
     }, null, 8, ["model-value", "options", "lazy", "lazy-load", "value-key", "text-key", "children-key", "convert-config", "visible", "onChange", "onPathChange"]));
   }
-  const Cascader = /* @__PURE__ */ _export_sfc(_sfc_main$1d, [["render", _sfc_render$18]]);
+  const Cascader = /* @__PURE__ */ _export_sfc(_sfc_main$1e, [["render", _sfc_render$18]]);
   const Utils = {
     /**
      * 是否为闫年
@@ -5395,11 +5352,11 @@ var __async = (__this, __arguments, generator) => {
     }
   };
   const { create: create$1c } = createComponent("calendar-item");
-  const cN$j = "NutCalendarItem";
+  const cN$k = "NutCalendarItem";
   const TARO_ENV = Taro.getEnv();
-  const _sfc_main$1c = create$1c({
+  const _sfc_main$1d = create$1c({
     components: {
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     props: {
       type: {
@@ -5466,7 +5423,7 @@ var __async = (__this, __arguments, generator) => {
     },
     emits: ["choose", "update", "close", "select"],
     setup(props, { emit, slots, expose }) {
-      const translate = useLocale(cN$j);
+      const translate = useLocale(cN$k);
       const weekdays = translate("weekdays").map((day, index) => ({
         day,
         weekend: index === 0 || index === 6
@@ -6045,12 +6002,12 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1$X = { class: "nut-calendar__header" };
-  const _hoisted_2$K = {
+  const _hoisted_1$Y = { class: "nut-calendar__header" };
+  const _hoisted_2$L = {
     key: 0,
     class: "nut-calendar__header-title"
   };
-  const _hoisted_3$z = {
+  const _hoisted_3$A = {
     key: 1,
     class: "nut-calendar__header-slot"
   };
@@ -6061,17 +6018,17 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_5$m = { class: "nut-calendar__weekdays" };
   const _hoisted_6$i = { class: "nut-calendar__month-title" };
   const _hoisted_7$g = { class: "nut-calendar__days" };
-  const _hoisted_8$a = ["onClick"];
-  const _hoisted_9$9 = { class: "nut-calendar__day-value" };
-  const _hoisted_10$5 = {
+  const _hoisted_8$b = ["onClick"];
+  const _hoisted_9$a = { class: "nut-calendar__day-value" };
+  const _hoisted_10$6 = {
     key: 0,
     class: "nut-calendar__day-tips nut-calendar__day-tips--top"
   };
-  const _hoisted_11$4 = {
+  const _hoisted_11$5 = {
     key: 1,
     class: "nut-calendar__day-tips nut-calendar__day-tips--bottom"
   };
-  const _hoisted_12$4 = {
+  const _hoisted_12$5 = {
     key: 2,
     class: "nut-calendar__day-tips--curr"
   };
@@ -6091,10 +6048,10 @@ var __async = (__this, __arguments, generator) => {
         "nut-calendar--nofooter": _ctx.isAutoBackFill
       }])
     }, [
-      vue.createElementVNode("view", _hoisted_1$X, [
-        _ctx.showTitle ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$K, vue.toDisplayString(_ctx.title || _ctx.translate("title")), 1)) : vue.createCommentVNode("", true),
+      vue.createElementVNode("view", _hoisted_1$Y, [
+        _ctx.showTitle ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$L, vue.toDisplayString(_ctx.title || _ctx.translate("title")), 1)) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
-        _ctx.showTopBtn ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$z, [
+        _ctx.showTopBtn ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$A, [
           vue.renderSlot(_ctx.$slots, "btn")
         ])) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
@@ -6144,7 +6101,7 @@ var __async = (__this, __arguments, generator) => {
                           class: vue.normalizeClass(["nut-calendar__day", _ctx.getClass(day, month, i)]),
                           onClick: ($event) => _ctx.chooseDay(day, month)
                         }, [
-                          vue.createElementVNode("view", _hoisted_9$9, [
+                          vue.createElementVNode("view", _hoisted_9$a, [
                             vue.renderSlot(_ctx.$slots, "day", {
                               date: day.type == "curr" ? day : ""
                             }, () => [
@@ -6152,19 +6109,19 @@ var __async = (__this, __arguments, generator) => {
                             ])
                           ]),
                           vue.createTextVNode(),
-                          _ctx.topInfo ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_10$5, [
+                          _ctx.topInfo ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_10$6, [
                             vue.renderSlot(_ctx.$slots, "top-info", {
                               date: day.type == "curr" ? day : ""
                             })
                           ])) : vue.createCommentVNode("", true),
                           vue.createTextVNode(),
-                          _ctx.bottomInfo ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_11$4, [
+                          _ctx.bottomInfo ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_11$5, [
                             vue.renderSlot(_ctx.$slots, "bottom-info", {
                               date: day.type == "curr" ? day : ""
                             })
                           ])) : vue.createCommentVNode("", true),
                           vue.createTextVNode(),
-                          !_ctx.bottomInfo && _ctx.showToday && _ctx.isCurrDay(day) ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_12$4, vue.toDisplayString(_ctx.translate("today")), 1)) : vue.createCommentVNode("", true),
+                          !_ctx.bottomInfo && _ctx.showToday && _ctx.isCurrDay(day) ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_12$5, vue.toDisplayString(_ctx.translate("today")), 1)) : vue.createCommentVNode("", true),
                           vue.createTextVNode(),
                           _ctx.isStartTip(day, month) ? (vue.openBlock(), vue.createElementBlock("view", {
                             key: 3,
@@ -6172,7 +6129,7 @@ var __async = (__this, __arguments, generator) => {
                           }, vue.toDisplayString(_ctx.startText || _ctx.translate("start")), 3)) : vue.createCommentVNode("", true),
                           vue.createTextVNode(),
                           _ctx.isEndTip(day, month) ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_13$3, vue.toDisplayString(_ctx.endText || _ctx.translate("end")), 1)) : vue.createCommentVNode("", true)
-                        ], 10, _hoisted_8$a);
+                        ], 10, _hoisted_8$b);
                       }), 128))
                     ], 2)
                   ])
@@ -6194,9 +6151,9 @@ var __async = (__this, __arguments, generator) => {
       ])) : vue.createCommentVNode("", true)
     ], 2);
   }
-  const NutCalendarItem = /* @__PURE__ */ _export_sfc(_sfc_main$1c, [["render", _sfc_render$17]]);
+  const NutCalendarItem = /* @__PURE__ */ _export_sfc(_sfc_main$1d, [["render", _sfc_render$17]]);
   const { create: create$1b } = createComponent("calendar");
-  const _sfc_main$1b = create$1b({
+  const _sfc_main$1c = create$1b({
     components: {
       NutCalendarItem,
       NutPopup: Popup
@@ -6274,6 +6231,14 @@ var __async = (__this, __arguments, generator) => {
     },
     emits: ["choose", "close", "update:visible", "select"],
     setup(props, { emit, slots, expose }) {
+      const visible = vue.computed({
+        get() {
+          return props.visible;
+        },
+        set(val) {
+          emit("update:visible", val);
+        }
+      });
       const showTopBtn = vue.computed(() => {
         return slots.btn;
       });
@@ -6319,8 +6284,22 @@ var __async = (__this, __arguments, generator) => {
       const select = (param) => {
         emit("select", param);
       };
+      const opened = () => {
+        var _a, _b, _c, _d;
+        if (props.defaultValue) {
+          if (Array.isArray(props.defaultValue)) {
+            if ((_a = props.defaultValue) == null ? void 0 : _a.length) {
+              (_c = calendarRef.value) == null ? void 0 : _c.scrollToDate((_b = props.defaultValue) == null ? void 0 : _b[0]);
+            }
+          } else {
+            (_d = calendarRef.value) == null ? void 0 : _d.scrollToDate(props.defaultValue);
+          }
+        }
+      };
       return {
+        visible,
         closePopup,
+        opened,
         update,
         close,
         select,
@@ -6340,6 +6319,7 @@ var __async = (__this, __arguments, generator) => {
     return _ctx.poppable ? (vue.openBlock(), vue.createBlock(_component_nut_popup, vue.mergeProps({
       key: 0,
       visible: _ctx.visible,
+      "onUpdate:visible": _cache[0] || (_cache[0] = ($event) => _ctx.visible = $event),
       position: "bottom",
       round: "",
       closeable: ""
@@ -6347,8 +6327,8 @@ var __async = (__this, __arguments, generator) => {
       style: { height: "85vh" },
       "lock-scroll": _ctx.lockScroll,
       "catch-move": _ctx.lockScroll,
-      onClickOverlay: _ctx.closePopup,
-      onClickCloseIcon: _ctx.closePopup
+      "destroy-on-close": false,
+      onOpened: _ctx.opened
     }), {
       default: vue.withCtx(() => [
         vue.createVNode(_component_nut_calendar_item, {
@@ -6420,7 +6400,7 @@ var __async = (__this, __arguments, generator) => {
         ]), 1032, ["type", "is-auto-back-fill", "poppable", "title", "default-value", "start-date", "end-date", "confirm-text", "start-text", "end-text", "show-today", "show-title", "show-sub-title", "to-date-animation", "first-day-of-week", "disabled-date", "onUpdate", "onClose", "onChoose", "onSelect"])
       ]),
       _: 3
-    }, 16, ["visible", "lock-scroll", "catch-move", "onClickOverlay", "onClickCloseIcon"])) : (vue.openBlock(), vue.createBlock(_component_nut_calendar_item, {
+    }, 16, ["visible", "lock-scroll", "catch-move", "onOpened"])) : (vue.openBlock(), vue.createBlock(_component_nut_calendar_item, {
       key: 1,
       ref: "calendarRef",
       type: _ctx.type,
@@ -6479,7 +6459,461 @@ var __async = (__this, __arguments, generator) => {
       } : void 0
     ]), 1032, ["type", "is-auto-back-fill", "poppable", "title", "confirm-text", "start-text", "end-text", "default-value", "start-date", "end-date", "show-title", "show-sub-title", "to-date-animation", "show-today", "first-day-of-week", "disabled-date", "onClose", "onChoose", "onSelect"]));
   }
-  const Calendar = /* @__PURE__ */ _export_sfc(_sfc_main$1b, [["render", _sfc_render$16]]);
+  const Calendar = /* @__PURE__ */ _export_sfc(_sfc_main$1c, [["render", _sfc_render$16]]);
+  const left = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBkPSJNNi42MDUgOS40OWEuNzcxLjc3MSAwIDAgMSAwLS45OGwzLjYtNC4zNzJhLjc3MS43NzEgMCAwIDEgMS4xOS45ODFMOC4yIDlsMy4xOTcgMy44ODFhLjc3MS43NzEgMCAxIDEtMS4xOTEuOThsLTMuNi00LjM3eiIvPjwvc3ZnPg==";
+  const right = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBkPSJNMTEuMzk2IDkuNDlhLjc3MS43NzEgMCAwIDAgMC0uOThsLTMuNi00LjM3MmEuNzcxLjc3MSAwIDAgMC0xLjE5MS45ODFMOS44IDlsLTMuMTk2IDMuODgxYS43NzEuNzcxIDAgMCAwIDEuMTkuOThsMy42LTQuMzd6Ii8+PC9zdmc+";
+  const doubleLeft = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBkPSJNMTMuODUzIDQuMDI2YS43NzEuNzcxIDAgMCAxIC4xMiAxLjA4NUwxMC44NjQgOWwzLjExIDMuODg5YS43NzEuNzcxIDAgMSAxLTEuMjA0Ljk2M2wtMy40OTgtNC4zN2EuNzcxLjc3MSAwIDAgMSAwLS45NjRsMy40OTctNC4zNzFhLjc3MS43NzEgMCAwIDEgMS4wODQtLjEyem0tNS4yNDUgMGEuNzcxLjc3MSAwIDAgMSAuMTIgMS4wODVMNS42MTcgOWwzLjExMSAzLjg4OWEuNzcxLjc3MSAwIDAgMS0xLjIwNS45NjNsLTMuNDk3LTQuMzdhLjc3MS43NzEgMCAwIDEgMC0uOTY0bDMuNDk3LTQuMzcxYS43NzEuNzcxIDAgMCAxIDEuMDg1LS4xMnoiLz48L3N2Zz4=";
+  const doubleRight = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBkPSJNNC4xNDcgMTMuOTc0YS43NzEuNzcxIDAgMCAxLS4xMi0xLjA4NUw3LjEzNiA5IDQuMDI4IDUuMTFhLjc3MS43NzEgMCAxIDEgMS4yMDQtLjk2M2wzLjQ5NyA0LjM3MWEuNzcxLjc3MSAwIDAgMSAwIC45NjRsLTMuNDk3IDQuMzcxYS43NzEuNzcxIDAgMCAxLTEuMDg0LjEyem01LjI0NSAwYS43NzEuNzcxIDAgMCAxLS4xMi0xLjA4NUwxMi4zODMgOSA5LjI3MiA1LjExYS43NzEuNzcxIDAgMSAxIDEuMjA1LS45NjNsMy40OTcgNC4zNzFhLjc3MS43NzEgMCAwIDEgMCAuOTY0bC0zLjQ5NyA0LjM3MWEuNzcxLjc3MSAwIDAgMS0xLjA4NS4xMnoiLz48L3N2Zz4=";
+  const Icon = (url) => {
+    const style = {
+      background: `url('${url}') no-repeat center`,
+      backgroundSize: "100% 100%",
+      width: "18px",
+      height: "18px",
+      display: "block"
+    };
+    return vue.h("view", {
+      style
+    });
+  };
+  const Left = () => {
+    return Icon(left);
+  };
+  const Right = () => {
+    return Icon(right);
+  };
+  const DoubleLeft = () => {
+    return Icon(doubleLeft);
+  };
+  const DoubleRight = () => {
+    return Icon(doubleRight);
+  };
+  const convertDateToDay = (date) => {
+    return date ? {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      date: date.getDate()
+    } : null;
+  };
+  const convertDayToDate = (day) => {
+    return day ? new Date(day.year, day.month - 1, day.date) : null;
+  };
+  const valueToRange = (val) => {
+    if (Array.isArray(val)) {
+      return val.map((date) => {
+        return convertDateToDay(date);
+      });
+    }
+    return val ? [convertDateToDay(val)] : [];
+  };
+  const rangeTovalue = (range) => {
+    if (Array.isArray(range)) {
+      return range.map((day) => {
+        return convertDayToDate(day);
+      });
+    }
+    return range ? [convertDayToDate(range)] : [];
+  };
+  const getPrevMonthDays = (year, month, firstDayOfWeek) => {
+    let prevMonth = month - 1;
+    let prevYear = year;
+    if (prevMonth <= 0) {
+      prevMonth = 12;
+      prevYear -= 1;
+    }
+    let days = Utils.getMonthPreDay(year, month);
+    days -= firstDayOfWeek;
+    if (days >= 7) {
+      days -= 7;
+    }
+    const preDates = Utils.getMonthDays(`${prevYear}`, `${prevMonth}`);
+    const months = Array.from(Array(preDates), (_, k) => {
+      return {
+        type: "prev",
+        year: prevYear,
+        month: prevMonth,
+        date: k + 1
+      };
+    });
+    return months.slice(preDates - days);
+  };
+  const getCurrentMonthDays = (year, month) => {
+    const days = Utils.getMonthDays(`${year}`, `${month}`);
+    return Array.from(Array(days), (_, k) => {
+      return {
+        type: "current",
+        year,
+        month,
+        date: k + 1
+      };
+    });
+  };
+  const getCurrentWeekDays = (day, firstDayOfWeek) => {
+    const current = new Date(day.year, day.month - 1, day.date);
+    const count = (current.getDay() + 7 - firstDayOfWeek) % 7;
+    return [
+      convertDateToDay(new Date(current.getTime() - 24 * 60 * 60 * 1e3 * count)),
+      convertDateToDay(new Date(current.getTime() + 24 * 60 * 60 * 1e3 * (6 - count)))
+    ];
+  };
+  const getDays = (month, firstDayOfWeek) => {
+    const y = month.year;
+    const m = month.month;
+    const days = [...getPrevMonthDays(y, m, firstDayOfWeek), ...getCurrentMonthDays(y, m)];
+    const size = days.length;
+    const yearOfNextMonth = month.month === 12 ? month.year + 1 : month.year;
+    const monthOfNextMonth = month.month === 12 ? 1 : month.month + 1;
+    for (let i = 1; i <= 42 - size; i++) {
+      days.push({
+        type: "next",
+        year: yearOfNextMonth,
+        month: monthOfNextMonth,
+        date: i
+      });
+    }
+    return days;
+  };
+  const compareDay = (day1, day2) => {
+    if (day1 && day2) {
+      if (day1.year === day2.year) {
+        if (day1.month === day2.month) {
+          return day1.date - day2.date;
+        }
+        return day1.month - day2.month;
+      }
+      return day1.year - day2.year;
+    }
+  };
+  const isSameDay = (day1, day2) => {
+    return compareDay(day1, day2) === 0;
+  };
+  const _hoisted_1$X = { class: "nut-calendarcard" };
+  const _hoisted_2$K = { class: "nut-calendarcard-header" };
+  const _hoisted_3$z = { class: "nut-calendarcard-header-left" };
+  const _hoisted_4$v = { class: "nut-calendarcard-header-title" };
+  const _hoisted_5$l = { class: "nut-calendarcard-header-right" };
+  const _hoisted_6$h = { class: "nut-calendarcard-content" };
+  const _hoisted_7$f = { class: "nut-calendarcard-days" };
+  const _hoisted_8$a = { class: "nut-calendarcard-days" };
+  const _hoisted_9$9 = ["onClick"];
+  const _hoisted_10$5 = { class: "nut-calendarcard-day-top" };
+  const _hoisted_11$4 = { class: "nut-calendarcard-day-inner" };
+  const _hoisted_12$4 = { class: "nut-calendarcard-day-bottom" };
+  const cN$j = "NutCalendarCard";
+  const _sfc_main$1b = /* @__PURE__ */ vue.defineComponent(__spreadProps(__spreadValues({}, {
+    name: cN$j
+  }), {
+    __name: "calendar-card.taro",
+    props: {
+      type: { default: "single" },
+      firstDayOfWeek: { default: 0 },
+      modelValue: { default: null },
+      startDate: { default: null },
+      endDate: { default: null },
+      disableDay: { type: Function, default: () => false }
+    },
+    emits: ["update:modelValue", "change", "dayClick", "pageChange"],
+    setup(__props, { expose: __expose, emit: __emit }) {
+      const props = __props;
+      const emit = __emit;
+      const translate = useLocale(cN$j);
+      const initMonth = () => {
+        let date = new Date(Date.now());
+        const val = props.modelValue;
+        if (Array.isArray(val)) {
+          if (val.length) {
+            date = val[0];
+          }
+        } else if (val) {
+          date = val;
+        }
+        return {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1
+        };
+      };
+      const month = vue.ref(initMonth());
+      const days = vue.ref([]);
+      const weekHeader = vue.computed(() => {
+        const weekdays = translate("weekdays").map((day, index) => {
+          return {
+            name: day,
+            key: index
+          };
+        });
+        return [...weekdays.slice(props.firstDayOfWeek, 7), ...weekdays.slice(0, props.firstDayOfWeek)];
+      });
+      const innerValue = vue.ref(props.modelValue ? valueToRange(props.modelValue) : []);
+      vue.watchEffect(() => {
+        const val = props.modelValue ? valueToRange(props.modelValue) : [];
+        innerValue.value = val;
+      });
+      const change = (v) => {
+        innerValue.value = v;
+        if (props.type === "single") {
+          const date = convertDayToDate(v[0]);
+          emit("update:modelValue", date);
+          emit("change", date);
+        } else if (props.type === "multiple" || props.type === "range" || props.type === "week") {
+          const val = rangeTovalue(v);
+          emit("update:modelValue", val);
+          emit("change", val);
+        }
+      };
+      vue.watchEffect(() => {
+        const newDays = getDays(month.value, props.firstDayOfWeek);
+        days.value = newDays;
+        emit("pageChange", month.value);
+      });
+      const isDisable = (day) => {
+        if (props.disableDay && props.disableDay(day)) {
+          return true;
+        }
+        if (props.startDate && Number(compareDay(day, convertDateToDay(props.startDate))) < 0) {
+          return true;
+        }
+        if (props.endDate && Number(compareDay(day, convertDateToDay(props.endDate))) > 0) {
+          return true;
+        }
+        return false;
+      };
+      const isActive = (day) => {
+        if (props.type === "single" || props.type === "multiple") {
+          for (const val in innerValue.value) {
+            if (isSameDay(day, innerValue.value[val])) {
+              return true;
+            }
+          }
+        } else if (props.type === "range" && innerValue.value.length === 1 && isSameDay(innerValue.value[0], day)) {
+          return true;
+        }
+        return false;
+      };
+      const isStart = (day) => {
+        return (props.type === "range" || props.type === "week") && innerValue.value.length === 2 && isSameDay(day, innerValue.value[0]);
+      };
+      const isEnd = (day) => {
+        return (props.type === "range" || props.type === "week") && innerValue.value.length === 2 && isSameDay(day, innerValue.value[1]);
+      };
+      const isMid = (day) => {
+        if (props.type === "range" || props.type === "week") {
+          if (innerValue.value.length === 2) {
+            const c1 = compareDay(innerValue.value[0], day);
+            const c2 = compareDay(day, innerValue.value[1]);
+            if (c1 && c1 < 0 && c2 && c2 < 0) {
+              return true;
+            }
+          }
+        }
+        return false;
+      };
+      const isWeekend = (day) => {
+        const d = new Date(day.year, day.month - 1, day.date).getDay();
+        return d === 0 || d === 6;
+      };
+      const getClasses = (day) => {
+        if (isDisable(day)) {
+          return ["disabled"];
+        }
+        const res = [];
+        if (day.type === "current") {
+          if (isActive(day)) {
+            res.push("active");
+          }
+          if (isStart(day)) {
+            res.push("start");
+          }
+          if (isEnd(day)) {
+            res.push("end");
+          }
+          if (isMid(day)) {
+            res.push("mid");
+          }
+          if (isWeekend(day)) {
+            res.push("weekend");
+          }
+        }
+        return res;
+      };
+      const jumpTo = (y, m) => {
+        if (props.startDate) {
+          const c = compareDay(
+            {
+              year: y,
+              month: m,
+              date: 31
+            },
+            convertDateToDay(props.startDate)
+          );
+          if (c && c < 0) {
+            return;
+          }
+        }
+        if (props.endDate) {
+          const c = compareDay(
+            {
+              year: y,
+              month: m,
+              date: 1
+            },
+            convertDateToDay(props.endDate)
+          );
+          if (c && c > 0) {
+            return;
+          }
+        }
+        month.value = {
+          year: y,
+          month: m
+        };
+      };
+      const jump = (step = 1) => {
+        const current = month.value.year * 12 + month.value.month;
+        let newMonth = (current + step) % 12;
+        if (newMonth === 0) {
+          newMonth = 12;
+        }
+        const newYear = Math.floor((current + step - newMonth) / 12);
+        jumpTo(newYear, newMonth);
+      };
+      const handleDayClick = (day) => {
+        if (day.type === "prev" || day.type === "next" || isDisable(day)) {
+          return;
+        }
+        emit("dayClick", day);
+        switch (props.type) {
+          case "single": {
+            if (innerValue.value[0] && isSameDay(innerValue.value[0], day)) {
+              change([]);
+            } else {
+              change([day]);
+            }
+            break;
+          }
+          case "multiple": {
+            const t = innerValue.value.find((i) => isSameDay(i, day));
+            if (t) {
+              change(innerValue.value.filter((i) => i !== t));
+            } else {
+              change([...innerValue.value, day]);
+            }
+            break;
+          }
+          case "range": {
+            const len = innerValue.value.length;
+            if (len === 0 || len === 2) {
+              change([day]);
+            } else if (len === 1) {
+              const t = compareDay(innerValue.value[0], day);
+              if (t === 0 || t === null || t === void 0) {
+                change([]);
+              } else if (t < 0) {
+                change([innerValue.value[0], day]);
+              } else {
+                change([day, innerValue.value[0]]);
+              }
+            } else {
+              console.warn("[NutUI] Calendar range error");
+            }
+            break;
+          }
+          case "week": {
+            if (innerValue.value.length === 2 || innerValue.value.length === 0) {
+              const [left2, right2] = getCurrentWeekDays(day, props.firstDayOfWeek);
+              change([left2, right2]);
+            } else {
+              console.warn("[NutUI] Calendar week error");
+            }
+            break;
+          }
+          default: {
+            console.warn("[NutUI] Calendar type error");
+          }
+        }
+      };
+      __expose({
+        jump,
+        jumpTo
+      });
+      return (_ctx, _cache) => {
+        return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$X, [
+          vue.createElementVNode("div", _hoisted_2$K, [
+            vue.createElementVNode("div", _hoisted_3$z, [
+              vue.createElementVNode("div", {
+                class: "double-left",
+                onClick: _cache[0] || (_cache[0] = ($event) => jump(-12))
+              }, [
+                vue.createVNode(vue.unref(DoubleLeft))
+              ]),
+              vue.createTextVNode(),
+              vue.createElementVNode("div", {
+                class: "left",
+                onClick: _cache[1] || (_cache[1] = ($event) => jump(-1))
+              }, [
+                vue.createVNode(vue.unref(Left))
+              ])
+            ]),
+            vue.createTextVNode(),
+            vue.createElementVNode("div", _hoisted_4$v, vue.toDisplayString(vue.unref(translate)("monthTitle", month.value.year, month.value.month)), 1),
+            vue.createTextVNode(),
+            vue.createElementVNode("div", _hoisted_5$l, [
+              vue.createElementVNode("div", {
+                class: "right",
+                onClick: _cache[2] || (_cache[2] = ($event) => jump(1))
+              }, [
+                vue.createVNode(vue.unref(Right))
+              ]),
+              vue.createTextVNode(),
+              vue.createElementVNode("div", {
+                class: "double-right",
+                onClick: _cache[3] || (_cache[3] = ($event) => jump(12))
+              }, [
+                vue.createVNode(vue.unref(DoubleRight))
+              ])
+            ])
+          ]),
+          vue.createTextVNode(),
+          vue.createElementVNode("div", _hoisted_6$h, [
+            vue.createElementVNode("div", _hoisted_7$f, [
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(weekHeader.value, (d) => {
+                return vue.openBlock(), vue.createElementBlock("div", {
+                  key: d.name,
+                  class: vue.normalizeClass(["nut-calendarcard-day header", d.key === 0 || d.key === 6 ? "weekend" : ""])
+                }, vue.toDisplayString(d.name), 3);
+              }), 128))
+            ]),
+            vue.createTextVNode(),
+            vue.createElementVNode("div", _hoisted_8$a, [
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(days.value, (day) => {
+                return vue.openBlock(), vue.createElementBlock("div", {
+                  key: `${day.year}-${day.month}-${day.date}`,
+                  class: vue.normalizeClass(["nut-calendarcard-day", [day.type, ...getClasses(day)]]),
+                  onClick: ($event) => handleDayClick(day)
+                }, [
+                  vue.createElementVNode("div", _hoisted_10$5, [
+                    vue.renderSlot(_ctx.$slots, "top", { day })
+                  ]),
+                  vue.createTextVNode(),
+                  vue.createElementVNode("div", _hoisted_11$4, [
+                    vue.renderSlot(_ctx.$slots, "default", { day }, () => [
+                      vue.createTextVNode(vue.toDisplayString(day.date), 1)
+                    ])
+                  ]),
+                  vue.createTextVNode(),
+                  vue.createElementVNode("div", _hoisted_12$4, [
+                    vue.renderSlot(_ctx.$slots, "bottom", { day })
+                  ])
+                ], 10, _hoisted_9$9);
+              }), 128))
+            ])
+          ])
+        ], 512)), [
+          [vue.vShow, days.value.length > 0]
+        ]);
+      };
+    }
+  }));
+  withInstall(_sfc_main$1b);
   const CHECKBOX_KEY = Symbol("nut-checkbox");
   const { create: create$1a, componentName: componentName$f } = createComponent("checkbox");
   const _sfc_main$1a = create$1a({
@@ -7304,8 +7738,8 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-picker__bar"
   };
   const _hoisted_3$y = { class: "nut-picker__title" };
-  const _hoisted_4$v = ["indicator-style", "value"];
-  const _hoisted_5$l = ["filed-names"];
+  const _hoisted_4$u = ["indicator-style", "value"];
+  const _hoisted_5$k = ["filed-names"];
   function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_picker_column = vue.resolveComponent("nut-picker-column");
     return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$W, [
@@ -7351,9 +7785,9 @@ var __async = (__this, __arguments, generator) => {
                 })
               }, vue.toDisplayString(item[_ctx.columnFieldNames.text]), 5);
             }), 128))
-          ], 8, _hoisted_5$l);
+          ], 8, _hoisted_5$k);
         }), 128))
-      ], 16, _hoisted_4$v)) : (vue.openBlock(), vue.createElementBlock("view", {
+      ], 16, _hoisted_4$u)) : (vue.openBlock(), vue.createElementBlock("view", {
         key: 2,
         class: "nut-picker__column",
         style: vue.normalizeStyle(_ctx.pickerViewStyles)
@@ -7499,7 +7933,7 @@ var __async = (__this, __arguments, generator) => {
           hour = 23;
           minute = 59;
         }
-        const seconds = minute;
+        let seconds = minute;
         if (value.getFullYear() === year) {
           month = boundary.getMonth() + 1;
           if (value.getMonth() + 1 === month) {
@@ -7508,6 +7942,9 @@ var __async = (__this, __arguments, generator) => {
               hour = boundary.getHours();
               if (value.getHours() === hour) {
                 minute = boundary.getMinutes();
+                if (value.getMinutes() === minute) {
+                  seconds = boundary.getSeconds();
+                }
               }
             }
           }
@@ -7563,30 +8000,34 @@ var __async = (__this, __arguments, generator) => {
         selectedValue,
         selectedOptions
       }) => {
-        if (["date", "datetime", "datehour", "month-day", "year-month"].includes(props.type)) {
-          let formatDate = [];
-          selectedValue.forEach((item) => {
-            formatDate.push(item);
-          });
-          if (props.type == "month-day" && formatDate.length < 3) {
-            formatDate.unshift(new Date(state.currentDate || props.minDate || props.maxDate).getFullYear());
-          }
-          if (props.type == "year-month" && formatDate.length < 3) {
-            formatDate.push(new Date(state.currentDate || props.minDate || props.maxDate).getDate());
-          }
-          const year = Number(formatDate[0]);
-          const month = Number(formatDate[1]) - 1;
-          const day = Math.min(Number(formatDate[2]), getMonthEndDay(Number(formatDate[0]), Number(formatDate[1])));
-          let date = null;
-          if (props.type === "date" || props.type === "month-day" || props.type === "year-month") {
-            date = new Date(year, month, day);
-          } else if (props.type === "datetime") {
-            date = new Date(year, month, day, Number(formatDate[3]), Number(formatDate[4]));
-          } else if (props.type === "datehour") {
-            date = new Date(year, month, day, Number(formatDate[3]));
-          }
-          state.currentDate = formatValue(date);
+        let formatDate = [];
+        selectedValue.forEach((item) => {
+          formatDate.push(item);
+        });
+        if (props.type == "month-day" && formatDate.length < 3) {
+          formatDate.unshift(new Date(state.currentDate || props.minDate || props.maxDate).getFullYear());
         }
+        if (props.type == "year-month" && formatDate.length < 3) {
+          formatDate.push(new Date(state.currentDate || props.minDate || props.maxDate).getDate());
+        }
+        const year = Number(formatDate[0]);
+        const month = Number(formatDate[1]) - 1;
+        const day = Math.min(Number(formatDate[2]), getMonthEndDay(Number(formatDate[0]), Number(formatDate[1])));
+        let date = null;
+        if (props.type === "date" || props.type === "month-day" || props.type === "year-month") {
+          date = new Date(year, month, day);
+        } else if (props.type === "datetime") {
+          date = new Date(year, month, day, Number(formatDate[3]), Number(formatDate[4]));
+        } else if (props.type === "datehour") {
+          date = new Date(year, month, day, Number(formatDate[3]));
+        } else if (props.type === "hour-minute" || props.type === "time") {
+          date = new Date(state.currentDate);
+          const year2 = date.getFullYear();
+          const month2 = date.getMonth();
+          const day2 = date.getDate();
+          date = new Date(year2, month2, day2, Number(formatDate[0]), Number(formatDate[1]), Number(formatDate[2] || 0));
+        }
+        state.currentDate = formatValue(date);
         emit("change", { columnIndex, selectedValue, selectedOptions });
       };
       const formatterOption = (type, value) => {
@@ -7611,7 +8052,7 @@ var __async = (__this, __arguments, generator) => {
           } else {
             min++;
           }
-          if (min <= +val) {
+          if (min <= Number(val)) {
             index++;
           }
         }
@@ -7697,6 +8138,9 @@ var __async = (__this, __arguments, generator) => {
           const isSameValue = JSON.stringify(newValues) === JSON.stringify(props.modelValue);
           if (!isSameValue) {
             emit("update:modelValue", newValues);
+            Taro.nextTick(() => {
+              state.selectedValue = getSelectedValue(newValues);
+            });
           }
         }
       );
@@ -7799,6 +8243,7 @@ var __async = (__this, __arguments, generator) => {
       const change = (event) => {
         const input = event.target;
         emit("update:modelValue", input.value, event);
+        emit("change", input.value, event);
       };
       const emitChange = (value, event) => {
         let output_value = fixedDecimalPlaces(value);
@@ -8241,13 +8686,13 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "nut-input-left-box"
   };
-  const _hoisted_4$u = { class: "nut-input-box" };
-  const _hoisted_5$k = {
+  const _hoisted_4$t = { class: "nut-input-box" };
+  const _hoisted_5$j = {
     key: 1,
     class: "nut-input-word-limit"
   };
-  const _hoisted_6$h = { class: "nut-input-word-num" };
-  const _hoisted_7$f = { class: "nut-input-right-box" };
+  const _hoisted_6$g = { class: "nut-input-word-num" };
+  const _hoisted_7$e = { class: "nut-input-right-box" };
   function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_MaskClose = vue.resolveComponent("MaskClose");
     return vue.openBlock(), vue.createElementBlock("view", {
@@ -8260,7 +8705,7 @@ var __async = (__this, __arguments, generator) => {
             vue.renderSlot(_ctx.$slots, "left")
           ])) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
-          vue.createElementVNode("view", _hoisted_4$u, [
+          vue.createElementVNode("view", _hoisted_4$t, [
             (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.renderInput(_ctx.type)), vue.mergeProps(_ctx.$attrs, {
               ref: "inputRef",
               class: "input-text",
@@ -8292,8 +8737,8 @@ var __async = (__this, __arguments, generator) => {
               onClick: _cache[0] || (_cache[0] = (...args) => _ctx.onClickInput && _ctx.onClickInput(...args))
             })) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
-            _ctx.showWordLimit && _ctx.maxLength ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$k, [
-              vue.createElementVNode("span", _hoisted_6$h, vue.toDisplayString(_ctx.getModelValue() ? _ctx.getModelValue().length : 0), 1),
+            _ctx.showWordLimit && _ctx.maxLength ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$j, [
+              vue.createElementVNode("span", _hoisted_6$g, vue.toDisplayString(_ctx.getModelValue() ? _ctx.getModelValue().length : 0), 1),
               vue.createTextVNode("/" + vue.toDisplayString(_ctx.maxLength), 1)
             ])) : vue.createCommentVNode("", true)
           ]),
@@ -8315,7 +8760,7 @@ var __async = (__this, __arguments, generator) => {
             [vue.vShow, (_ctx.active || _ctx.showClearIcon) && _ctx.getModelValue().length > 0]
           ]) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
-          vue.createElementVNode("view", _hoisted_7$f, [
+          vue.createElementVNode("view", _hoisted_7$e, [
             vue.renderSlot(_ctx.$slots, "right")
           ])
         ])
@@ -8536,11 +8981,11 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$T = { class: "nut-rate" };
   const _hoisted_2$G = ["id"];
   const _hoisted_3$w = { class: "nut-rate-item__icon--full" };
-  const _hoisted_4$t = {
+  const _hoisted_4$s = {
     key: 0,
     class: "nut-rate-item__icon--half"
   };
-  const _hoisted_5$j = {
+  const _hoisted_5$i = {
     key: 1,
     class: "nut-rate-item__icon--half"
   };
@@ -8569,7 +9014,7 @@ var __async = (__this, __arguments, generator) => {
             }, null, 8, ["class", "onClick"]))
           ]),
           vue.createTextVNode(),
-          _ctx.allowHalf && Number(_ctx.modelValue) + 1 > n ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$t, [
+          _ctx.allowHalf && Number(_ctx.modelValue) + 1 > n ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$s, [
             (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(
               _ctx.renderIcon(_ctx.customIcon, {
                 width: _ctx.size,
@@ -8581,7 +9026,7 @@ var __async = (__this, __arguments, generator) => {
               class: "nut-rate-item__icon",
               onClick: ($event) => _ctx.onClick(2, n)
             }, null, 8, ["onClick"]))
-          ])) : _ctx.allowHalf && Number(_ctx.modelValue) + 1 < n ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$j, [
+          ])) : _ctx.allowHalf && Number(_ctx.modelValue) + 1 < n ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$i, [
             (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.renderIcon(_ctx.customIcon, { width: _ctx.size, height: _ctx.size, size: _ctx.size, color: _ctx.voidColor })), {
               class: "nut-rate-item__icon nut-rate-item__icon--disabled",
               onClick: ($event) => _ctx.onClick(2, n)
@@ -8692,13 +9137,13 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$S = { class: "nut-short-password" };
   const _hoisted_2$F = { class: "nut-short-password-title" };
   const _hoisted_3$v = { class: "nut-short-password-subtitle" };
-  const _hoisted_4$s = { class: "nut-short-password-wrapper" };
-  const _hoisted_5$i = {
+  const _hoisted_4$r = { class: "nut-short-password-wrapper" };
+  const _hoisted_5$h = {
     key: 0,
     class: "nut-short-password__item-icon"
   };
-  const _hoisted_6$g = { class: "nut-short-password__message" };
-  const _hoisted_7$e = { class: "nut-short-password--error" };
+  const _hoisted_6$f = { class: "nut-short-password__message" };
+  const _hoisted_7$d = { class: "nut-short-password--error" };
   function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_tips = vue.resolveComponent("tips");
     const _component_nut_popup = vue.resolveComponent("nut-popup");
@@ -8724,7 +9169,7 @@ var __async = (__this, __arguments, generator) => {
           vue.createTextVNode(),
           vue.createElementVNode("view", _hoisted_3$v, vue.toDisplayString(_ctx.desc || _ctx.translate("desc")), 1),
           vue.createTextVNode(),
-          vue.createElementVNode("view", _hoisted_4$s, [
+          vue.createElementVNode("view", _hoisted_4$r, [
             vue.createElementVNode("view", {
               class: "nut-short-password__list",
               onTouchstart: _cache[0] || (_cache[0] = (...args) => _ctx.focus && _ctx.focus(...args))
@@ -8734,14 +9179,14 @@ var __async = (__this, __arguments, generator) => {
                   key: index,
                   class: "nut-short-password__item"
                 }, [
-                  String(_ctx.realInput).length > index ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$i)) : vue.createCommentVNode("", true)
+                  String(_ctx.realInput).length > index ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$h)) : vue.createCommentVNode("", true)
                 ]);
               }), 128))
             ], 32)
           ]),
           vue.createTextVNode(),
-          vue.createElementVNode("view", _hoisted_6$g, [
-            vue.createElementVNode("view", _hoisted_7$e, vue.toDisplayString(_ctx.errorMsg), 1),
+          vue.createElementVNode("view", _hoisted_6$f, [
+            vue.createElementVNode("view", _hoisted_7$d, vue.toDisplayString(_ctx.errorMsg), 1),
             vue.createTextVNode(),
             _ctx.tips || _ctx.translate("tips") ? (vue.openBlock(), vue.createElementBlock("view", {
               key: 0,
@@ -9287,7 +9732,7 @@ var __async = (__this, __arguments, generator) => {
   const _sfc_main$Z = create$Z({
     components: {
       NutProgress: Progress,
-      NutButton: Button,
+      NutButton: _sfc_main$1L,
       Photograph: iconsVueTaro.Photograph,
       Failure: iconsVueTaro.Failure,
       Loading: iconsVueTaro.Loading,
@@ -9606,13 +10051,13 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "nut-uploader__preview-img"
   };
-  const _hoisted_4$r = {
+  const _hoisted_4$q = {
     key: 0,
     class: "nut-uploader__preview__progress"
   };
-  const _hoisted_5$h = { class: "nut-uploader__preview__progress__msg" };
-  const _hoisted_6$f = ["onClick"];
-  const _hoisted_7$d = ["mode", "src", "onClick"];
+  const _hoisted_5$g = { class: "nut-uploader__preview__progress__msg" };
+  const _hoisted_6$e = ["onClick"];
+  const _hoisted_7$c = ["mode", "src", "onClick"];
   const _hoisted_8$9 = {
     key: 3,
     class: "nut-uploader__preview-img__file"
@@ -9652,7 +10097,7 @@ var __async = (__this, __arguments, generator) => {
           class: vue.normalizeClass(["nut-uploader__preview", [_ctx.listType]])
         }, [
           _ctx.listType == "picture" && !_ctx.$slots.default ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$u, [
-            item.status != "success" ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$r, [
+            item.status != "success" ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$q, [
               item.status != "ready" ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [
                 item.status == "error" ? (vue.openBlock(), vue.createBlock(_component_Failure, {
                   key: 0,
@@ -9664,7 +10109,7 @@ var __async = (__this, __arguments, generator) => {
                 }))
               ], 64)) : vue.createCommentVNode("", true),
               vue.createTextVNode(),
-              vue.createElementVNode("view", _hoisted_5$h, vue.toDisplayString(item.message), 1)
+              vue.createElementVNode("view", _hoisted_5$g, vue.toDisplayString(item.message), 1)
             ])) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
             _ctx.isDeletable ? (vue.openBlock(), vue.createElementBlock("view", {
@@ -9675,7 +10120,7 @@ var __async = (__this, __arguments, generator) => {
               vue.renderSlot(_ctx.$slots, "delete-icon", {}, () => [
                 vue.createVNode(_component_Failure)
               ])
-            ], 8, _hoisted_6$f)) : vue.createCommentVNode("", true),
+            ], 8, _hoisted_6$e)) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
             (((_a = item == null ? void 0 : item.type) == null ? void 0 : _a.includes("image")) || ((_b = item == null ? void 0 : item.type) == null ? void 0 : _b.includes("video"))) && item.url ? (vue.openBlock(), vue.createElementBlock("img", {
               key: 2,
@@ -9683,7 +10128,7 @@ var __async = (__this, __arguments, generator) => {
               mode: _ctx.mode,
               src: item.url,
               onClick: ($event) => _ctx.fileItemClick(item)
-            }, null, 8, _hoisted_7$d)) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_8$9, [
+            }, null, 8, _hoisted_7$c)) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_8$9, [
               vue.createElementVNode("view", {
                 class: "nut-uploader__preview-img__file__name",
                 onClick: ($event) => _ctx.fileItemClick(item)
@@ -9909,10 +10354,10 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-number-keyboard__header"
   };
   const _hoisted_3$t = { class: "nut-number-keyboard__title" };
-  const _hoisted_4$q = { class: "nut-number-keyboard__body" };
-  const _hoisted_5$g = { class: "nut-number-keyboard__keys" };
-  const _hoisted_6$e = ["onTouchstart"];
-  const _hoisted_7$c = {
+  const _hoisted_4$p = { class: "nut-number-keyboard__body" };
+  const _hoisted_5$f = { class: "nut-number-keyboard__keys" };
+  const _hoisted_6$d = ["onTouchstart"];
+  const _hoisted_7$b = {
     key: 1,
     src: "https://img11.360buyimg.com/imagetools/jfs/t1/146371/38/8485/738/5f606425Eca239740/14f4b4f5f20d8a68.png"
   };
@@ -9954,8 +10399,8 @@ var __async = (__this, __arguments, generator) => {
             }, vue.toDisplayString(_ctx.translate("done")), 1)) : vue.createCommentVNode("", true)
           ])) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
-          vue.createElementVNode("div", _hoisted_4$q, [
-            vue.createElementVNode("div", _hoisted_5$g, [
+          vue.createElementVNode("div", _hoisted_4$p, [
+            vue.createElementVNode("div", _hoisted_5$f, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.keysList, (item) => {
                 return vue.openBlock(), vue.createElementBlock("div", {
                   key: "key" + item.id,
@@ -9981,10 +10426,10 @@ var __async = (__this, __arguments, generator) => {
                       vue.createTextVNode(vue.toDisplayString(item.id), 1)
                     ], 64)) : vue.createCommentVNode("", true),
                     vue.createTextVNode(),
-                    item.type == "lock" ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_7$c)) : vue.createCommentVNode("", true),
+                    item.type == "lock" ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_7$b)) : vue.createCommentVNode("", true),
                     vue.createTextVNode(),
                     item.type == "delete" ? (vue.openBlock(), vue.createElementBlock("img", _hoisted_8$8)) : vue.createCommentVNode("", true)
-                  ], 42, _hoisted_6$e)
+                  ], 42, _hoisted_6$d)
                 ], 2);
               }), 128))
             ]),
@@ -10666,16 +11111,16 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-action-sheet__title"
   };
   const _hoisted_3$s = { key: 1 };
-  const _hoisted_4$p = {
+  const _hoisted_4$o = {
     key: 0,
     class: "nut-action-sheet__item nut-action-sheet__desc"
   };
-  const _hoisted_5$f = {
+  const _hoisted_5$e = {
     key: 1,
     class: "nut-action-sheet__menu"
   };
-  const _hoisted_6$d = ["onClick"];
-  const _hoisted_7$b = { key: 1 };
+  const _hoisted_6$c = ["onClick"];
+  const _hoisted_7$a = { key: 1 };
   const _hoisted_8$7 = { class: "nut-action-sheet__subdesc" };
   function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Loading = vue.resolveComponent("Loading");
@@ -10697,9 +11142,9 @@ var __async = (__this, __arguments, generator) => {
           vue.renderSlot(_ctx.$slots, "default"),
           vue.createTextVNode(),
           !_ctx.slotDefault ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$s, [
-            _ctx.description ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$p, vue.toDisplayString(_ctx.description), 1)) : vue.createCommentVNode("", true),
+            _ctx.description ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$o, vue.toDisplayString(_ctx.description), 1)) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
-            _ctx.menuItems.length ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$f, [
+            _ctx.menuItems.length ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_5$e, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.menuItems, (item, index) => {
                 return vue.openBlock(), vue.createElementBlock("view", {
                   key: index,
@@ -10710,10 +11155,10 @@ var __async = (__this, __arguments, generator) => {
                   style: vue.normalizeStyle({ color: _ctx.isHighlight(item) || item.color }),
                   onClick: ($event) => _ctx.chooseItem(item, index)
                 }, [
-                  item.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_7$b, vue.toDisplayString(item[_ctx.optionTag]), 1)),
+                  item.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_7$a, vue.toDisplayString(item[_ctx.optionTag]), 1)),
                   vue.createTextVNode(),
                   vue.createElementVNode("view", _hoisted_8$7, vue.toDisplayString(item[_ctx.optionSubTag]), 1)
-                ], 14, _hoisted_6$d);
+                ], 14, _hoisted_6$c);
               }), 128))
             ])) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
@@ -10733,7 +11178,7 @@ var __async = (__this, __arguments, generator) => {
   const _sfc_main$S = create$S({
     components: {
       Top: iconsVueTaro.Top,
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     props: {
       height: {
@@ -11052,7 +11497,7 @@ var __async = (__this, __arguments, generator) => {
     inheritAttrs: false,
     components: {
       NutPopup: Popup,
-      NutButton: Button
+      NutButton: _sfc_main$1L
     },
     props: __spreadProps(__spreadValues({}, popupProps), {
       closeOnClickOverlay: {
@@ -11282,14 +11727,26 @@ var __async = (__this, __arguments, generator) => {
     },
     props: {
       id: String,
-      color: { type: String, default: "" },
-      msg: { type: String, default: "" },
-      duration: { type: Number, default: 3e3 },
+      color: {
+        type: String,
+        default: ""
+      },
+      msg: {
+        type: String,
+        default: ""
+      },
+      duration: {
+        type: Number,
+        default: 3e3
+      },
       className: {
         type: String,
         default: ""
       },
-      background: { type: String, default: "" },
+      background: {
+        type: String,
+        default: ""
+      },
       type: {
         type: String,
         default: "danger"
@@ -11906,10 +12363,9 @@ var __async = (__this, __arguments, generator) => {
     return tempIndex;
   }
   const { create: create$K } = createComponent("list");
-  const clientHeight = Taro.getSystemInfoSync().windowHeight || 667;
   const _sfc_main$K = create$K({
     components: {
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     props: {
       height: {
@@ -11927,8 +12383,7 @@ var __async = (__this, __arguments, generator) => {
         default: 5
       },
       containerHeight: {
-        type: [Number],
-        default: clientHeight
+        type: Number
       },
       estimateRowHeight: {
         type: Number,
@@ -11941,6 +12396,8 @@ var __async = (__this, __arguments, generator) => {
     },
     emits: ["scrollUp", "scrollDown", "scrollBottom"],
     setup(props, { emit }) {
+      var _a, _b;
+      const clientHeight = ((_b = (_a = Taro.getSystemInfoSync) == null ? void 0 : _a.call(Taro)) == null ? void 0 : _b.windowHeight) || 667;
       const list = vue.ref(null);
       const phantom = vue.ref(null);
       const actualContent = vue.ref(null);
@@ -11954,7 +12411,10 @@ var __async = (__this, __arguments, generator) => {
         phantomHeight: props.estimateRowHeight * props.listData.length
       });
       const getContainerHeight = vue.computed(() => {
-        return Math.min(props.containerHeight, clientHeight);
+        if (props.containerHeight) {
+          return Math.min(props.containerHeight, clientHeight);
+        }
+        return clientHeight;
       });
       const visibleCount = vue.computed(() => {
         return Math.ceil(getContainerHeight.value / props.estimateRowHeight);
@@ -12277,7 +12737,6 @@ var __async = (__this, __arguments, generator) => {
   const { create: create$I } = createComponent("noticebar");
   const _sfc_main$I = create$I({
     props: {
-      // 滚动方向  across 横向 vertical 纵向
       direction: {
         type: String,
         default: "across"
@@ -12589,10 +13048,13 @@ var __async = (__this, __arguments, generator) => {
     }
   });
   const _hoisted_1$D = { class: "nut-noticebar" };
-  const _hoisted_2$w = { class: "nut-noticebar__page-lefticon" };
+  const _hoisted_2$w = {
+    key: 0,
+    class: "nut-noticebar__page-lefticon"
+  };
   const _hoisted_3$p = { class: "showNotica" };
-  const _hoisted_4$o = { class: "nut-noticebar-custom-item" };
-  const _hoisted_5$e = ["onClick"];
+  const _hoisted_4$n = { class: "nut-noticebar-custom-item" };
+  const _hoisted_5$d = ["onClick"];
   function _sfc_render$H(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Notice = vue.resolveComponent("Notice");
     const _component_CircleClose = vue.resolveComponent("CircleClose");
@@ -12608,14 +13070,11 @@ var __async = (__this, __arguments, generator) => {
         style: vue.normalizeStyle(_ctx.barStyle),
         onClick: _cache[3] || (_cache[3] = (...args) => _ctx.handleClick && _ctx.handleClick(...args))
       }, [
-        vue.createElementVNode("view", _hoisted_2$w, [
+        _ctx.leftIcon ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$w, [
           vue.renderSlot(_ctx.$slots, "left-icon", {}, () => [
-            _ctx.leftIcon ? (vue.openBlock(), vue.createBlock(_component_Notice, {
-              key: 0,
-              size: "16px"
-            })) : vue.createCommentVNode("", true)
+            vue.createVNode(_component_Notice, { size: "16px" })
           ])
-        ]),
+        ])) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
         vue.createElementVNode("view", {
           ref: "wrap",
@@ -12635,7 +13094,7 @@ var __async = (__this, __arguments, generator) => {
         ], 2),
         vue.createTextVNode(),
         _ctx.closeMode || _ctx.$slots["right-icon"] ? (vue.openBlock(), vue.createElementBlock("view", {
-          key: 0,
+          key: 1,
           class: "nut-noticebar__page-righticon",
           onClick: _cache[2] || (_cache[2] = vue.withModifiers((...args) => _ctx.onClickIcon && _ctx.onClickIcon(...args), ["stop"]))
         }, [
@@ -12668,7 +13127,7 @@ var __async = (__this, __arguments, generator) => {
             ])
           ], 4),
           vue.createTextVNode(),
-          vue.createElementVNode("view", _hoisted_4$o, [
+          vue.createElementVNode("view", _hoisted_4$n, [
             vue.renderSlot(_ctx.$slots, "default")
           ])
         ], 64)) : (vue.openBlock(), vue.createElementBlock("ul", {
@@ -12682,7 +13141,7 @@ var __async = (__this, __arguments, generator) => {
               class: "nut-noticebar__vertical-item",
               style: vue.normalizeStyle({ height: _ctx.pxCheck(_ctx.height), lineHeight: _ctx.pxCheck(_ctx.height) }),
               onClick: ($event) => _ctx.go(item)
-            }, vue.toDisplayString(item), 13, _hoisted_5$e);
+            }, vue.toDisplayString(item), 13, _hoisted_5$d);
           }), 128))
         ], 4)),
         vue.createTextVNode(),
@@ -12875,13 +13334,13 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$B = { class: "nut-step-head" };
   const _hoisted_2$u = /* @__PURE__ */ vue.createElementVNode("view", { class: "nut-step-line" }, null, -1);
   const _hoisted_3$n = { class: "nut-step-icon-inner" };
-  const _hoisted_4$n = {
+  const _hoisted_4$m = {
     key: 1,
     class: "nut-step-inner"
   };
-  const _hoisted_5$d = { class: "nut-step-main" };
-  const _hoisted_6$c = { class: "nut-step-title" };
-  const _hoisted_7$a = { key: 0 };
+  const _hoisted_5$c = { class: "nut-step-main" };
+  const _hoisted_6$b = { class: "nut-step-title" };
+  const _hoisted_7$9 = { key: 0 };
   const _hoisted_8$6 = {
     key: 0,
     class: "nut-step-content"
@@ -12900,15 +13359,15 @@ var __async = (__this, __arguments, generator) => {
         }, [
           vue.createElementVNode("view", _hoisted_3$n, [
             vue.renderSlot(_ctx.$slots, "icon", {}, () => [
-              _ctx.dot ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [], 64)) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$n, vue.toDisplayString(_ctx.index), 1))
+              _ctx.dot ? (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 0 }, [], 64)) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$m, vue.toDisplayString(_ctx.index), 1))
             ])
           ])
         ], 2)
       ]),
       vue.createTextVNode(),
-      vue.createElementVNode("view", _hoisted_5$d, [
-        vue.createElementVNode("view", _hoisted_6$c, [
-          !_ctx.$slots.title ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$a, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
+      vue.createElementVNode("view", _hoisted_5$c, [
+        vue.createElementVNode("view", _hoisted_6$b, [
+          !_ctx.$slots.title ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_7$9, vue.toDisplayString(_ctx.title), 1)) : vue.createCommentVNode("", true),
           vue.createTextVNode(),
           vue.renderSlot(_ctx.$slots, "title")
         ]),
@@ -14724,7 +15183,6 @@ var __async = (__this, __arguments, generator) => {
   const Tag = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$y]]);
   const { create: create$x } = createComponent("popover");
   const _sfc_main$x = create$x({
-    inheritAttrs: false,
     components: {
       NutPopup: Popup
     },
@@ -14737,7 +15195,7 @@ var __async = (__this, __arguments, generator) => {
       arrowOffset: { type: Number, default: 0 },
       customClass: { type: String, default: "" },
       showArrow: { type: Boolean, default: true },
-      duration: { type: [Number, String], default: 0.2 },
+      duration: { type: [Number, String], default: 0.3 },
       overlay: { type: Boolean, default: false },
       overlayClass: { type: String, default: "" },
       overlayStyle: { type: Object },
@@ -14751,12 +15209,12 @@ var __async = (__this, __arguments, generator) => {
     setup(props, { emit }) {
       const popoverRef = vue.ref();
       const popoverContentRef = vue.ref();
-      const popoverContentRefCopy = vue.ref();
-      const popoverbox = vue.ref();
       const showPopup = vue.ref(props.visible);
-      const popoverstyles = vue.ref({});
-      let rootRect = vue.ref();
-      let conentRootRect;
+      const rootPosition = vue.ref();
+      const elRect = vue.ref({
+        width: 0,
+        height: 0
+      });
       const popoverArrow = vue.computed(() => {
         const prefixCls = "nut-popover-arrow";
         const loca = props.location;
@@ -14803,115 +15261,128 @@ var __async = (__this, __arguments, generator) => {
         str = str.replace(/\b\w+\b/g, (word) => word.substring(0, 1).toUpperCase() + word.substring(1));
         return str;
       };
-      const getRootPosition = () => {
-        if (!rootRect.value || !conentRootRect)
-          return {};
-        const conentWidth = conentRootRect.width;
-        const conentHeight = conentRootRect.height;
-        const { width, height, left, top } = rootRect.value;
+      const getRootPosition = vue.computed(() => {
+        const styles = {};
+        if (!rootPosition.value) {
+          styles.visibility = "hidden";
+          return styles;
+        }
+        const contentWidth = elRect.value.width;
+        const contentHeight = elRect.value.height;
+        const { width, height, left: left2, top, right: right2 } = rootPosition.value;
         const { location, offset } = props;
-        const direction = location.split("-")[0];
-        const skew = location.split("-")[1];
+        const direction = location == null ? void 0 : location.split("-")[0];
+        const skew = location == null ? void 0 : location.split("-")[1];
         let cross = 0;
         let parallel = 0;
-        if (isArray(offset) && offset.length == 2) {
+        if (Array.isArray(offset) && (offset == null ? void 0 : offset.length) === 2) {
           cross += Number(offset[1]);
           parallel += Number(offset[0]);
         }
         if (width) {
           if (["bottom", "top"].includes(direction)) {
-            const h = direction == "bottom" ? height + cross : -(conentHeight + cross);
-            popoverstyles.value.top = `${top + h}px`;
+            const h = direction === "bottom" ? height + cross : -(contentHeight + cross);
+            styles.top = `${top + h}px`;
             if (!skew) {
-              popoverstyles.value.left = `${-(conentWidth - width) / 2 + left + parallel}px`;
+              styles.left = `${-(contentWidth - width) / 2 + left2 + parallel}px`;
             }
-            if (skew == "start") {
-              popoverstyles.value.left = `${left + parallel}px`;
+            if (skew === "start") {
+              styles.left = `${left2 + parallel}px`;
             }
-            if (skew == "end") {
-              popoverstyles.value.left = `${rootRect.value.right + parallel}px`;
+            if (skew === "end") {
+              styles.left = `${right2 + parallel}px`;
             }
           }
           if (["left", "right"].includes(direction)) {
-            const contentW = direction == "left" ? -(conentWidth + cross) : width + cross;
-            popoverstyles.value.left = `${left + contentW}px`;
+            const contentW = direction === "left" ? -(contentWidth + cross) : width + cross;
+            styles.left = `${left2 + contentW}px`;
             if (!skew) {
-              popoverstyles.value.top = `${top - conentHeight / 2 + height / 2 - 4 + parallel}px`;
+              styles.top = `${top - contentHeight / 2 + height / 2 - 4 + parallel}px`;
             }
-            if (skew == "start") {
-              popoverstyles.value.top = `${top + parallel}px`;
+            if (skew === "start") {
+              styles.top = `${top + parallel}px`;
             }
-            if (skew == "end") {
-              popoverstyles.value.top = `${top + height + parallel}px`;
+            if (skew === "end") {
+              styles.top = `${top + height + parallel}px`;
             }
           }
         }
-      };
-      const customStyle = vue.computed(() => {
-        const styles = {};
-        if (props.bgColor) {
-          styles.background = props.bgColor;
+        if (elRect.value.width === 0) {
+          styles.visibility = "hidden";
+        } else {
+          styles.visibility = "initial";
         }
         return styles;
       });
-      const getContentWidth = () => __async(this, null, function* () {
-        const solve = (rect) => {
-          if (!(rootRect.value && rect.top == rootRect.value.top && rect.width == rootRect.value.width)) {
-            setTimeout(() => {
-              getContentWidth();
-            }, 100);
-          }
-          rootRect.value = rect;
-          getRootPosition();
-        };
-        if (props.targetId) {
-          useTaroRectById(props.targetId).then(
-            (rect) => {
-              solve(rect);
-            },
-            () => {
-            }
-          );
-        } else {
-          useTaroRect(popoverRef).then(
-            (rect) => {
-              solve(rect);
-            },
-            () => {
-            }
-          );
-        }
-      });
-      const getPopoverContentW = (type = 1) => __async(this, null, function* () {
-        const el = type == 1 ? popoverContentRef : popoverContentRefCopy;
-        useTaroRect(el).then(
+      const getPopoverContentW = () => __async(this, null, function* () {
+        useTaroRect(popoverContentRef).then(
           (rect) => {
-            conentRootRect = {
-              height: rect.height || 0,
-              width: rect.width || 0
+            elRect.value = {
+              height: rect.height,
+              width: rect.width
             };
-            getRootPosition();
           },
           () => {
           }
         );
+      });
+      const getContentWidth = () => {
+        Taro.createSelectorQuery().selectViewport().scrollOffset((res) => {
+          const distance = res.scrollTop;
+          if (props.targetId) {
+            useTaroRectById(props.targetId).then(
+              (rect) => {
+                rootPosition.value = {
+                  width: rect == null ? void 0 : rect.width,
+                  height: rect == null ? void 0 : rect.height,
+                  left: rect == null ? void 0 : rect.left,
+                  top: (rect == null ? void 0 : rect.top) + distance,
+                  right: rect == null ? void 0 : rect.right
+                };
+              },
+              () => {
+              }
+            );
+          } else {
+            useTaroRect(popoverRef).then(
+              (rect) => {
+                rootPosition.value = {
+                  width: rect == null ? void 0 : rect.width,
+                  height: rect == null ? void 0 : rect.height,
+                  left: rect == null ? void 0 : rect.left,
+                  top: (rect == null ? void 0 : rect.top) + distance,
+                  right: rect == null ? void 0 : rect.right
+                };
+              },
+              () => {
+              }
+            );
+          }
+        }).exec();
+        setTimeout(() => {
+          getPopoverContentW();
+        }, 300);
+      };
+      vue.onMounted(() => {
+        setTimeout(() => {
+          getContentWidth();
+        }, 300);
       });
       vue.watch(
         () => props.visible,
         (value) => {
           showPopup.value = value;
           if (value) {
-            getContentWidth();
-            setTimeout(() => {
-              getPopoverContentW();
-            }, 300);
+            Taro.nextTick(() => {
+              getContentWidth();
+            });
           }
         }
       );
       vue.watch(
         () => props.location,
         () => {
-          getRootPosition();
+          getContentWidth();
         }
       );
       const update = (val) => {
@@ -14927,7 +15398,7 @@ var __async = (__this, __arguments, generator) => {
         emit("close");
       };
       const chooseItem = (item, index) => {
-        emit("choose", item, index);
+        !item.disabled && emit("choose", item, index);
         if (props.closeOnClickAction) {
           closePopover();
         }
@@ -14935,12 +15406,6 @@ var __async = (__this, __arguments, generator) => {
       const clickAway = () => {
         props.closeOnClickOutside && closePopover();
       };
-      vue.onMounted(() => {
-        setTimeout(() => {
-          getContentWidth();
-          getPopoverContentW(0);
-        }, 600);
-      });
       const refRandomId = Math.random().toString(36).slice(-8);
       return {
         showPopup,
@@ -14950,27 +15415,18 @@ var __async = (__this, __arguments, generator) => {
         chooseItem,
         popoverRef,
         popoverContentRef,
-        popoverContentRefCopy,
-        refRandomId,
-        clickAway,
-        popoverArrowStyle,
-        customStyle,
         getRootPosition,
+        popoverArrowStyle,
         renderIcon,
-        popoverbox,
-        popoverstyles
+        refRandomId,
+        clickAway
       };
     }
   });
   const _hoisted_1$v = ["id"];
   const _hoisted_2$p = ["id"];
   const _hoisted_3$m = ["onClick"];
-  const _hoisted_4$m = { class: "nut-popover-menu-item-name" };
-  const _hoisted_5$c = {
-    class: /* @__PURE__ */ vue.normalizeClass(`nut-popover-content nut-popover-content-copy`)
-  };
-  const _hoisted_6$b = ["id"];
-  const _hoisted_7$9 = { class: "nut-popover-menu-item-name" };
+  const _hoisted_4$l = { class: "nut-popover-menu-item-name" };
   function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_popup = vue.resolveComponent("nut-popup");
     return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
@@ -14985,15 +15441,14 @@ var __async = (__this, __arguments, generator) => {
       ], 8, _hoisted_1$v)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
       vue.createElementVNode("view", {
-        ref: "popoverbox",
         class: vue.normalizeClass(["nut-popover", `nut-popover--${_ctx.theme}`, `${_ctx.customClass}`]),
-        style: vue.normalizeStyle(_ctx.popoverstyles)
+        style: vue.normalizeStyle(_ctx.getRootPosition)
       }, [
         vue.createVNode(_component_nut_popup, {
           visible: _ctx.showPopup,
           "onUpdate:visible": _cache[1] || (_cache[1] = ($event) => _ctx.showPopup = $event),
           "pop-class": `nut-popover-content nut-popover-content--${_ctx.location}`,
-          style: vue.normalizeStyle(_ctx.customStyle),
+          style: vue.normalizeStyle({ background: _ctx.bgColor }),
           position: "",
           transition: "nut-popover",
           overlay: _ctx.overlay,
@@ -15019,12 +15474,7 @@ var __async = (__this, __arguments, generator) => {
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.list, (item, index) => {
                 return vue.openBlock(), vue.createElementBlock("view", {
                   key: index,
-                  class: vue.normalizeClass([
-                    item.className,
-                    item.disabled && "nut-popover-menu-disabled",
-                    "nut-popover-menu-item",
-                    "nut-popover-menu-taroitem"
-                  ]),
+                  class: vue.normalizeClass([item.className, item.disabled && "nut-popover-menu-disabled", "nut-popover-menu-item"]),
                   onClick: vue.withModifiers(($event) => _ctx.chooseItem(item, index), ["stop"])
                 }, [
                   item.icon ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.renderIcon(item.icon)), {
@@ -15032,7 +15482,7 @@ var __async = (__this, __arguments, generator) => {
                     class: "nut-popover-item-img"
                   })) : vue.createCommentVNode("", true),
                   vue.createTextVNode(),
-                  vue.createElementVNode("view", _hoisted_4$m, vue.toDisplayString(item.name), 1)
+                  vue.createElementVNode("view", _hoisted_4$l, vue.toDisplayString(item.name), 1)
                 ], 10, _hoisted_3$m);
               }), 128))
             ], 8, _hoisted_2$p)
@@ -15046,42 +15496,7 @@ var __async = (__this, __arguments, generator) => {
           onTouchmove: _cache[2] || (_cache[2] = (...args) => _ctx.clickAway && _ctx.clickAway(...args)),
           onClick: _cache[3] || (_cache[3] = (...args) => _ctx.clickAway && _ctx.clickAway(...args))
         }, null, 32)) : vue.createCommentVNode("", true)
-      ], 6),
-      vue.createTextVNode(),
-      vue.createElementVNode("view", _hoisted_5$c, [
-        vue.createElementVNode("view", {
-          id: "popoverContentRefCopy" + _ctx.refRandomId,
-          ref: "popoverContentRefCopy",
-          class: "nut-popover-content-group"
-        }, [
-          _ctx.showArrow ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 0,
-            class: vue.normalizeClass(_ctx.popoverArrow),
-            style: vue.normalizeStyle(_ctx.popoverArrowStyle)
-          }, null, 6)) : vue.createCommentVNode("", true),
-          vue.createTextVNode(),
-          vue.renderSlot(_ctx.$slots, "content"),
-          vue.createTextVNode(),
-          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.list, (item, index) => {
-            return vue.openBlock(), vue.createElementBlock("view", {
-              key: index,
-              class: vue.normalizeClass([
-                item.className,
-                item.disabled && "nut-popover-menu-disabled",
-                "nut-popover-menu-item",
-                "nut-popover-menu-taroitem"
-              ])
-            }, [
-              item.icon ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.renderIcon(item.icon)), {
-                key: 0,
-                class: "nut-popover-item-img"
-              })) : vue.createCommentVNode("", true),
-              vue.createTextVNode(),
-              vue.createElementVNode("view", _hoisted_7$9, vue.toDisplayString(item.name), 1)
-            ], 2);
-          }), 128))
-        ], 8, _hoisted_6$b)
-      ])
+      ], 6)
     ], 64);
   }
   const Popover = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$x]]);
@@ -15186,7 +15601,7 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "nut-skeleton-animation"
   };
-  const _hoisted_4$l = { class: "nut-skeleton-content" };
+  const _hoisted_4$k = { class: "nut-skeleton-content" };
   function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_avatar = vue.resolveComponent("nut-avatar");
     return !_ctx.loading ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$u, [
@@ -15194,7 +15609,7 @@ var __async = (__this, __arguments, generator) => {
     ])) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$o, [
       _ctx.animated ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_3$l)) : vue.createCommentVNode("", true),
       vue.createTextVNode(),
-      vue.createElementVNode("view", _hoisted_4$l, [
+      vue.createElementVNode("view", _hoisted_4$k, [
         _ctx.avatar ? (vue.openBlock(), vue.createBlock(_component_nut_avatar, {
           key: 0,
           class: vue.normalizeClass(_ctx.avatarClass),
@@ -15427,7 +15842,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$s = { class: "nut-collapse-item__title-main" };
   const _hoisted_2$n = { class: "nut-collapse-item__title-main-value" };
   const _hoisted_3$k = ["innerHTML"];
-  const _hoisted_4$k = {
+  const _hoisted_4$j = {
     key: 2,
     class: "nut-collapse-item__title-label"
   };
@@ -15458,7 +15873,7 @@ var __async = (__this, __arguments, generator) => {
               innerHTML: _ctx.title
             }, null, 8, _hoisted_3$k)),
             vue.createTextVNode(),
-            _ctx.label ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$k, vue.toDisplayString(_ctx.label), 1)) : vue.createCommentVNode("", true)
+            _ctx.label ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$j, vue.toDisplayString(_ctx.label), 1)) : vue.createCommentVNode("", true)
           ])
         ]),
         vue.createTextVNode(),
@@ -15603,7 +16018,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$r = { class: "nut-table" };
   const _hoisted_2$m = { class: "nut-table__main__head" };
   const _hoisted_3$j = { class: "nut-table__main__head__tr" };
-  const _hoisted_4$j = ["onClick"];
+  const _hoisted_4$i = ["onClick"];
   const _hoisted_5$a = { class: "nut-table__main__body" };
   const _hoisted_6$9 = { key: 1 };
   const _hoisted_7$7 = {
@@ -15642,7 +16057,7 @@ var __async = (__this, __arguments, generator) => {
                   key: 0,
                   size: "12px"
                 })) : vue.createCommentVNode("", true)
-              ], 14, _hoisted_4$j);
+              ], 14, _hoisted_4$i);
             }), 128))
           ])
         ]),
@@ -15918,13 +16333,13 @@ var __async = (__this, __arguments, generator) => {
       const assignContent = () => {
         contantCopy.value = `${ellipsis.leading || ""}${ellipsis.leading ? props.symbol : ""}${props.expandText || ""}${ellipsis.tailing ? props.symbol : ""}${ellipsis.tailing || ""}`;
       };
-      const tailorContent = (left, right, type = "") => {
+      const tailorContent = (left2, right2, type = "") => {
         const threeDotWidth = symbolTextWidth;
         const direc = props.direction === "middle" && type ? type : props.direction;
         state.exceeded = true;
         let widthPart = -1;
-        let start = left;
-        let end = right;
+        let start = left2;
+        let end = right2;
         let cutoff = 0;
         let marking = 0;
         if (direc === "end") {
@@ -15999,7 +16414,7 @@ var __async = (__this, __arguments, generator) => {
     key: 1,
     class: "nut-ellipsis__wordbreak"
   };
-  const _hoisted_4$i = { key: 2 };
+  const _hoisted_4$h = { key: 2 };
   const _hoisted_5$9 = ["id"];
   const _hoisted_6$8 = ["id"];
   function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
@@ -16021,7 +16436,7 @@ var __async = (__this, __arguments, generator) => {
           vue.createTextVNode(vue.toDisplayString(_ctx.ellipsis.tailing && _ctx.symbol) + vue.toDisplayString(_ctx.ellipsis.tailing), 1)
         ])) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
-        _ctx.exceeded && _ctx.expanded ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$i, [
+        _ctx.exceeded && _ctx.expanded ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$h, [
           vue.createTextVNode(vue.toDisplayString(_ctx.content) + " ", 1),
           _ctx.expandText ? (vue.openBlock(), vue.createElementBlock("span", {
             key: 0,
@@ -16461,8 +16876,8 @@ var __async = (__this, __arguments, generator) => {
         const { offset, maskWidth, maskHeight } = props;
         if (!maskRect[index])
           return {};
-        const { width, height, left, top } = maskRect[index];
-        const center = [left + width / 2, top + height / 2];
+        const { width, height, left: left2, top } = maskRect[index];
+        const center = [left2 + width / 2, top + height / 2];
         const w = Number(maskWidth ? maskWidth : width);
         const h = Number(maskHeight ? maskHeight : height);
         const styles = {
@@ -16547,7 +16962,7 @@ var __async = (__this, __arguments, generator) => {
     key: 0,
     class: "nut-tour-content-top"
   };
-  const _hoisted_4$h = { class: "nut-tour-content-inner" };
+  const _hoisted_4$g = { class: "nut-tour-content-inner" };
   const _hoisted_5$8 = { class: "nut-tour-content-bottom" };
   const _hoisted_6$7 = { class: "nut-tour-content-bottom-init" };
   const _hoisted_7$6 = { class: "nut-tour-content-bottom-operate" };
@@ -16606,7 +17021,7 @@ var __async = (__this, __arguments, generator) => {
                     ])
                   ])) : vue.createCommentVNode("", true),
                   vue.createTextVNode(),
-                  vue.createElementVNode("view", _hoisted_4$h, vue.toDisplayString(step.content), 1),
+                  vue.createElementVNode("view", _hoisted_4$g, vue.toDisplayString(step.content), 1),
                   vue.createTextVNode(),
                   vue.createElementVNode("view", _hoisted_5$8, [
                     vue.createElementVNode("view", _hoisted_6$7, vue.toDisplayString(_ctx.active + 1) + "/" + vue.toDisplayString(_ctx.steps.length), 1),
@@ -16660,7 +17075,7 @@ var __async = (__this, __arguments, generator) => {
       Check: iconsVueTaro.Check,
       Close: iconsVueTaro.Close,
       Left: iconsVueTaro.Left,
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     inheritAttrs: false,
     props: __spreadProps(__spreadValues({}, popupProps), {
@@ -16960,7 +17375,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$m = { class: "nut-address" };
   const _hoisted_2$j = { class: "nut-address__header" };
   const _hoisted_3$g = { class: "nut-address__header__title" };
-  const _hoisted_4$g = {
+  const _hoisted_4$f = {
     key: 0,
     class: "nut-address__custom"
   };
@@ -17049,7 +17464,7 @@ var __async = (__this, __arguments, generator) => {
             ])
           ]),
           vue.createTextVNode(),
-          ["custom", "custom2"].includes(_ctx.privateType) ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$g, [
+          ["custom", "custom2"].includes(_ctx.privateType) ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$f, [
             vue.createElementVNode("view", _hoisted_5$7, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.selectedRegion, (item, index) => {
                 return vue.openBlock(), vue.createElementBlock("view", {
@@ -17319,7 +17734,7 @@ var __async = (__this, __arguments, generator) => {
       }
     },
     components: {
-      NutButton: Button
+      NutButton: _sfc_main$1L
     },
     emits: ["start", "end", "signing", "confirm", "clear"],
     setup(props, { emit }) {
@@ -17576,7 +17991,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$j = { class: "nut-time-select" };
   const _hoisted_2$h = { class: "nut-time-select__title" };
   const _hoisted_3$f = { class: "nut-time-select__title__fixed" };
-  const _hoisted_4$f = { key: 0 };
+  const _hoisted_4$e = { key: 0 };
   const _hoisted_5$6 = { class: "nut-time-select__content" };
   const _hoisted_6$5 = { class: "nut-time-select__content__pannel" };
   const _hoisted_7$4 = { class: "nut-time-select__content__detail" };
@@ -17597,7 +18012,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createElementVNode("view", _hoisted_1$j, [
           vue.createElementVNode("view", _hoisted_2$h, [
             vue.createElementVNode("view", _hoisted_3$f, [
-              !_ctx.$slots.title ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$f, vue.toDisplayString(_ctx.title || _ctx.translate("pickupTime")), 1)) : vue.renderSlot(_ctx.$slots, "title", { key: 1 })
+              !_ctx.$slots.title ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_4$e, vue.toDisplayString(_ctx.title || _ctx.translate("pickupTime")), 1)) : vue.renderSlot(_ctx.$slots, "title", { key: 1 })
             ])
           ]),
           vue.createTextVNode(),
@@ -17700,7 +18115,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$i = { class: "nut-time-detail" };
   const _hoisted_2$g = { class: "nut-time-detail__detail nut-time-detail__detail--moring" };
   const _hoisted_3$e = { class: "nut-time-detail__detail__list" };
-  const _hoisted_4$e = ["onClick"];
+  const _hoisted_4$d = ["onClick"];
   function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$i, [
       vue.createElementVNode("view", _hoisted_2$g, [
@@ -17710,7 +18125,7 @@ var __async = (__this, __arguments, generator) => {
               key: item,
               class: vue.normalizeClass(_ctx.getClass(item)),
               onClick: ($event) => _ctx.handleTime(item)
-            }, vue.toDisplayString(item), 11, _hoisted_4$e);
+            }, vue.toDisplayString(item), 11, _hoisted_4$d);
           }), 128))
         ])
       ])
@@ -17741,7 +18156,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$h = { class: "nut-sku-header" };
   const _hoisted_2$f = ["src"];
   const _hoisted_3$d = { class: "nut-sku-header-right" };
-  const _hoisted_4$d = {
+  const _hoisted_4$c = {
     key: 3,
     class: "nut-sku-header-right-extra"
   };
@@ -17763,7 +18178,7 @@ var __async = (__this, __arguments, generator) => {
         vue.createTextVNode(),
         _ctx.getSlots("sku-header-extra") ? vue.renderSlot(_ctx.$slots, "sku-header-extra", { key: 2 }) : vue.createCommentVNode("", true),
         vue.createTextVNode(),
-        _ctx.goods.skuId && !_ctx.getSlots("sku-header-extra") ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$d, vue.toDisplayString(_ctx.translate("skuId")) + " : " + vue.toDisplayString(_ctx.goods.skuId), 1)) : vue.createCommentVNode("", true)
+        _ctx.goods.skuId && !_ctx.getSlots("sku-header-extra") ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_4$c, vue.toDisplayString(_ctx.translate("skuId")) + " : " + vue.toDisplayString(_ctx.goods.skuId), 1)) : vue.createCommentVNode("", true)
       ])
     ]);
   }
@@ -17811,7 +18226,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$g = { class: "nut-sku-select" };
   const _hoisted_2$e = { class: "nut-sku-select-item-title" };
   const _hoisted_3$c = { class: "nut-sku-select-item-skus" };
-  const _hoisted_4$c = ["onClick"];
+  const _hoisted_4$b = ["onClick"];
   function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$g, [
       (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(_ctx.skuInfo, (item, index) => {
@@ -17827,7 +18242,7 @@ var __async = (__this, __arguments, generator) => {
                 key: itemAttr.name,
                 class: vue.normalizeClass(["nut-sku-select-item-skus-sku", [{ active: !itemAttr.disable && itemAttr.active }, { disable: itemAttr.disable }]]),
                 onClick: ($event) => _ctx.changeSaleChild(itemAttr, itemAttrIndex, item, index)
-              }, vue.toDisplayString(itemAttr.name), 11, _hoisted_4$c);
+              }, vue.toDisplayString(itemAttr.name), 11, _hoisted_4$b);
             }), 128))
           ])
         ]);
@@ -17904,7 +18319,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$f = { class: "nut-sku-stepper" };
   const _hoisted_2$d = { class: "nut-sku-stepper-title" };
   const _hoisted_3$b = ["innerHTML"];
-  const _hoisted_4$b = { class: "nut-sku-stepper-count" };
+  const _hoisted_4$a = { class: "nut-sku-stepper-count" };
   function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_nut_input_number = vue.resolveComponent("nut-input-number");
     return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$f, [
@@ -17915,7 +18330,7 @@ var __async = (__this, __arguments, generator) => {
         innerHTML: _ctx.getExtraText()
       }, null, 8, _hoisted_3$b),
       vue.createTextVNode(),
-      vue.createElementVNode("view", _hoisted_4$b, [
+      vue.createElementVNode("view", _hoisted_4$a, [
         vue.createVNode(_component_nut_input_number, {
           modelValue: _ctx.goodsCount,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.goodsCount = $event),
@@ -17990,7 +18405,7 @@ var __async = (__this, __arguments, generator) => {
     key: 1,
     class: "nut-sku-operate-btn"
   };
-  const _hoisted_4$a = ["onClick"];
+  const _hoisted_4$9 = ["onClick"];
   function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return _ctx.btnOptions.length > 0 ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_1$e, [
       _ctx.btnExtraText ? (vue.openBlock(), vue.createElementBlock("view", _hoisted_2$c, vue.toDisplayString(_ctx.btnExtraText), 1)) : vue.createCommentVNode("", true),
@@ -18003,7 +18418,7 @@ var __async = (__this, __arguments, generator) => {
             key: i,
             class: vue.normalizeClass([`nut-sku-operate-btn-${btn}`, "nut-sku-operate-btn-item"]),
             onClick: ($event) => _ctx.clickBtnOperate(btn)
-          }, vue.toDisplayString(_ctx.getBtnDesc(btn)), 11, _hoisted_4$a);
+          }, vue.toDisplayString(_ctx.getBtnDesc(btn)), 11, _hoisted_4$9);
         }), 128))
       ])) : vue.createCommentVNode("", true)
     ])) : vue.createCommentVNode("", true);
@@ -18092,7 +18507,7 @@ var __async = (__this, __arguments, generator) => {
       SkuStepper,
       SkuOperate,
       NutPopup: Popup,
-      NutScrollView: _sfc_main$1t
+      NutScrollView: _sfc_main$1u
     },
     setup(props, { emit, slots }) {
       const translate = useLocale(cN$5);
@@ -18310,7 +18725,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$c = { class: "nut-card" };
   const _hoisted_2$b = { class: "nut-card__left" };
   const _hoisted_3$9 = ["src"];
-  const _hoisted_4$9 = { class: "nut-card__right" };
+  const _hoisted_4$8 = { class: "nut-card__right" };
   const _hoisted_5$5 = { class: "nut-card__right__title" };
   const _hoisted_6$4 = {
     key: 0,
@@ -18330,7 +18745,7 @@ var __async = (__this, __arguments, generator) => {
         }, null, 8, _hoisted_3$9)
       ]),
       vue.createTextVNode(),
-      vue.createElementVNode("div", _hoisted_4$9, [
+      vue.createElementVNode("div", _hoisted_4$8, [
         vue.createElementVNode("div", _hoisted_5$5, vue.toDisplayString(_ctx.title), 1),
         vue.createTextVNode(),
         vue.renderSlot(_ctx.$slots, "prolist"),
@@ -18485,7 +18900,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$b = { class: "nut-ecard" };
   const _hoisted_2$a = { class: "nut-ecard__title" };
   const _hoisted_3$8 = { class: "nut-ecard__list" };
-  const _hoisted_4$8 = ["onClick"];
+  const _hoisted_4$7 = ["onClick"];
   const _hoisted_5$4 = { class: "nut-ecard__list__input--con" };
   const _hoisted_6$3 = ["placeholder"];
   const _hoisted_7$2 = { class: "nut-ecard__list__step" };
@@ -18500,7 +18915,7 @@ var __async = (__this, __arguments, generator) => {
             key: index,
             class: vue.normalizeClass(["nut-ecard__list__item", _ctx.currentIndex == index ? "active" : ""]),
             onClick: ($event) => _ctx.handleClick(item, index)
-          }, vue.toDisplayString(item.price), 11, _hoisted_4$8);
+          }, vue.toDisplayString(item.price), 11, _hoisted_4$7);
         }), 128)),
         vue.createTextVNode(),
         vue.createElementVNode("view", {
@@ -18574,7 +18989,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$a = { class: "nut-address-list-item__info" };
   const _hoisted_2$9 = { class: "nut-address-list-item__info-contact" };
   const _hoisted_3$7 = { class: "nut-address-list-item__info-contact-name" };
-  const _hoisted_4$7 = { class: "nut-address-list-item__info-contact-tel" };
+  const _hoisted_4$6 = { class: "nut-address-list-item__info-contact-tel" };
   const _hoisted_5$3 = {
     key: 0,
     class: "nut-address-list-item__info-contact-default"
@@ -18593,7 +19008,7 @@ var __async = (__this, __arguments, generator) => {
           vue.renderSlot(_ctx.$slots, "content-top", {}, () => [
             vue.createElementVNode("div", _hoisted_3$7, vue.toDisplayString(_ctx.item.addressName), 1),
             vue.createTextVNode(),
-            vue.createElementVNode("div", _hoisted_4$7, vue.toDisplayString(_ctx.item.phone), 1),
+            vue.createElementVNode("div", _hoisted_4$6, vue.toDisplayString(_ctx.item.phone), 1),
             vue.createTextVNode(),
             _ctx.item.defaultAddress ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_5$3, vue.toDisplayString(_ctx.translate("default")), 1)) : vue.createCommentVNode("", true)
           ])
@@ -18643,7 +19058,7 @@ var __async = (__this, __arguments, generator) => {
     emits: ["delIcon", "editIcon", "clickItem", "longDown", "longCopy", "longSet", "longDel", "swipeDel"],
     components: {
       ItemContents,
-      NutButton: Button,
+      NutButton: _sfc_main$1L,
       NutSwipe: Swipe
     },
     setup(props, { emit }) {
@@ -18867,7 +19282,7 @@ var __async = (__this, __arguments, generator) => {
     },
     components: {
       GeneralShell,
-      NutButton: Button
+      NutButton: _sfc_main$1L
     },
     emits: ["delIcon", "editIcon", "clickItem", "longCopy", "longSet", "longDel", "swipeDel", "add"],
     setup(props, { emit }) {
@@ -19037,7 +19452,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$7 = { class: "nut-category" };
   const _hoisted_2$7 = { class: "nut-category__cateList" };
   const _hoisted_3$6 = { key: 0 };
-  const _hoisted_4$6 = ["onClick"];
+  const _hoisted_4$5 = ["onClick"];
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", _hoisted_1$7, [
       vue.createElementVNode("div", _hoisted_2$7, [
@@ -19050,7 +19465,7 @@ var __async = (__this, __arguments, generator) => {
               vue.createElementVNode("div", {
                 class: vue.normalizeClass([_ctx.checkIndex == index ? "nut-category__cateListItemChecked" : "nut-category__cateListItem"]),
                 onClick: ($event) => _ctx.getChildList(index)
-              }, vue.toDisplayString(item.catName), 11, _hoisted_4$6)
+              }, vue.toDisplayString(item.catName), 11, _hoisted_4$5)
             ]);
           }), 128))
         ])) : vue.createCommentVNode("", true),
@@ -19094,7 +19509,7 @@ var __async = (__this, __arguments, generator) => {
     class: "nut-category-pane__cateListRight"
   };
   const _hoisted_3$5 = { class: "nut-category-pane__childTitle" };
-  const _hoisted_4$5 = {
+  const _hoisted_4$4 = {
     key: 0,
     class: "nut-category-pane__childItemList"
   };
@@ -19124,7 +19539,7 @@ var __async = (__this, __arguments, generator) => {
           return vue.openBlock(), vue.createElementBlock("div", { key: index }, [
             vue.createElementVNode("div", _hoisted_3$5, vue.toDisplayString(item == null ? void 0 : item.catName), 1),
             vue.createTextVNode(),
-            (item == null ? void 0 : item.catType) == 1 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$5, [
+            (item == null ? void 0 : item.catType) == 1 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_4$4, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(item.childCateList, (sku, key) => {
                 return vue.openBlock(), vue.createElementBlock("div", {
                   key,
@@ -19203,7 +19618,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$5 = { class: "nut-comment-header__user" };
   const _hoisted_2$5 = { class: "nut-comment-header__user-avter" };
   const _hoisted_3$4 = ["src"];
-  const _hoisted_4$4 = { class: "nut-comment-header__user-score" };
+  const _hoisted_4$3 = { class: "nut-comment-header__user-score" };
   const _hoisted_5$1 = {
     key: 0,
     class: "nut-comment-header__time"
@@ -19236,7 +19651,7 @@ var __async = (__this, __arguments, generator) => {
               vue.renderSlot(_ctx.$slots, "labels")
             ], 2),
             vue.createTextVNode(),
-            vue.createElementVNode("view", _hoisted_4$4, [
+            vue.createElementVNode("view", _hoisted_4$3, [
               vue.createVNode(_component_nut_rate, {
                 modelValue: _ctx.info.score,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.info.score = $event),
@@ -19342,7 +19757,7 @@ var __async = (__this, __arguments, generator) => {
   const _hoisted_1$4 = ["onClick"];
   const _hoisted_2$4 = ["src"];
   const _hoisted_3$3 = /* @__PURE__ */ vue.createElementVNode("view", { class: "nut-comment-images__play" }, null, -1);
-  const _hoisted_4$3 = ["onClick"];
+  const _hoisted_4$2 = ["onClick"];
   const _hoisted_5 = ["src"];
   const _hoisted_6 = {
     key: 0,
@@ -19385,7 +19800,7 @@ var __async = (__this, __arguments, generator) => {
               vue.createTextVNode(),
               vue.createVNode(_component_Right, { size: "12px" })
             ])) : vue.createCommentVNode("", true)
-          ], 8, _hoisted_4$3)) : vue.createCommentVNode("", true)
+          ], 8, _hoisted_4$2)) : vue.createCommentVNode("", true)
         ], 64);
       }), 128))
     ], 2);
@@ -19443,7 +19858,7 @@ var __async = (__this, __arguments, generator) => {
     style: { "display": "inline" }
   };
   const _hoisted_3$2 = { class: "nut-comment-bottom__cpx" };
-  const _hoisted_4$2 = ["onClick"];
+  const _hoisted_4$1 = ["onClick"];
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Fabulous = vue.resolveComponent("Fabulous");
     const _component_Comment = vue.resolveComponent("Comment");
@@ -19478,7 +19893,7 @@ var __async = (__this, __arguments, generator) => {
                 onClick: _cache[1] || (_cache[1] = ($event) => _ctx.operate("popover"))
               }, vue.toDisplayString(_ctx.translate("complaintsText")), 1)) : vue.createCommentVNode("", true)
             ], 64)) : vue.createCommentVNode("", true)
-          ], 10, _hoisted_4$2);
+          ], 10, _hoisted_4$1);
         }), 128))
       ])
     ]);
@@ -19559,7 +19974,7 @@ var __async = (__this, __arguments, generator) => {
   };
   const _hoisted_2$2 = ["innerHTML"];
   const _hoisted_3$1 = { class: "nut-comment__follow-title" };
-  const _hoisted_4$1 = { class: "nut-comment__follow-com" };
+  const _hoisted_4 = { class: "nut-comment__follow-com" };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_comment_header = vue.resolveComponent("comment-header");
     const _component_comment_images = vue.resolveComponent("comment-images");
@@ -19601,7 +20016,7 @@ var __async = (__this, __arguments, generator) => {
       }, [
         vue.createElementVNode("view", _hoisted_3$1, vue.toDisplayString(_ctx.translate("additionalReview", _ctx.follow.days)), 1),
         vue.createTextVNode(),
-        vue.createElementVNode("view", _hoisted_4$1, vue.toDisplayString(_ctx.follow.content), 1),
+        vue.createElementVNode("view", _hoisted_4, vue.toDisplayString(_ctx.follow.content), 1),
         vue.createTextVNode(),
         _ctx.follow.images && _ctx.follow.images.length > 0 ? (vue.openBlock(), vue.createElementBlock("view", {
           key: 0,
@@ -19632,7 +20047,7 @@ var __async = (__this, __arguments, generator) => {
       NutFormItem: FormItem,
       NutRadio: _sfc_main$13,
       NutRadioGroup: _sfc_main$12,
-      NutButton: Button
+      NutButton: _sfc_main$1L
     },
     props: {
       data: {
@@ -19818,7 +20233,7 @@ var __async = (__this, __arguments, generator) => {
   const { create } = createComponent("avatar-cropper");
   const _sfc_main = create({
     components: {
-      NutButton: Button,
+      NutButton: _sfc_main$1L,
       IconFont: iconsVueTaro.IconFont
     },
     props: {
@@ -19846,6 +20261,10 @@ var __async = (__this, __arguments, generator) => {
         type: String,
         default: "确定"
       },
+      shape: {
+        type: String,
+        default: "square"
+      },
       sizeType: {
         type: Array,
         default: () => ["original", "compressed"]
@@ -19871,14 +20290,12 @@ var __async = (__this, __arguments, generator) => {
         cropperWidth: 0,
         cropperHeight: 0
       });
-      const canvasAll = vue.reactive({
+      const canvasAll = {
         canvasId: `canvas-${Date.now()}`,
         cropperCanvas: null,
         cropperCanvasContext: null
-      });
+      };
       const drawImage = vue.ref({
-        src: "",
-        // 规定要使用的图像
         x: 0,
         // 在画布上x的坐标位置
         y: 0,
@@ -19888,18 +20305,19 @@ var __async = (__this, __arguments, generator) => {
         height: 0
         // 要使用的图像的高度
       });
+      let canvasImage = null;
       const touch = useTouch();
       const systemInfo = Taro.getSystemInfoSync();
-      const showAlipayCanvas2D = vue.computed(() => {
-        return Taro.getEnv() === "ALIPAY" && parseInt(Taro.SDKVersion.replace(/\./g, "")) >= 270;
+      const showCanvas2D = vue.computed(() => {
+        return Taro.getEnv() === "ALIPAY" && parseInt(Taro.SDKVersion.replace(/\./g, "")) >= 270 || systemInfo.SDKVersion && parseInt(systemInfo.SDKVersion.replace(/\./g, "")) >= 290 && Taro.getEnv() === "WEAPP";
       });
-      const showPixelRatio = Taro.getEnv() === "WEB" || showAlipayCanvas2D.value;
+      const showPixelRatio = Taro.getEnv() === "WEB" || showCanvas2D.value;
       const pixelRatio = showPixelRatio ? systemInfo.pixelRatio : 1;
       state.displayWidth = systemInfo.windowWidth * pixelRatio;
       state.displayHeight = systemInfo.windowHeight * pixelRatio;
       state.cropperWidth = state.cropperHeight = state.displayWidth - props.space * pixelRatio * 2;
       Taro.useReady(() => {
-        if (showAlipayCanvas2D.value) {
+        if (showCanvas2D.value) {
           const { canvasId } = canvasAll;
           Taro.createSelectorQuery().select(`#${canvasId}`).node(({ node: canvas }) => {
             canvas.width = state.displayWidth;
@@ -19965,7 +20383,7 @@ var __async = (__this, __arguments, generator) => {
       };
       const dataURLToCanvasImage = (canvas, dataURL) => {
         return new Promise((resolve) => {
-          const img = new canvas.createImage();
+          const img = canvas.createImage();
           img.onload = () => resolve(img);
           img.src = dataURL;
         });
@@ -19973,17 +20391,13 @@ var __async = (__this, __arguments, generator) => {
       const canvas2dDraw = (ctx) => {
         if (!ctx)
           return;
-        const { src, width, height, x, y } = drawImage.value;
-        const { moveX, moveY, scale, angle, displayWidth, displayHeight, cropperWidth } = state;
+        const { width, height, x, y } = drawImage.value;
+        const { moveX, moveY, scale, angle, displayWidth, displayHeight } = state;
         ctx.clearRect(0, 0, displayWidth, displayHeight);
-        ctx.fillStyle = "#666";
-        ctx.fillRect(0, 0, displayWidth, displayHeight);
-        ctx.fillStyle = "#000";
-        ctx.fillRect(props.space * pixelRatio, (displayHeight - cropperWidth) / 2, cropperWidth, cropperWidth);
         ctx.translate(displayWidth / 2 + moveX, displayHeight / 2 + moveY);
         ctx.rotate(Math.PI / 180 * angle);
         ctx.scale(scale, scale);
-        ctx.drawImage(src, x, y, width, height);
+        ctx.drawImage(canvasImage, x, y, width, height);
       };
       const webDraw = () => {
         const { displayWidth, displayHeight } = state;
@@ -19997,7 +20411,7 @@ var __async = (__this, __arguments, generator) => {
         const ctx = canvas.getContext("2d");
         canvas2dDraw(ctx);
       };
-      const alipayDraw = () => {
+      const canvas2dContextDraw = () => {
         const { cropperCanvas } = canvasAll;
         let ctx = cropperCanvas.getContext("2d");
         ctx && ctx.resetTransform();
@@ -20008,11 +20422,11 @@ var __async = (__this, __arguments, generator) => {
           webDraw();
           return;
         }
-        if (showAlipayCanvas2D.value) {
-          alipayDraw();
+        if (showCanvas2D.value) {
+          canvas2dContextDraw();
           return;
         }
-        const { src, width, height, x, y } = drawImage.value;
+        const { width, height, x, y } = drawImage.value;
         const { moveX, moveY, scale, angle, displayWidth, displayHeight, cropperWidth } = state;
         const { cropperCanvasContext } = canvasAll;
         let ctx = cropperCanvasContext;
@@ -20030,19 +20444,19 @@ var __async = (__this, __arguments, generator) => {
         ctx.translate(displayWidth / 2 + moveX, displayHeight / 2 + moveY);
         ctx.rotate(Math.PI / 180 * angle);
         ctx.scale(scale, scale);
-        ctx.drawImage(src, x, y, width, height);
+        ctx.drawImage(canvasImage, x, y, width, height);
         ctx.draw();
       };
       const setDrawImg = (image) => __async(this, null, function* () {
         const { displayWidth, cropperWidth } = state;
         let drawImg = __spreadValues({}, drawImage.value);
         const { width: imgWidth, height: imgHeight } = image;
-        drawImg.src = image.path;
+        canvasImage = image.path;
         if (Taro.getEnv() === "WEB") {
-          drawImg.src = yield dataURLToImage(image.path);
+          canvasImage = yield dataURLToImage(image.path);
         }
-        if (showAlipayCanvas2D.value) {
-          drawImg.src = yield dataURLToCanvasImage(canvasAll.cropperCanvas, image.path);
+        if (showCanvas2D.value) {
+          canvasImage = yield dataURLToCanvasImage(canvasAll.cropperCanvas, image.path);
         }
         const isPortrait = imgHeight > imgWidth;
         const rate = isPortrait ? imgWidth / imgHeight : imgHeight / imgWidth;
@@ -20194,15 +20608,16 @@ var __async = (__this, __arguments, generator) => {
         emit("confirm", imageDataURL);
         cancel(false);
       };
-      const confirmALIPAY = () => {
+      const confirmCanvas2D = () => {
         const { cropperWidth, displayHeight } = state;
         const { cropperCanvas } = canvasAll;
+        const pixelRatio2 = Taro.getEnv() === "ALIPAY" ? 1 : systemInfo.pixelRatio;
         Taro.canvasToTempFilePath({
           canvas: cropperCanvas,
           x: props.space,
-          y: (displayHeight - cropperWidth) / 2,
-          width: cropperWidth,
-          height: cropperWidth,
+          y: (displayHeight - cropperWidth) / pixelRatio2 / 2,
+          width: cropperWidth / pixelRatio2,
+          height: cropperWidth / pixelRatio2,
           destWidth: cropperWidth,
           destHeight: cropperWidth,
           success: (res) => __async(this, null, function* () {
@@ -20218,8 +20633,8 @@ var __async = (__this, __arguments, generator) => {
           confirmWEB();
           return;
         }
-        if (showAlipayCanvas2D.value) {
-          confirmALIPAY();
+        if (showCanvas2D.value) {
+          confirmCanvas2D();
           return;
         }
         const { cropperWidth, displayHeight } = state;
@@ -20277,7 +20692,7 @@ var __async = (__this, __arguments, generator) => {
         confirm
       });
       return __spreadProps(__spreadValues(__spreadValues({}, vue.toRefs(state)), vue.toRefs(canvasAll)), {
-        showAlipayCanvas2D,
+        showCanvas2D,
         highlightStyle,
         canvasStyle,
         cutCanvasStyle,
@@ -20292,10 +20707,9 @@ var __async = (__this, __arguments, generator) => {
       });
     }
   });
-  const _hoisted_1 = { class: "nut-avatar-cropper taro" };
-  const _hoisted_2 = { class: "nut-cropper-popup" };
-  const _hoisted_3 = ["id", "canvas-id", "type"];
-  const _hoisted_4 = {
+  const _hoisted_1 = { class: "nut-cropper-popup" };
+  const _hoisted_2 = ["id", "canvas-id", "type"];
+  const _hoisted_3 = {
     key: 1,
     class: "flex-sb"
   };
@@ -20303,23 +20717,25 @@ var __async = (__this, __arguments, generator) => {
     const _component_nut_button = vue.resolveComponent("nut-button");
     const _component_IconFont = vue.resolveComponent("IconFont");
     return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
-      vue.createElementVNode("view", _hoisted_1, [
+      vue.createElementVNode("view", {
+        class: vue.normalizeClass(["nut-avatar-cropper taro", { round: _ctx.shape === "round" }])
+      }, [
         vue.renderSlot(_ctx.$slots, "default"),
         vue.createTextVNode(),
         vue.createElementVNode("view", {
           class: "nut-avatar-cropper__edit-text",
           onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => _ctx.chooseImage && _ctx.chooseImage(...args), ["stop"]))
         }, vue.toDisplayString(_ctx.editText), 1)
-      ]),
+      ], 2),
       vue.createTextVNode(),
-      vue.withDirectives(vue.createElementVNode("view", _hoisted_2, [
+      vue.withDirectives(vue.createElementVNode("view", _hoisted_1, [
         vue.createElementVNode("canvas", {
           id: _ctx.canvasId,
           "canvas-id": _ctx.canvasId,
-          type: _ctx.showAlipayCanvas2D ? "2d" : void 0,
+          type: _ctx.showCanvas2D ? "2d" : void 0,
           style: vue.normalizeStyle(_ctx.canvasStyle),
           class: "nut-cropper-popup__canvas"
-        }, null, 12, _hoisted_3),
+        }, null, 12, _hoisted_2),
         vue.createTextVNode(),
         vue.createElementVNode("view", {
           class: "nut-cropper-popup__highlight",
@@ -20329,15 +20745,15 @@ var __async = (__this, __arguments, generator) => {
           onTouchcancel: _cache[4] || (_cache[4] = (...args) => _ctx.onTouchEnd && _ctx.onTouchEnd(...args))
         }, [
           vue.createElementVNode("view", {
-            class: "highlight",
+            class: vue.normalizeClass(["highlight", { highlight__round: _ctx.shape === "round" }]),
             style: vue.normalizeStyle(_ctx.highlightStyle)
-          }, null, 4)
+          }, null, 6)
         ], 32),
         vue.createTextVNode(),
         vue.createElementVNode("view", {
           class: vue.normalizeClass(["nut-cropper-popup__toolbar", [_ctx.toolbarPosition]])
         }, [
-          _ctx.$slots.toolbar ? vue.renderSlot(_ctx.$slots, "toolbar", { key: 0 }) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_4, [
+          _ctx.$slots.toolbar ? vue.renderSlot(_ctx.$slots, "toolbar", { key: 0 }) : (vue.openBlock(), vue.createElementBlock("view", _hoisted_3, [
             vue.createElementVNode("view", {
               class: "nut-cropper-popup__toolbar-item",
               onClick: _cache[5] || (_cache[5] = ($event) => _ctx.cancel())
@@ -20390,7 +20806,7 @@ var __async = (__this, __arguments, generator) => {
   }
   const AvatarCropper = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
   function install(app) {
-    const packages = [Button, Cell, CellGroup, Overlay, Popup, _sfc_main$1F, _sfc_main$1E, Col, Row, Sticky, Divider, _sfc_main$1z, GridItem, _sfc_main$1x, Navbar, FixedNav, Menu, MenuItem, Tabbar, TabbarItem, Elevator, Pagination, Tabs, TabPane, Indicator, SideNavbar, SideNavbarItem, SubSideNavbar, Range, Searchbar, Cascader, Calendar, _sfc_main$1a, _sfc_main$19, DatePicker, InputNumber, Input, _sfc_main$13, _sfc_main$12, Rate, Picker, ShortPassword, Textarea, Uploader, NumberKeyboard, Form, FormItem, Swipe, SwipeGroup, ActionSheet, Backtop, Drag, Dialog, Notify, Switch, Toast, Avatar, AvatarGroup, List, Progress, CircleProgress, Noticebar, Empty, _sfc_main$G, Step, Swiper, SwiperItem, Price, ImagePreview, Countup, Countdown, Badge, Tag, Popover, Skeleton, Collapse, CollapseItem, Table, Animate, Ellipsis, Watermark, TrendArrow, Tour, Address, Barrage, Signature, TimeSelect, TimePannel, TimeDetail, Sku, Card, Ecard, AddressList, Category, CategoryPane, Comment, Invoice, AvatarCropper];
+    const packages = [_sfc_main$1L, Cell, CellGroup, Overlay, Popup, _sfc_main$1G, _sfc_main$1F, Col, Row, Sticky, _sfc_main$1B, _sfc_main$1A, GridItem, _sfc_main$1y, Navbar, FixedNav, Menu, MenuItem, Tabbar, TabbarItem, Elevator, Pagination, Tabs, TabPane, Indicator, SideNavbar, SideNavbarItem, SubSideNavbar, Range, Searchbar, Cascader, Calendar, _sfc_main$1b, _sfc_main$1a, _sfc_main$19, DatePicker, InputNumber, Input, _sfc_main$13, _sfc_main$12, Rate, Picker, ShortPassword, Textarea, Uploader, NumberKeyboard, Form, FormItem, Swipe, SwipeGroup, ActionSheet, Backtop, Drag, Dialog, Notify, Switch, Toast, Avatar, AvatarGroup, List, Progress, CircleProgress, Noticebar, Empty, _sfc_main$G, Step, Swiper, SwiperItem, Price, ImagePreview, Countup, Countdown, Badge, Tag, Popover, Skeleton, Collapse, CollapseItem, Table, Animate, Ellipsis, Watermark, TrendArrow, Tour, Address, Barrage, Signature, TimeSelect, TimePannel, TimeDetail, Sku, Card, Ecard, AddressList, Category, CategoryPane, Comment, Invoice, AvatarCropper];
     packages.forEach((item) => {
       if (item.install) {
         app.use(item);
@@ -20399,8 +20815,8 @@ var __async = (__this, __arguments, generator) => {
       }
     });
   }
-  const version = "4.2.6";
-  const nutui_taro_vue_build = { install, version, Locale };
+  const version = "4.3.0";
+  const taro_build = { install, version, Locale };
   exports2.ActionSheet = ActionSheet;
   exports2.Address = Address;
   exports2.AddressList = AddressList;
@@ -20411,8 +20827,9 @@ var __async = (__this, __arguments, generator) => {
   exports2.Backtop = Backtop;
   exports2.Badge = Badge;
   exports2.Barrage = Barrage;
-  exports2.Button = Button;
+  exports2.Button = _sfc_main$1L;
   exports2.Calendar = Calendar;
+  exports2.CalendarCard = _sfc_main$1b;
   exports2.Card = Card;
   exports2.Cascader = Cascader;
   exports2.Category = Category;
@@ -20426,12 +20843,12 @@ var __async = (__this, __arguments, generator) => {
   exports2.Collapse = Collapse;
   exports2.CollapseItem = CollapseItem;
   exports2.Comment = Comment;
-  exports2.ConfigProvider = _sfc_main$1F;
+  exports2.ConfigProvider = _sfc_main$1G;
   exports2.Countdown = Countdown;
   exports2.Countup = Countup;
   exports2.DatePicker = DatePicker;
   exports2.Dialog = Dialog;
-  exports2.Divider = Divider;
+  exports2.Divider = _sfc_main$1B;
   exports2.Drag = Drag;
   exports2.Ecard = Ecard;
   exports2.Elevator = Elevator;
@@ -20440,14 +20857,14 @@ var __async = (__this, __arguments, generator) => {
   exports2.FixedNav = FixedNav;
   exports2.Form = Form;
   exports2.FormItem = FormItem;
-  exports2.Grid = _sfc_main$1z;
+  exports2.Grid = _sfc_main$1A;
   exports2.GridItem = GridItem;
   exports2.ImagePreview = ImagePreview;
   exports2.Indicator = Indicator;
   exports2.Input = Input;
   exports2.InputNumber = InputNumber;
   exports2.Invoice = Invoice;
-  exports2.Layout = _sfc_main$1E;
+  exports2.Layout = _sfc_main$1F;
   exports2.List = List;
   exports2.Locale = Locale;
   exports2.Menu = Menu;
@@ -20475,7 +20892,7 @@ var __async = (__this, __arguments, generator) => {
   exports2.Signature = Signature;
   exports2.Skeleton = Skeleton;
   exports2.Sku = Sku;
-  exports2.Space = _sfc_main$1x;
+  exports2.Space = _sfc_main$1y;
   exports2.Step = Step;
   exports2.Steps = _sfc_main$G;
   exports2.Sticky = Sticky;
@@ -20500,7 +20917,7 @@ var __async = (__this, __arguments, generator) => {
   exports2.TrendArrow = TrendArrow;
   exports2.Uploader = Uploader;
   exports2.Watermark = Watermark;
-  exports2.default = nutui_taro_vue_build;
+  exports2.default = taro_build;
   exports2.install = install;
   exports2.version = version;
   Object.defineProperties(exports2, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });

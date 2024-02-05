@@ -1,3 +1,85 @@
+## v4.3.0
+
+`2024-02-05`
+
+New Components
+
+- 新增 CalendarCard 日历卡片组件 (#2694) @eiinu
+
+Bug Fixes
+
+- avatar-cropper: 修复微信真机调试 canvas 层级错误 (#2865) @yi-boide
+- input-number: 修复输入时未触发 change 事件问题 (#2903) @yi-boide
+- input: 修复 slot 字体样式问题 (#2863) @eiinu
+- popover: 修复内部 popup 样式问题 (#2878) @eiinu
+- popover: 修复滑动后定位错乱问题 (#2913) @eiinu
+- noticebar: 移除 left-icon 空白占位元素 (#2916) @eiinu
+
+Refactors
+
+- popover: 重构代码逻辑 (#2913) @eiinu
+
+Other Changes
+
+- demo: 拆分演示代码 short-password, tabbar, cascader, backtop @yi-boide
+- test: 测试环境由 jsdom 迁移至 happy-dom (#2881) @eiinu
+
+## v4.2.9
+
+`2024-01-22`
+
+Bug Fixes
+
+- button: 修复自定义 color 时的 border 样式 (#2843) @subordon
+- form: 修复搭配 input 使用时的样式问题 (#2851) @eiinu
+- list: 优化 containerHeight 获取逻辑 (#2860) @eiinu
+
+Refactors
+
+- button: use script setup (#2713) @eiinu
+- divider: use script setup (#2840) @eiinu
+
+Other Changes
+
+- checkbox: improve type def (#2845) @eiinu
+- ellipsis: improve type def (#2848) @eiinu
+- side-navbar: remove unnecessary props (#2858) @eiinu
+
+## v4.2.8
+
+`2024-01-15`
+
+Features
+
+- avatar-cropper: 新增 shape 属性，支持 round 类型 (#2818) @iCheng
+
+Bug Fixes
+
+- calendar: 修复初次打开默认值定位问题 (#2829) @eiinu
+- date-picker: 修复数据联动更新问题 (#2824) @eiinu
+- dialog: 修复 cancel 按钮的样式问题 (#2823) @eiinu
+- picker: 优化 select、cursor 样式 (#2826) @eiinu
+
+## v4.2.7
+
+`2024-01-05`
+
+Features
+
+- swiper: 新增 pagination-unselected-color 属性 (#2803), close #2688 @iCheng
+- tabs: 新增 align 属性，支持标题左对齐布局 (#2809), close #2471 @iCheng
+
+Bug Fixes
+
+- picker: 修复 Safari 下遮罩层级样式问题 (#2821) @eiinu
+- date-picker: 修复 hour-minute 类型下选项刷新问题 (#2784) @Robin-Wubin
+- cascader: 修复内部 tabs 标题样式对齐问题 (#2802) @eiinu
+- avatar-cropper: 文档修正 (#2820) @iCheng
+
+Other Changes
+
+- deps: bump to vue 3.4 (#2812) @eiinu
+
 ## v4.2.6
 
 `2023-12-25`

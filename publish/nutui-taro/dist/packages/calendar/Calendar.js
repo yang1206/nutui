@@ -1,14 +1,15 @@
 import { computed, ref, resolveComponent, openBlock, createBlock, mergeProps, withCtx, createVNode, createSlots, renderSlot } from "vue";
 import { c as createComponent } from "../component-TCzwHGVq.js";
-import { N as NutCalendarItem, U as Utils } from "../index.taro-yjz3DGUS.js";
-import { N as NutPopup } from "../index.taro-vH2b6ZpB.js";
+import NutCalendarItem from "../calendaritem/CalendarItem.js";
+import { N as NutPopup } from "../index.taro-JFNR7Hum.js";
+import { U as Utils } from "../date-djiVNSnJ.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
 import "@tarojs/taro";
 import "../index.taro.vue_vue_type_script_setup_true_lang-SKyMF-aS.js";
 import "../raf-9SbwNmt2.js";
-import "../index-DDx91B18.js";
+import "../index-xXrovSQL.js";
 import "@nutui/nutui-taro/dist/packages/locale/lang";
-import "../util-WZB3Ltgx.js";
+import "../util-Bt8WDYya.js";
 import "@nutui/icons-vue-taro";
 import "../overlay/Overlay.js";
 const { create } = createComponent("calendar");
@@ -90,6 +91,14 @@ const _sfc_main = create({
   },
   emits: ["choose", "close", "update:visible", "select"],
   setup(props, { emit, slots, expose }) {
+    const visible = computed({
+      get() {
+        return props.visible;
+      },
+      set(val) {
+        emit("update:visible", val);
+      }
+    });
     const showTopBtn = computed(() => {
       return slots.btn;
     });
@@ -135,8 +144,22 @@ const _sfc_main = create({
     const select = (param) => {
       emit("select", param);
     };
+    const opened = () => {
+      var _a, _b, _c, _d;
+      if (props.defaultValue) {
+        if (Array.isArray(props.defaultValue)) {
+          if ((_a = props.defaultValue) == null ? void 0 : _a.length) {
+            (_c = calendarRef.value) == null ? void 0 : _c.scrollToDate((_b = props.defaultValue) == null ? void 0 : _b[0]);
+          }
+        } else {
+          (_d = calendarRef.value) == null ? void 0 : _d.scrollToDate(props.defaultValue);
+        }
+      }
+    };
     return {
+      visible,
       closePopup,
+      opened,
       update,
       close,
       select,
@@ -156,6 +179,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return _ctx.poppable ? (openBlock(), createBlock(_component_nut_popup, mergeProps({
     key: 0,
     visible: _ctx.visible,
+    "onUpdate:visible": _cache[0] || (_cache[0] = ($event) => _ctx.visible = $event),
     position: "bottom",
     round: "",
     closeable: ""
@@ -163,8 +187,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     style: { height: "85vh" },
     "lock-scroll": _ctx.lockScroll,
     "catch-move": _ctx.lockScroll,
-    onClickOverlay: _ctx.closePopup,
-    onClickCloseIcon: _ctx.closePopup
+    "destroy-on-close": false,
+    onOpened: _ctx.opened
   }), {
     default: withCtx(() => [
       createVNode(_component_nut_calendar_item, {
@@ -236,7 +260,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ]), 1032, ["type", "is-auto-back-fill", "poppable", "title", "default-value", "start-date", "end-date", "confirm-text", "start-text", "end-text", "show-today", "show-title", "show-sub-title", "to-date-animation", "first-day-of-week", "disabled-date", "onUpdate", "onClose", "onChoose", "onSelect"])
     ]),
     _: 3
-  }, 16, ["visible", "lock-scroll", "catch-move", "onClickOverlay", "onClickCloseIcon"])) : (openBlock(), createBlock(_component_nut_calendar_item, {
+  }, 16, ["visible", "lock-scroll", "catch-move", "onOpened"])) : (openBlock(), createBlock(_component_nut_calendar_item, {
     key: 1,
     ref: "calendarRef",
     type: _ctx.type,

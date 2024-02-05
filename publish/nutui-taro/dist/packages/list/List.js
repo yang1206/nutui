@@ -41,7 +41,7 @@ import { ref, reactive, computed, watch, toRefs, resolveComponent, openBlock, cr
 import { c as createComponent } from "../component-TCzwHGVq.js";
 import Taro from "@tarojs/taro";
 import { _ as _sfc_main$1 } from "../index.taro.vue_vue_type_script_setup_true_lang-SKyMF-aS.js";
-import { u as useTaroRect } from "../index-Isui2_f6.js";
+import { u as useTaroRect } from "../index-d4pC_9mG.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
 var CompareResult = /* @__PURE__ */ ((CompareResult2) => {
   CompareResult2[CompareResult2["eq"] = 1] = "eq";
@@ -69,7 +69,6 @@ function binarySearch(list, value, compareFunc) {
   return tempIndex;
 }
 const { create } = createComponent("list");
-const clientHeight = Taro.getSystemInfoSync().windowHeight || 667;
 const _sfc_main = create({
   components: {
     NutScrollView: _sfc_main$1
@@ -90,8 +89,7 @@ const _sfc_main = create({
       default: 5
     },
     containerHeight: {
-      type: [Number],
-      default: clientHeight
+      type: Number
     },
     estimateRowHeight: {
       type: Number,
@@ -104,6 +102,8 @@ const _sfc_main = create({
   },
   emits: ["scrollUp", "scrollDown", "scrollBottom"],
   setup(props, { emit }) {
+    var _a, _b, _c;
+    const clientHeight = ((_c = (_b = (_a = Taro).getSystemInfoSync) == null ? void 0 : _b.call(_a)) == null ? void 0 : _c.windowHeight) || 667;
     const list = ref(null);
     const phantom = ref(null);
     const actualContent = ref(null);
@@ -117,7 +117,10 @@ const _sfc_main = create({
       phantomHeight: props.estimateRowHeight * props.listData.length
     });
     const getContainerHeight = computed(() => {
-      return Math.min(props.containerHeight, clientHeight);
+      if (props.containerHeight) {
+        return Math.min(props.containerHeight, clientHeight);
+      }
+      return clientHeight;
     });
     const visibleCount = computed(() => {
       return Math.ceil(getContainerHeight.value / props.estimateRowHeight);

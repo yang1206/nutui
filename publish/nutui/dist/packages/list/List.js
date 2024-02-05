@@ -19,7 +19,7 @@ var __spreadValues = (a, b) => {
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 import { ref, reactive, computed, watch, toRefs, openBlock, createElementBlock, normalizeStyle, createElementVNode, Fragment, renderList, renderSlot } from "vue";
 import { c as createComponent } from "../component-TCzwHGVq.js";
-import { u as useRect } from "../index-rf29bejW.js";
+import { u as useRect } from "../index-cp6Ms_Qe.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
 var CompareResult = /* @__PURE__ */ ((CompareResult2) => {
   CompareResult2[CompareResult2["eq"] = 1] = "eq";
@@ -47,7 +47,6 @@ function binarySearch(list, value, compareFunc) {
   return tempIndex;
 }
 const { create } = createComponent("list");
-const clientHeight = document.documentElement.clientHeight || document.body.clientHeight || 667;
 const _sfc_main = create({
   props: {
     listData: {
@@ -61,8 +60,7 @@ const _sfc_main = create({
       default: 5
     },
     containerHeight: {
-      type: [Number],
-      default: clientHeight
+      type: Number
     },
     height: {
       type: Number,
@@ -75,6 +73,7 @@ const _sfc_main = create({
   },
   emits: ["scrollUp", "scrollDown", "scrollBottom"],
   setup(props, { emit }) {
+    const clientHeight = document.documentElement.clientHeight || document.body.clientHeight || 667;
     const list = ref(null);
     const phantom = ref(null);
     const actualContent = ref(null);
@@ -87,7 +86,10 @@ const _sfc_main = create({
       phantomHeight: props.height * props.listData.length
     });
     const getContainerHeight = computed(() => {
-      return Math.min(props.containerHeight, clientHeight);
+      if (props.containerHeight) {
+        return Math.min(props.containerHeight, clientHeight);
+      }
+      return clientHeight;
     });
     const visibleCount = computed(() => {
       return Math.ceil(getContainerHeight.value / props.height);

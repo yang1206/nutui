@@ -1,7 +1,8 @@
-import type { CSSProperties } from 'vue';
+import type { PropType, CSSProperties } from 'vue';
+import { CellSize } from './types';
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     title: {
@@ -42,7 +43,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     size: {
-        type: StringConstructor;
+        type: PropType<CellSize>;
         default: string;
     };
 }, {
@@ -93,27 +94,27 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     size: {
-        type: StringConstructor;
+        type: PropType<CellSize>;
         default: string;
     };
 }>> & {
     onClick?: ((...args: any[]) => any) | undefined;
 }, {
-    size: string;
+    size: CellSize;
     title: string;
+    desc: string;
     replace: boolean;
     center: boolean;
-    desc: string;
-    url: string;
     subTitle: string;
     descTextAlign: string;
     isLink: boolean;
     roundRadius: string | number;
+    url: string;
 }, {}>>;
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutCell: typeof _default;
-  }
+    interface GlobalComponents {
+        NutCell: typeof _default;
+    }
 }

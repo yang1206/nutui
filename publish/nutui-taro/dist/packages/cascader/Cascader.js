@@ -56,20 +56,20 @@ var __async = (__this, __arguments, generator) => {
 };
 import { computed, ref, watch, resolveComponent, openBlock, createBlock, withCtx, createElementBlock, Fragment, renderList, createElementVNode, createVNode, normalizeClass, toDisplayString, createTextVNode, createCommentVNode } from "vue";
 import { c as createComponent } from "../component-TCzwHGVq.js";
-import { N as NutPopup, p as popupProps } from "../index.taro-vH2b6ZpB.js";
+import { N as NutPopup, p as popupProps } from "../index.taro-JFNR7Hum.js";
 import { _ as _sfc_main$2 } from "../index.taro.vue_vue_type_script_setup_true_lang-SKyMF-aS.js";
 import { Loading, Checklist } from "@nutui/icons-vue-taro";
 import NutTabs from "../tabs/Tabs.js";
 import NutTabPane from "../tabpane/TabPane.js";
-import { u as useLocale } from "../index-DDx91B18.js";
+import { u as useLocale } from "../index-xXrovSQL.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
 import "../overlay/Overlay.js";
 import "@tarojs/taro";
-import "../util-WZB3Ltgx.js";
+import "../util-Bt8WDYya.js";
 import "../pxCheck-OnXlN1NC.js";
 import "../raf-9SbwNmt2.js";
 import "../index-084nl_oE.js";
-import "../index-Isui2_f6.js";
+import "../index-d4pC_9mG.js";
 import "@nutui/nutui-taro/dist/packages/locale/lang";
 const formatTree = (tree, parent, config) => tree.map((node) => {
   const { value: valueKey = "value", text: textKey = "text", children: childrenKey = "children" } = config;
@@ -587,7 +587,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     "pop-class": "nut-cascader__popup",
     round: "",
     closeable: _ctx.closeable,
-    "close-icon": _ctx.closeIcon,
     "destroy-on-close": false,
     "close-icon-position": _ctx.closeIconPosition,
     "lock-scroll": _ctx.lockScroll,
@@ -616,7 +615,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8, ["model-value", "options", "lazy", "lazy-load", "value-key", "text-key", "children-key", "convert-config", "visible", "onChange", "onPathChange"])
     ]),
     _: 1
-  }, 8, ["visible", "closeable", "close-icon", "close-icon-position", "lock-scroll", "catch-move", "z-index"])) : (openBlock(), createBlock(_component_nut_cascader_item, {
+  }, 8, ["visible", "closeable", "close-icon-position", "lock-scroll", "catch-move", "z-index"])) : (openBlock(), createBlock(_component_nut_cascader_item, {
     key: 1,
     "model-value": _ctx.innerValue,
     options: _ctx.options,

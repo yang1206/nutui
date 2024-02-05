@@ -1,11 +1,12 @@
 import { PropType } from 'vue';
+import { NoticebarDirection } from './types';
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     direction: {
-        type: StringConstructor;
+        type: PropType<NoticebarDirection>;
         default: string;
     };
     list: {
@@ -104,7 +105,7 @@ declare const _default: Install< import("vue").DefineComponent<{
     showNotica: import("vue").Ref<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("click" | "close" | "acrossEnd")[], "click" | "close" | "acrossEnd", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     direction: {
-        type: StringConstructor;
+        type: PropType<NoticebarDirection>;
         default: string;
     };
     list: {
@@ -164,12 +165,11 @@ declare const _default: Install< import("vue").DefineComponent<{
     onClose?: ((...args: any[]) => any) | undefined;
     onAcrossEnd?: ((...args: any[]) => any) | undefined;
 }, {
-    text: string;
     color: string;
     height: number;
+    text: string;
     background: string;
-    direction: string;
-    speed: number;
+    direction: NoticebarDirection;
     list: any[];
     standTime: number;
     complexAm: boolean;
@@ -178,11 +178,12 @@ declare const _default: Install< import("vue").DefineComponent<{
     leftIcon: boolean;
     delay: string | number;
     scrollable: boolean;
+    speed: number;
 }, {}>>;
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutNoticebar: typeof _default;
-  }
+    interface GlobalComponents {
+        NutNoticebar: typeof _default;
+    }
 }

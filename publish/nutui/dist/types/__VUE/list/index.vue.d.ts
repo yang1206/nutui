@@ -1,7 +1,7 @@
 import { Ref, ComputedRef } from 'vue';
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     listData: {
@@ -13,8 +13,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: number;
     };
     containerHeight: {
-        type: NumberConstructor[];
-        default: number;
+        type: NumberConstructor;
     };
     height: {
         type: NumberConstructor;
@@ -43,7 +42,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         dValue: number;
     }[]>;
     phantomHeight: Ref<number>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("scrollBottom" | "scrollUp" | "scrollDown")[], "scrollBottom" | "scrollUp" | "scrollDown", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("scrollUp" | "scrollDown" | "scrollBottom")[], "scrollUp" | "scrollDown" | "scrollBottom", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     listData: {
         type: ArrayConstructor;
         default: () => never[];
@@ -53,8 +52,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: number;
     };
     containerHeight: {
-        type: NumberConstructor[];
-        default: number;
+        type: NumberConstructor;
     };
     height: {
         type: NumberConstructor;
@@ -65,20 +63,19 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: number;
     };
 }>> & {
-    onScrollBottom?: ((...args: any[]) => any) | undefined;
     onScrollUp?: ((...args: any[]) => any) | undefined;
     onScrollDown?: ((...args: any[]) => any) | undefined;
+    onScrollBottom?: ((...args: any[]) => any) | undefined;
 }, {
     height: number;
     listData: unknown[];
     bufferSize: number;
-    containerHeight: number;
     margin: number;
 }, {}>>;
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutList: typeof _default;
-  }
+    interface GlobalComponents {
+        NutList: typeof _default;
+    }
 }

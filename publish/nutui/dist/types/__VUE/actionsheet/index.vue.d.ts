@@ -9,7 +9,7 @@ export interface ActionSheetMenuItems {
 }
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     cancelTxt: {
@@ -69,7 +69,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     position: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupPosition>;
         default: string;
     };
     transition: {
@@ -89,11 +89,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     closeIconPosition: {
-        type: StringConstructor;
-        default: string;
-    };
-    closeIcon: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupCloseIconPosition>;
         default: string;
     };
     destroyOnClose: {
@@ -195,7 +191,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     position: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupPosition>;
         default: string;
     };
     transition: {
@@ -215,11 +211,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     closeIconPosition: {
-        type: StringConstructor;
-        default: string;
-    };
-    closeIcon: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupCloseIconPosition>;
         default: string;
     };
     destroyOnClose: {
@@ -263,8 +255,11 @@ declare const _default: Install< import("vue").DefineComponent<{
     "onUpdate:visible"?: ((...args: any[]) => any) | undefined;
     onChoose?: ((...args: any[]) => any) | undefined;
 }, {
+    round: boolean;
+    color: string;
     style: Record<string, any>;
     title: string;
+    transition: string;
     overlay: boolean;
     visible: boolean;
     zIndex: string | number;
@@ -273,14 +268,10 @@ declare const _default: Install< import("vue").DefineComponent<{
     overlayClass: string;
     overlayStyle: Record<string, any>;
     closeOnClickOverlay: boolean;
-    color: string;
-    round: boolean;
-    position: string;
-    transition: string;
+    position: import("../popup/types").PopupPosition;
     popClass: string;
     closeable: boolean;
-    closeIconPosition: string;
-    closeIcon: string;
+    closeIconPosition: import("../popup/types").PopupCloseIconPosition;
     destroyOnClose: boolean;
     teleport: string | Element;
     teleportDisable: boolean;
@@ -296,7 +287,7 @@ declare const _default: Install< import("vue").DefineComponent<{
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutActionSheet: typeof _default;
-  }
+    interface GlobalComponents {
+        NutActionSheet: typeof _default;
+    }
 }

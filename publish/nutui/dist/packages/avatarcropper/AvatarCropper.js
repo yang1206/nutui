@@ -38,18 +38,19 @@ var __async = (__this, __arguments, generator) => {
     step((generator = generator.apply(__this, __arguments)).next());
   });
 };
-import { reactive, ref, computed, watch, toRefs, resolveComponent, openBlock, createElementBlock, Fragment, createElementVNode, renderSlot, withDirectives, normalizeStyle, normalizeClass, createVNode, withCtx, createTextVNode, toDisplayString, vShow } from "vue";
-import NutButton from "../button/Button.js";
+import { reactive, ref, computed, watch, toRefs, resolveComponent, openBlock, createElementBlock, Fragment, createElementVNode, normalizeClass, renderSlot, withDirectives, normalizeStyle, createVNode, withCtx, createTextVNode, toDisplayString, vShow } from "vue";
+import { Button as _sfc_main$1 } from "../button/Button.js";
 import { c as createComponent } from "../component-TCzwHGVq.js";
 import { d as preventDefault, e as clamp } from "../util-4Jkyw4BJ.js";
 import { Refresh2, Retweet } from "@nutui/icons-vue";
 import { u as useTouch } from "../index-084nl_oE.js";
-import { u as useRect } from "../index-rf29bejW.js";
+import { u as useRect } from "../index-cp6Ms_Qe.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
+import "../with-install-p59gYYU_.js";
 const { create } = createComponent("avatar-cropper");
 const _sfc_main = create({
   components: {
-    NutButton,
+    NutButton: _sfc_main$1,
     Refresh2,
     Retweet
   },
@@ -77,6 +78,10 @@ const _sfc_main = create({
     confirmText: {
       type: String,
       default: "确定"
+    },
+    shape: {
+      type: String,
+      default: "square"
     }
   },
   emits: ["confirm", "cancel"],
@@ -390,7 +395,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Retweet = resolveComponent("Retweet");
   return openBlock(), createElementBlock(Fragment, null, [
     createElementVNode("div", {
-      class: "nut-avatar-cropper",
+      class: normalizeClass(["nut-avatar-cropper", { round: _ctx.shape === "round" }]),
       "data-edit-text": _ctx.editText
     }, [
       renderSlot(_ctx.$slots, "default"),
@@ -401,7 +406,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         class: "nut-avatar-cropper__input",
         onChange: _cache[0] || (_cache[0] = (...args) => _ctx.inputImageChange && _ctx.inputImageChange(...args))
       }, null, 544)
-    ], 8, _hoisted_1),
+    ], 10, _hoisted_1),
     withDirectives(createElementVNode("div", _hoisted_2, [
       createElementVNode("canvas", _hoisted_3, null, 512),
       createElementVNode("div", {
@@ -412,9 +417,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         onTouchcancel: _cache[4] || (_cache[4] = (...args) => _ctx.onTouchEnd && _ctx.onTouchEnd(...args))
       }, [
         createElementVNode("div", {
-          class: "highlight",
+          class: normalizeClass(["highlight", { highlight__round: _ctx.shape === "round" }]),
           style: normalizeStyle(_ctx.highlightStyle)
-        }, null, 4)
+        }, null, 6)
       ], 32),
       createElementVNode("div", {
         class: normalizeClass(["nut-cropper-popup__toolbar", [_ctx.toolbarPosition]])

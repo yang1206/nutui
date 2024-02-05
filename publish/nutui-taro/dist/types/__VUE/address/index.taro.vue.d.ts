@@ -2,7 +2,7 @@ import { PropType } from 'vue';
 import { AddressData, CustomRegionData, existRegionData } from './type';
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     modelValue: {
@@ -78,7 +78,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     position: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupPosition>;
         default: string;
     };
     transition: {
@@ -98,11 +98,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     closeIconPosition: {
-        type: StringConstructor;
-        default: string;
-    };
-    closeIcon: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupCloseIconPosition>;
         default: string;
     };
     destroyOnClose: {
@@ -149,7 +145,10 @@ declare const _default: Install< import("vue").DefineComponent<{
     city: import("vue").Ref<HTMLElement | null>;
     country: import("vue").Ref<HTMLElement | null>;
     town: import("vue").Ref<HTMLElement | null>;
+    round: import("vue").Ref<boolean>;
+    type: import("vue").Ref<string>;
     style: import("vue").Ref<Record<string, any>>;
+    transition: import("vue").Ref<string>;
     overlay: import("vue").Ref<boolean>;
     visible: import("vue").Ref<boolean>;
     zIndex: import("vue").Ref<string | number>;
@@ -158,14 +157,10 @@ declare const _default: Install< import("vue").DefineComponent<{
     lockScroll: import("vue").Ref<boolean>;
     overlayStyle: import("vue").Ref<Record<string, any>>;
     closeOnClickOverlay: import("vue").Ref<boolean>;
-    type: import("vue").Ref<string>;
-    round: import("vue").Ref<boolean>;
-    position: import("vue").Ref<string>;
-    transition: import("vue").Ref<string>;
+    position: import("vue").Ref<import("../popup/types").PopupPosition>;
     popClass: import("vue").Ref<string>;
     closeable: import("vue").Ref<boolean>;
-    closeIconPosition: import("vue").Ref<string>;
-    closeIcon: import("vue").Ref<string>;
+    closeIconPosition: import("vue").Ref<import("../popup/types").PopupCloseIconPosition>;
     destroyOnClose: import("vue").Ref<boolean>;
     teleport: import("vue").Ref<string | Element>;
     teleportDisable: import("vue").Ref<boolean>;
@@ -181,9 +176,9 @@ declare const _default: Install< import("vue").DefineComponent<{
     onChange: import("vue").Ref<((...args: any[]) => any) | undefined>;
     onClose: import("vue").Ref<((...args: any[]) => any) | undefined>;
     "onUpdate:visible": import("vue").Ref<((...args: any[]) => any) | undefined>;
-    onType: import("vue").Ref<((...args: any[]) => any) | undefined>;
-    "onUpdate:modelValue": import("vue").Ref<((...args: any[]) => any) | undefined>;
     onSelected: import("vue").Ref<((...args: any[]) => any) | undefined>;
+    "onUpdate:modelValue": import("vue").Ref<((...args: any[]) => any) | undefined>;
+    onType: import("vue").Ref<((...args: any[]) => any) | undefined>;
     onCloseMask: import("vue").Ref<((...args: any[]) => any) | undefined>;
     onSwitchModule: import("vue").Ref<((...args: any[]) => any) | undefined>;
     showPopup: import("vue").Ref<boolean>;
@@ -208,7 +203,7 @@ declare const _default: Install< import("vue").DefineComponent<{
     clickOverlay: () => void;
     handClose: (type?: string) => void;
     handleElevatorItem: (key: string, item: AddressData) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "close" | "update:visible" | "type" | "update:modelValue" | "selected" | "closeMask" | "switchModule")[], "change" | "close" | "update:visible" | "type" | "update:modelValue" | "selected" | "closeMask" | "switchModule", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("type" | "change" | "close" | "update:visible" | "selected" | "update:modelValue" | "closeMask" | "switchModule")[], "type" | "change" | "close" | "update:visible" | "selected" | "update:modelValue" | "closeMask" | "switchModule", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: ArrayConstructor;
         default: () => never[];
@@ -282,7 +277,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     position: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupPosition>;
         default: string;
     };
     transition: {
@@ -302,11 +297,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     closeIconPosition: {
-        type: StringConstructor;
-        default: string;
-    };
-    closeIcon: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupCloseIconPosition>;
         default: string;
     };
     destroyOnClose: {
@@ -348,13 +339,16 @@ declare const _default: Install< import("vue").DefineComponent<{
     onChange?: ((...args: any[]) => any) | undefined;
     onClose?: ((...args: any[]) => any) | undefined;
     "onUpdate:visible"?: ((...args: any[]) => any) | undefined;
-    onType?: ((...args: any[]) => any) | undefined;
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     onSelected?: ((...args: any[]) => any) | undefined;
+    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+    onType?: ((...args: any[]) => any) | undefined;
     onCloseMask?: ((...args: any[]) => any) | undefined;
     onSwitchModule?: ((...args: any[]) => any) | undefined;
 }, {
+    round: boolean;
+    type: string;
     style: Record<string, any>;
+    transition: string;
     overlay: boolean;
     visible: boolean;
     zIndex: string | number;
@@ -363,14 +357,10 @@ declare const _default: Install< import("vue").DefineComponent<{
     lockScroll: boolean;
     overlayStyle: Record<string, any>;
     closeOnClickOverlay: boolean;
-    type: string;
-    round: boolean;
-    position: string;
-    transition: string;
+    position: import("../popup/types").PopupPosition;
     popClass: string;
     closeable: boolean;
-    closeIconPosition: string;
-    closeIcon: string;
+    closeIconPosition: import("../popup/types").PopupCloseIconPosition;
     destroyOnClose: boolean;
     teleport: string | Element;
     teleportDisable: boolean;
@@ -391,7 +381,7 @@ declare const _default: Install< import("vue").DefineComponent<{
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutAddress: typeof _default;
-  }
+    interface GlobalComponents {
+        NutAddress: typeof _default;
+    }
 }

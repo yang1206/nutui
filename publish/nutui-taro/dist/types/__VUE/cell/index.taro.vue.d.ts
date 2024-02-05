@@ -1,7 +1,8 @@
-import type { CSSProperties } from 'vue';
+import type { PropType, CSSProperties } from 'vue';
+import { CellSize } from './types';
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     title: {
@@ -24,20 +25,8 @@ declare const _default: Install< import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    to: {
-        type: StringConstructor;
-        default: string;
-    };
-    replace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     roundRadius: {
         type: (NumberConstructor | StringConstructor)[];
-        default: string;
-    };
-    url: {
-        type: StringConstructor;
         default: string;
     };
     center: {
@@ -45,13 +34,13 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     size: {
-        type: StringConstructor;
+        type: PropType<CellSize>;
         default: string;
     };
 }, {
     handleClick: (event: Event) => void;
     classes: import("vue").ComputedRef<{
-        [x: string]: string | boolean;
+        [x: string]: boolean;
     }>;
     baseStyle: import("vue").ComputedRef<{
         borderRadius: string | undefined;
@@ -78,20 +67,8 @@ declare const _default: Install< import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    to: {
-        type: StringConstructor;
-        default: string;
-    };
-    replace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     roundRadius: {
         type: (NumberConstructor | StringConstructor)[];
-        default: string;
-    };
-    url: {
-        type: StringConstructor;
         default: string;
     };
     center: {
@@ -99,28 +76,25 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     size: {
-        type: StringConstructor;
+        type: PropType<CellSize>;
         default: string;
     };
 }>> & {
     onClick?: ((...args: any[]) => any) | undefined;
 }, {
-    size: string;
+    size: CellSize;
     title: string;
-    replace: boolean;
-    center: boolean;
     desc: string;
+    center: boolean;
     subTitle: string;
     descTextAlign: string;
     isLink: boolean;
-    to: string;
     roundRadius: string | number;
-    url: string;
 }, {}>>;
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutCell: typeof _default;
-  }
+    interface GlobalComponents {
+        NutCell: typeof _default;
+    }
 }

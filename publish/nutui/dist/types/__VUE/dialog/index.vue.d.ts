@@ -3,7 +3,7 @@ import { Interceptor } from '@/packages/utils/util';
 export type TextAlign = 'left' | 'center' | 'right' | 'top';
 
 declare type Install<T> = T & {
-  install(app: import('vue').App): void;
+    install(app: import('vue').App): void;
 };
 declare const _default: Install< import("vue").DefineComponent<{
     closeOnClickOverlay: {
@@ -85,7 +85,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     position: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupPosition>;
         default: string;
     };
     transition: {
@@ -105,11 +105,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     closeIconPosition: {
-        type: StringConstructor;
-        default: string;
-    };
-    closeIcon: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupCloseIconPosition>;
         default: string;
     };
     destroyOnClose: {
@@ -235,7 +231,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     position: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupPosition>;
         default: string;
     };
     transition: {
@@ -255,11 +251,7 @@ declare const _default: Install< import("vue").DefineComponent<{
         default: boolean;
     };
     closeIconPosition: {
-        type: StringConstructor;
-        default: string;
-    };
-    closeIcon: {
-        type: StringConstructor;
+        type: PropType<import("../popup/types").PopupCloseIconPosition>;
         default: string;
     };
     destroyOnClose: {
@@ -305,8 +297,10 @@ declare const _default: Install< import("vue").DefineComponent<{
     onUpdate?: ((...args: any[]) => any) | undefined;
     onOk?: ((...args: any[]) => any) | undefined;
 }, {
+    round: boolean;
     style: Record<string, any>;
     title: string;
+    transition: string;
     overlay: boolean;
     visible: boolean;
     zIndex: string | number;
@@ -315,20 +309,18 @@ declare const _default: Install< import("vue").DefineComponent<{
     overlayClass: string;
     overlayStyle: Record<string, any>;
     closeOnClickOverlay: boolean;
-    round: boolean;
     content: string | VNode<import("vue").RendererNode, import("vue").RendererElement, {
         [key: string]: any;
     }>;
-    position: string;
-    transition: string;
+    position: import("../popup/types").PopupPosition;
     popClass: string;
     closeable: boolean;
-    closeIconPosition: string;
-    closeIcon: string;
+    closeIconPosition: import("../popup/types").PopupCloseIconPosition;
     destroyOnClose: boolean;
     teleport: string | Element;
     teleportDisable: boolean;
     safeAreaInsetBottom: boolean;
+    textAlign: TextAlign;
     cancelText: string;
     okText: string;
     noFooter: boolean;
@@ -336,7 +328,6 @@ declare const _default: Install< import("vue").DefineComponent<{
     noCancelBtn: boolean;
     cancelAutoClose: boolean;
     okAutoClose: boolean;
-    textAlign: TextAlign;
     closeOnPopstate: boolean;
     footerDirection: string;
     customClass: string;
@@ -344,7 +335,7 @@ declare const _default: Install< import("vue").DefineComponent<{
 export default _default;
 
 declare module 'vue' {
-  interface GlobalComponents {
-      NutDialog: typeof _default;
-  }
+    interface GlobalComponents {
+        NutDialog: typeof _default;
+    }
 }
