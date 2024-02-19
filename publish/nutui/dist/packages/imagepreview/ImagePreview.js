@@ -36,10 +36,6 @@ import NutSwiper from "../swiper/Swiper.js";
 import { f as funInterceptor } from "../Interceptor-WYVtGbGC.js";
 import { C as CreateComponent } from "../mountComponent-uInXoTMp.js";
 import NutOverlay from "../overlay/Overlay.js";
-import "../index-s3RgMhc7.js";
-import "@nutui/nutui/dist/packages/locale/lang";
-import "../types-9wCQwtH3.js";
-import "../raf-MQjoO-Ag.js";
 const baseProps = {
   show: { type: Boolean, default: false },
   initNo: { type: Number, default: 0 },

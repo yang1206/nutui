@@ -22,8 +22,6 @@ import { c as createComponent } from "../component-TCzwHGVq.js";
 import { DownArrow } from "@nutui/icons-vue-taro";
 import { u as useLocale } from "../index-xXrovSQL.js";
 import { _ as _export_sfc } from "../_plugin-vue_export-helper-yVxbj29m.js";
-import "@nutui/nutui-taro/dist/packages/locale/lang";
-import "../util-Bt8WDYya.js";
 const RenderColumn = defineComponent({
   props: {
     slots: {
