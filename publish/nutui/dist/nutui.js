@@ -1687,7 +1687,7 @@ const gi = hi({
     return Q(
       () => e.visible,
       () => {
-        e.visible && !n && r(), !e.visible && n && (i(), t("close"));
+        e.visible && !n && r(), !e.visible && n && i();
       }
     ), bt(() => {
       s.closed = e.closeable;

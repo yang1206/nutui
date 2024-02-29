@@ -190,7 +190,6 @@ const _sfc_main = create({
         }
         if (!props.visible && opened) {
           close();
-          emit("close");
         }
       }
     );

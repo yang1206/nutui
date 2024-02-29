@@ -999,7 +999,6 @@ var __async = (__this, __arguments, generator) => {
           }
           if (!props.visible && opened) {
             close();
-            emit("close");
           }
         }
       );
