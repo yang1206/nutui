@@ -7163,7 +7163,8 @@ var __async = (__this, __arguments, generator) => {
   const DEFAULT_FILED_NAMES = {
     text: "text",
     value: "value",
-    children: "children"
+    children: "children",
+    className: "className"
   };
   const usePicker = (props, emit) => {
     const state = vue.reactive({
@@ -7585,15 +7586,20 @@ var __async = (__this, __arguments, generator) => {
           }, [
             item && item[_ctx.fieldNames.text] && _ctx.threeDimensional ? (vue.openBlock(), vue.createElementBlock("view", {
               key: 0,
-              class: vue.normalizeClass(["nut-picker-roller-item", { "nut-picker-roller-item-hidden": _ctx.isHidden(index + 1) }]),
+              class: vue.normalizeClass(["nut-picker-roller-item", {
+                "nut-picker-roller-item-hidden": _ctx.isHidden(index + 1),
+                [item[_ctx.fieldNames.className]]: item[_ctx.fieldNames.className]
+              }]),
               style: vue.normalizeStyle(_ctx.setRollerStyle(index + 1))
             }, vue.toDisplayString(item[_ctx.fieldNames.text]), 7)) : vue.createCommentVNode("", true),
             vue.createTextVNode(),
             item && item[_ctx.fieldNames.text] && !_ctx.threeDimensional ? (vue.openBlock(), vue.createElementBlock("view", {
               key: 1,
-              class: "nut-picker-roller-item-tile",
+              class: vue.normalizeClass(["nut-picker-roller-item-tile", {
+                [item[_ctx.fieldNames.className]]: item[_ctx.fieldNames.className]
+              }]),
               style: vue.normalizeStyle({ height: _ctx.pxCheck(_ctx.optionHeight), lineHeight: _ctx.pxCheck(_ctx.optionHeight) })
-            }, vue.toDisplayString(item[_ctx.fieldNames.text]), 5)) : vue.createCommentVNode("", true)
+            }, vue.toDisplayString(item[_ctx.fieldNames.text]), 7)) : vue.createCommentVNode("", true)
           ], 64);
         }), 128))
       ], 36),
@@ -7792,11 +7798,13 @@ var __async = (__this, __arguments, generator) => {
               var _a;
               return vue.openBlock(), vue.createElementBlock("view", {
                 key: (_a = item[_ctx.columnFieldNames.value]) != null ? _a : index,
-                class: "nut-picker-roller-item-tarotile",
+                class: vue.normalizeClass(["nut-picker-roller-item-tarotile", {
+                  [item[_ctx.columnFieldNames.className]]: item[_ctx.columnFieldNames.className]
+                }]),
                 style: vue.normalizeStyle({
                   lineHeight: _ctx.pxCheck(_ctx.optionHeight)
                 })
-              }, vue.toDisplayString(item[_ctx.columnFieldNames.text]), 5);
+              }, vue.toDisplayString(item[_ctx.columnFieldNames.text]), 7);
             }), 128))
           ], 8, _hoisted_5$k);
         }), 128))
@@ -9314,7 +9322,8 @@ var __async = (__this, __arguments, generator) => {
         }
       };
       const _onInput = (event) => {
-        let { value } = event.detail;
+        const input = event.target;
+        let value = input.value;
         if (props.maxLength && value.length > Number(props.maxLength)) {
           value = value.slice(0, Number(props.maxLength));
         }
@@ -14881,7 +14890,7 @@ var __async = (__this, __arguments, generator) => {
         return formatRemainTime(state.restTime);
       });
       const initTime = () => {
-        state.handleEndTime = props.endTime;
+        state.handleEndTime = Number(props.endTime);
         state.diffTime = Date.now() - getTimeStamp(props.startTime);
         if (!state.counting)
           state.counting = true;
@@ -14982,14 +14991,14 @@ var __async = (__this, __arguments, generator) => {
       const reset = () => {
         if (!props.autoStart) {
           pause();
-          state.restTime = props.time;
+          state.restTime = Number(props.time);
         }
       };
       vue.onBeforeMount(() => {
         if (props.autoStart) {
           initTime();
         } else {
-          state.restTime = props.time;
+          state.restTime = Number(props.time);
         }
       });
       vue.watch(
@@ -17975,7 +17984,7 @@ var __async = (__this, __arguments, generator) => {
       }
     },
     emits: ["change"],
-    setup: (props, context) => {
+    setup: (props, { emit }) => {
       const currentKey = vue.inject("currentKey");
       const state = vue.reactive({
         currentKey
@@ -17988,7 +17997,7 @@ var __async = (__this, __arguments, generator) => {
         };
       });
       const handlePannel = (pannelKey) => {
-        context.emit("change", pannelKey);
+        emit("change", pannelKey);
       };
       return __spreadProps(__spreadValues({}, vue.toRefs(state)), {
         classes,
@@ -18214,10 +18223,11 @@ var __async = (__this, __arguments, generator) => {
       });
       const getExtraText = () => {
         const { stepperExtraText } = props;
-        if (stepperExtraText && TypeOfFun(stepperExtraText) == "function") {
-          return stepperExtraText();
-        } else {
-          return "";
+        if (stepperExtraText) {
+          if (stepperExtraText === true) {
+            return "";
+          }
+          return stepperExtraText == null ? void 0 : stepperExtraText();
         }
       };
       const add = (value) => {
